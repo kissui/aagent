@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "http",
+  "main": "./http.server.js",
+  "browser": "./http.client.js"
+}

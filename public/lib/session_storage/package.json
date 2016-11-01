@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "session-storage",
+  "main": "./session_storage.server.js",
+  "browser": "./session_storage.client.js"
+}

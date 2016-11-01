@@ -1,0 +1,693 @@
+/* 1. 使用 bundle.js 加载 css 的话，会有卡顿（因为 html 已经后端渲染了）， */
+/* 而 css 在 <head> 中会加载完成才展示，不会有卡顿，所以现在用了 <head> 方法；*/
+/* 2. 另外看了下，react-redux-universal-hot-example 在生成环境也是用 <head> */
+/* 加载 CSS 的 */
+/* https://github.com/erikras/react-redux-universal-hot-example/issues/1079#issuecomment-210623899 */
+
+//-----------------------------------------------------
+// reset scss
+// 包括normalize，清零重置
+//-----------------------------------------------------
+
+// normalize 4.0
+// http://necolas.github.io/normalize.css/
+//-----------------------------------------------------
+
+// 1. Prevent mobile text size adjust after orientation change, without disabling user zoom.
+// 2. Remove the gray background color from tap, default value is inherit
+html {
+  -ms-text-size-adjust: 100%; // 1
+  -webkit-text-size-adjust: 100%; // 1
+  -webkit-tap-highlight-color: transparent; // 2
+  height: 100%;
+}
+@import "../fontcss/animation";
+@import "../fontcss/fontello";
+
+$fontSize: 14px;
+$fontFamily: "Helvetica Neue", "Roboto", "Segoe UI", "Arial", sans-serif;
+$fontLineHeight: normal;
+$colorText: #3e3e3e;
+$colorBg: #fff;
+$colorLink: #35b7f3;
+$colorPlaceholder: #333;
+$positiveColor: #35b7f3;
+$buttonFontColor: #ffffff;
+/**
+ * font
+ * --------------------------------------------------
+ */
+
+$font-color-3e: #3e3e3e !default;
+$font-color-6e: #6e6e6e !default;
+$font-color-9e: #9e9e9e !default;
+$font-color-base: #ffffff !default;
+
+$font-size-10: 10px !default;
+$font-size-12: 12px !default;
+$font-size-14: 14px !default;
+$font-size-16: 16px !default;
+$font-size-18: 18px !default;
+$font-size-26: 26px !default;
+$half: 50% !default;
+
+$border-des: 0.5px solid #c7c7c7 !default;
+/**
+ * font end
+ * --------------------------------------------------
+ */
+// 1. Remove default margin
+.header{
+  height: 70px;
+  img {
+    width: 80px;
+    padding: 10px;
+  }
+}
+body {
+  margin: 0; // 1
+  font-size: $fontSize;
+  font-family: $fontFamily;
+  line-height: $fontLineHeight;
+  color: $colorText;
+  background-color: $colorBg;
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+// HTML5 display definitions
+//-----------------------------------------------------
+
+// Correct `block` display not defined for any HTML5 element in IE 8/9.
+// Correct `block` display not defined for `details` or `summary` in IE 10/11 and Firefox.
+// Correct `block` display not defined for `main` in IE 11.
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+
+// 1. Correct `inline-block` display not defined in IE 9-.
+audio,
+canvas,
+progress,
+video {
+  display: inline-block; // 1
+}
+
+// Prevent modern browsers from displaying `audio` without controls.
+// Remove excess height in iOS 5 devices.
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+// Add the correct vertical alignment in Chrome, Firefox, and Opera.
+progress {
+  vertical-align: baseline;
+}
+
+// Address `[hidden]` styling not present in IE 8/9/10.
+// Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
+[hidden],
+template {
+  display: none;
+}
+
+// Links
+//-----------------------------------------------------
+
+// 1. Remove the gray background color from active links in IE 10.
+// 2. Improve readability when focused and also mouse hovered in all browsers.
+
+a {
+  background: transparent; // 1
+  text-decoration: none;
+  color: nth($colorLink, 1);
+
+  &:active {
+    outline: 0; // 2
+  }
+}
+
+// Text-level semantics
+//-----------------------------------------------------
+
+// Address styling not present in IE 8/9/10/11, Safari, and Chrome.
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+
+// Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
+b,
+strong {
+  font-weight: bold;
+}
+
+// Address styling not present in Safari and Chrome.
+dfn {
+  font-style: italic;
+}
+
+// Address styling not present in IE 8/9.
+mark {
+  background: #ff0;
+  color: #000;
+}
+
+// Address inconsistent and variable font size in all browsers.
+small {
+  font-size: 80%;
+}
+
+// Prevent `sub` and `sup` affecting `line-height` in all browsers.
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+// Embedded content
+//-----------------------------------------------------
+
+// 1. Remove border when inside `a` element in IE 8/9/10.
+img {
+  border: 0; // 1
+  vertical-align: middle;
+
+}
+
+// Correct overflow not hidden in IE 9/10/11.
+svg:not(:root) {
+  overflow: hidden;
+}
+
+// Grouping content
+//-----------------------------------------------------
+
+// 1. Contain overflow in all browsers.
+// 2. Improve readability of pre-formatted text in all browsers.
+pre {
+  overflow: auto; // 1
+  white-space: pre; // 2
+  white-space: pre-wrap; // 2
+  word-wrap: break-word; // 2
+}
+
+// 1. Address odd `em`-unit font size rendering in all browsers.
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace; // 1
+  font-size: 1em; // 2
+}
+
+// Forms
+//-----------------------------------------------------
+
+// Known limitation: by default, Chrome and Safari on OS X allow very limited
+// styling of `select`, unless a `border` property is set.
+
+// 1. Correct color not being inherited.
+//    Known issue: affects color of disabled elements.
+// 2. Correct font properties not being inherited.
+// 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit; // 1
+  font: inherit; // 2
+  margin: 0; // 3
+  vertical-align: middle;
+}
+
+// Show the overflow in IE.
+// 1. Show the overflow in Edge.
+// 2. Show the overflow in Edge, Firefox, and IE.
+button,
+input, // 1
+select { // 2
+  overflow: visible;
+}
+
+// Address inconsistent `text-transform` inheritance for `button` and `select`.
+// All other form control elements do not inherit `text-transform` values.
+// Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
+// Correct `select` style inheritance in Firefox.
+button,
+select {
+  text-transform: none;
+}
+
+// 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+//    and `video` controls.
+// 2. Correct inability to style clickable `input` types in iOS.
+// 3. Improve usability and consistency of cursor style between image-type
+//    `input` and others.
+button,
+html input[type="button"], // 1
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button; // 2
+  cursor: pointer; // 3
+  font-weight: normal;
+}
+
+// Re-set default cursor for disabled elements.
+[disabled] {
+  cursor: default;
+}
+
+// Remove inner padding and border in Firefox 4+.
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+// 1. Address Firefox 4+ setting `line-height` on `input` using `!important` in
+//    the UA stylesheet.
+input {
+  line-height: normal; // 1
+}
+
+// It's recommended that you don't attempt to style these elements.
+// Firefox's implementation doesn't respect box-sizing, padding, or width.
+
+// 1. Address box sizing set to `content-box` in IE 8/9/10.
+// 2. Remove excess padding in IE 8/9/10.
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box; // 1
+  padding: 0; // 2
+}
+
+// Fix the cursor style for Chrome's increment/decrement buttons. For certain
+// `font-size` values of the `input`, it causes the cursor style of the
+// decrement button to change from `default` to `text`.
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+
+}
+
+// 1. Address `appearance` set to `searchfield` in Safari and Chrome.
+// 2. Address `box-sizing` set to `border-box` in Safari and Chrome
+//    (include `-moz` to future-proof).
+input[type="search"] {
+  -webkit-appearance: textfield; // 1
+  box-sizing: border-box;
+}
+
+// Remove inner padding and search cancel button in Safari and Chrome on OS X.
+// Safari (but not Chrome) clips the cancel button when the search input has
+// padding (and `textfield` appearance).
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+// Define consistent border, margin, and padding.
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+
+// 1. Correct `color` not being inherited in IE 8/9/10/11.
+// 2. Remove padding so people aren't caught out if they zero out fieldsets.
+legend {
+  border: 0; // 1
+  padding: 0; // 2
+}
+
+// 1. Remove default vertical scrollbar in IE 8/9/10/11.
+textarea {
+  overflow: auto; // 1
+  resize: vertical;
+  vertical-align: top;
+}
+
+// Don't inherit the `font-weight` (applied by a rule above).
+// NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
+optgroup {
+  font-weight: bold;
+}
+
+// webkit focus outline
+input,
+select,
+textarea {
+  outline: 0;
+}
+
+// Android 下 input focus 消除高亮外框
+textarea,
+input {
+  -webkit-user-modify: read-write-plaintext-only;
+}
+
+// ie10 clear & password
+input::-ms-clear,
+input::-ms-reveal {
+  display: none;
+}
+
+// 表单placeholder样式
+// 注意不可联合申明，否则无效
+// Firefox 19+
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+  color: $colorPlaceholder;
+}
+
+// Internet Explorer 10+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+  color: $colorPlaceholder;
+}
+
+// Safari and Chrome
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  color: $colorPlaceholder;
+}
+
+// 如不支持placeholder添加class 或者 设置提示的placeholder
+.placeholder {
+  color: $colorPlaceholder;
+}
+
+// Tables
+//-----------------------------------------------------
+// Remove most spacing between table cells.
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td,
+th {
+  padding: 0;
+}
+
+// 根据使用习惯，对normalize上进行补充
+//-----------------------------------------------------
+
+h1, h2, h3, h4, h5, h6, p, figure, form, blockquote {
+  margin: 0;
+}
+
+// ul ol dl
+ul, ol, li, dl, dd {
+  margin: 0;
+  padding: 0;
+}
+
+ul, ol {
+  list-style: none outside none;
+}
+
+// hn
+h1, h2, h3 {
+  line-height: 2;
+  font-weight: normal;
+}
+
+h1 {
+  font-size: 18px;
+}
+
+h2 {
+  font-size: 16px;
+}
+
+h3 {
+  font-size: 14px;
+}
+
+// icon
+i {
+  font-style: normal;
+}
+
+// 所有元素为border-box
+* {
+  box-sizing: border-box;
+}
+
+.button {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding: 0 12px;
+  min-width: 52px;
+  min-height: 42px;
+  border-radius: 3px;
+  vertical-align: top;
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  line-height: 42px;
+  cursor: pointer;
+}
+
+.button-block {
+  display: block;
+  clear: both;
+}
+
+.button-positive {
+  background: $positiveColor;
+  color: $buttonFontColor;
+}
+
+.mb10 {
+  margin-bottom: 10px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color: #999;
+}
+
+input:-moz-placeholder, textarea:-moz-placeholder {
+  color: #999;
+}
+
+input:-ms-input-placeholder, textarea:-moz-placeholder {
+  color: #999;
+}
+
+//animate.css
+
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+@-webkit-keyframes fadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+.fadeInDown {
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+}
+
+//loading
+.hb-isloading {
+  display: table;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  text-align: center;
+  font-size: 16px;
+  color: #666;
+  z-index: 999;
+  background: #efefef;
+  i {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 30px;
+    color: $positiveColor;
+
+  }
+}
+.yy-modal-header {
+  padding: 15px;
+  font-size: $font-size-18;
+  color: $font-color-3e;
+  border-bottom: 1px solid #c7c7c7;
+  h2 {
+    line-height: 1;
+    text-align: center;
+  }
+
+  /* basic style */
+  .close, .goback {
+    /* still bad on picking color */
+    color: $font-color-6e;
+    /* center text */
+    line-height: 20px;
+    text-align: center;
+    height: 20px;
+    width: 20px;
+    font-size: 20px;
+    padding: 1px;
+    cursor: pointer;
+  }
+  /* use cross as close button */
+  .close::before {
+    content: "\D7";
+    font-size: $font-size-26;
+  }
+  /* place the button on top-right */
+  .close, .goback {
+    left: 10px;
+    top: 11px;
+    position: absolute;
+  }
+}
+
+.yy-modal-content {
+  padding: 10px;
+  .sent-money {
+    font-size: 32px;
+    color: $font-color-3e;
+  }
+  .payment-list {
+    border-top: $border-des;
+    font-size: $font-size-14;
+    .item-arrow {
+      position: relative;
+      padding: 15px;
+      border-bottom: $border-des;
+    }
+    .disabled {
+      color: gray;
+    }
+  }
+  //.arrow {
+  //  color: $font-color-6e;
+  //  /* center text */
+  //  line-height: 20px;
+  //  text-align: center;
+  //  height: 20px;
+  //  width: 20px;
+  //  font-size: 30px;
+  //  padding: 1px;
+  //}
+  //.arrow::before {
+  //  content: ">"
+  //}
+
+}
+.rp-submit-btn {
+  display: block;
+  width: 95%;
+  margin: 0 auto;
+  border: none;
+  background: #f14e46;
+  color: #fff;
+  font-size: 16px;
+  margin-top: 10px;
+}
+.yy-form-error {
+  padding-left: 10px;
+  font-size: $font-size-12;
+  color: #f14e46;
+}

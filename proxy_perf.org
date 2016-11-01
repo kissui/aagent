@@ -1,0 +1,981 @@
+* c 10 n 1000
+** php
+*** ab
+ab -c 10 -n 1000 -k  -H dealer-id:1 -H  dealer-code:123456 -H  dealer-user-id:1 -H  api-auth-method:token  10.10.1.10:90/api/hongbao/payment/money
+
+*** req
+Requests per second:    40.16 [#/sec] (mean)
+Time per request:       248.987 [ms] (mean)
+Time per request:       24.899 [ms] (mean, across all concurrent requests)
+Transfer rate:          9.65 [Kbytes/sec] received
+
+*** Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        2    8  14.6      5     226
+Processing:    40  236 513.2    106    3325
+Waiting:       38  234 513.2    105    3322
+Total:         44  243 514.6    111    3328
+
+*** Percentage of the requests served within a certain time (ms)
+   50%    111
+   66%    129
+   75%    142
+   80%    153
+   90%    207
+   95%   1800
+   98%   2515
+   99%   2658
+  100%   3328 (longest request)
+
+** node
+*** ab
+ab -c 10 -n 1000 -k  -H  x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJiaWQiOjIxLCJ1aWQiOjAsImhiX3VpZCI6MTAwMDE2LCJkdWlkIjoiMSIsImRlYWxlcl9pZCI6MSwiZGVhbGVyX2NvZGUiOiIxMjM0NTYiLCJkZWFsZXJfcHJveHkiOm51bGwsImlhdCI6MTQ2MzY1Mjc3MiwiZXhwIjoxNDY0MjU3NTcyfQ.FWNqXcFG6VOoDV9dqRwf4qT6-8Xo9skIXuxNRnea1hs localhost:3000/api/hongbao/payment/money
+
+*** req
+Requests per second:    39.61 [#/sec] (mean)
+Time per request:       252.480 [ms] (mean)
+Time per request:       25.248 [ms] (mean, across all concurrent requests)
+Transfer rate:          10.40 [Kbytes/sec] received
+
+*** Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       1
+Processing:    56  246 549.7    125    3870
+Waiting:       56  245 549.6    124    3869
+Total:         56  246 549.7    125    3870
+
+*** Percentage of the requests served within a certain time (ms)
+  50%    125
+  66%    142
+  75%    156
+  80%    167
+  90%    197
+  95%    263
+  98%   2826
+  99%   3008
+100%   3870 (longest request)
+
+
+* c 20 n 1000
+** node
+
+Concurrency Level:      20
+Time taken for tests:   14.621 seconds
+Complete requests:      1000
+Failed requests:        840
+   (Connect: 0, Receive: 0, Length: 840, Exceptions: 0)
+Keep-Alive requests:    500
+Total transferred:      137000 bytes
+HTML transferred:       13440 bytes
+Requests per second:    68.40 [#/sec] (mean)
+Time per request:       292.414 [ms] (mean)
+Time per request:       14.621 [ms] (mean, across all concurrent requests)
+Transfer rate:          9.15 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:     0  239 995.1     60    8188
+Waiting:        0  271 1083.4     95    8188
+Total:          0  239 995.1     61    8188
+
+Percentage of the requests served within a certain time (ms)
+  50%     61
+  66%    157
+  75%    177
+  80%    194
+  90%    251
+  95%    336
+  98%   5841
+  99%   7253
+ 100%   8188 (longest request)
+
+
+** php
+
+Concurrency Level:      20
+Time taken for tests:   97.243 seconds
+Complete requests:      1000
+Failed requests:        0
+Keep-Alive requests:    0
+Total transferred:      246000 bytes
+HTML transferred:       84000 bytes
+Requests per second:    10.28 [#/sec] (mean)
+Time per request:       1944.863 [ms] (mean)
+Time per request:       97.243 [ms] (mean, across all concurrent requests)
+Transfer rate:          2.47 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:      744  914  26.4    916     961
+Processing:   914 1013 239.2    958    2305
+Waiting:      914 1012 239.3    957    2305
+Total:       1681 1926 238.5   1876    3208
+
+Percentage of the requests served within a certain time (ms)
+  50%   1876
+  66%   1882
+  75%   1889
+  80%   1894
+  90%   1921
+  95%   1965
+  98%   3066
+  99%   3109
+ 100%   3208 (longest request)
+
+
+* node 内存
+跑起来：xp              15348   0.0  1.1  3227760 179216 s005  S+    6:09PM   0:28.45 node index.js
+刚启动：xp              23055   0.0  1.1  3218340 188760 s005  S+    7:34PM   0:03.74 node index.js
+
+* 又来一次，verbose，看返回具体怎么样
+* php
+ab -v 4 -c 10 -n 1000 -k  -H dealer-id:1 -H  dealer-code:123456 -H  dealer-user-id:1 -H  api-auth-method:token  10.10.1.10:90/api/hongbao/payment/money > php.log
+
+Concurrency Level:      10
+Time taken for tests:   30.668 seconds
+Complete requests:      1000
+Failed requests:        0
+Keep-Alive requests:    0
+Total transferred:      246000 bytes
+HTML transferred:       84000 bytes
+Requests per second:    32.61 [#/sec] (mean)
+Time per request:       306.679 [ms] (mean)
+Time per request:       30.668 [ms] (mean, across all concurrent requests)
+Transfer rate:          7.83 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        1   39 176.9      3    1041
+Processing:    39  256 701.1    103    4918
+Waiting:       38  255 701.2    102    4917
+Total:         41  296 727.1    108    4926
+
+Percentage of the requests served within a certain time (ms)
+  50%    108
+  66%    125
+  75%    142
+  80%    154
+  90%    230
+  95%   1177
+  98%   3721
+  99%   4184
+ 100%   4926 (longest request)
+
+grep 操作  php.log  | wc -l
+    1000
+* node master
+
+Concurrency Level:      10
+Time taken for tests:   16.406 seconds
+Complete requests:      1000
+Failed requests:        832
+   (Connect: 0, Receive: 0, Length: 832, Exceptions: 0)
+Keep-Alive requests:    500
+Total transferred:      137000 bytes
+HTML transferred:       14112 bytes
+Requests per second:    60.95 [#/sec] (mean)
+Time per request:       164.060 [ms] (mean)
+Time per request:       16.406 [ms] (mean, across all concurrent requests)
+Transfer rate:          8.15 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       0
+Processing:     0  156 543.0     51    4537
+Waiting:        0  156 543.0     63    4537
+Total:          0  156 543.1     51    4537
+
+Percentage of the requests served within a certain time (ms)
+  50%     51
+  66%    122
+  75%    147
+  80%    161
+  90%    199
+  95%    229
+  98%   2056
+  99%   3996
+ 100%   4537 (longest request)
+
+
+grep 操作  node1.log  | wc -l
+     500
+
+*** 如果不做 -k，则 grep 成功数只有 338
+
+* node shared agent
+
+Concurrency Level:      10
+Time taken for tests:   17.227 seconds
+Complete requests:      1000
+Failed requests:        796
+   (Connect: 0, Receive: 0, Length: 796, Exceptions: 0)
+Keep-Alive requests:    500
+Total transferred:      137000 bytes
+HTML transferred:       17136 bytes
+Requests per second:    58.05 [#/sec] (mean)
+Time per request:       172.267 [ms] (mean)
+Time per request:       17.227 [ms] (mean, across all concurrent requests)
+Transfer rate:          7.77 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       0
+Processing:     0  165 560.8     56    4726
+Waiting:        0  173 571.7     68    4726
+Total:          0  165 560.8     56    4726
+
+Percentage of the requests served within a certain time (ms)
+  50%     56
+  66%    116
+  75%    134
+  80%    145
+  90%    180
+  95%    248
+  98%   2893
+  99%   3863
+ 100%   4726 (longest request)
+
+
+grep 操作  node.log  | wc -l
+     500
+
+
+grep 'HTTP/1.1 200 OK' node.log  | wc -l
+    1000
+
+** 不 keepalive (-k) php 是拿到 1000 个请求的
+ab -v 4 -c 10 -n 1000 -H x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJiaWQiOjIxLCJ1aWQiOjAsImhiX3VpZCI6MTAwMDE2LCJkdWlkIjoiMSIsImRlYWxlcl9pZCI6MSwiZGVhbGVyX2NvZGUiOiIxMjM0NTYiLCJkZWFsZXJfcHJveHkiOm51bGwsImlhdCI6MTQ2MzY1Mjc3MiwiZXhwIjoxNDY0MjU3NTcyfQ.FWNqXcFG6VOoDV9dqRwf4qT6-8Xo9skIXuxNRnea1hs  127.0.0.1:3000/api/hongbao/payment/money
+
+但收到 操作成功 的只有 405 个
+
+
+
+
+
+
+** 按简单 proxy 测试
+
+*** without
+
+Server Software:
+Server Hostname:        127.0.0.1
+Server Port:            3000
+
+Document Path:          /user/refresh
+Document Length:        136 bytes
+
+Concurrency Level:      10
+Time taken for tests:   0.708 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      339000 bytes
+HTML transferred:       136000 bytes
+Requests per second:    1411.56 [#/sec] (mean)
+Time per request:       7.084 [ms] (mean)
+Time per request:       0.708 [ms] (mean, across all concurrent requests)
+Transfer rate:          467.30 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       0
+Processing:     1    7   2.1      6      18
+Waiting:        1    7   2.1      6      17
+Total:          2    7   2.1      7      18
+
+Percentage of the requests served within a certain time (ms)
+  50%      7
+  66%      7
+  75%      8
+  80%      8
+  90%     10
+  95%     11
+  98%     13
+  99%     17
+ 100%     18 (longest request)
+
+ grep 结果
+    1000    1000  137000
+
+*** proxy direct
+
+Server Software:
+Server Hostname:        127.0.0.1
+Server Port:            8000
+
+Document Path:          /user/refresh
+Document Length:        136 bytes
+
+Concurrency Level:      10
+Time taken for tests:   1.004 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      339000 bytes
+HTML transferred:       136000 bytes
+Requests per second:    996.02 [#/sec] (mean)
+Time per request:       10.040 [ms] (mean)
+Time per request:       1.004 [ms] (mean, across all concurrent requests)
+Transfer rate:          329.74 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       0
+Processing:     4   10   5.2      8      41
+Waiting:        4   10   5.2      8      41
+Total:          4   10   5.2      8      41
+
+Percentage of the requests served within a certain time (ms)
+  50%      8
+  66%      9
+  75%     11
+  80%     11
+  90%     16
+  95%     21
+  98%     27
+  99%     34
+ 100%     41 (longest request)
+
+
+grep 结果
+     201     201   27537
+
+*** proxy middleware
+
+Server Software:
+Server Hostname:        127.0.0.1
+Server Port:            5050
+
+Document Path:          /user/refresh
+Document Length:        136 bytes
+
+Concurrency Level:      10
+Time taken for tests:   0.864 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      339000 bytes
+HTML transferred:       136000 bytes
+Requests per second:    1157.75 [#/sec] (mean)
+Time per request:       8.637 [ms] (mean)
+Time per request:       0.864 [ms] (mean, across all concurrent requests)
+Transfer rate:          383.28 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:     4    8   3.8      8      36
+Waiting:        4    8   3.8      8      36
+Total:          4    9   3.8      8      36
+
+Percentage of the requests served within a certain time (ms)
+  50%      8
+  66%      9
+  75%      9
+  80%     10
+  90%     12
+  95%     14
+  98%     23
+  99%     29
+ 100%     36 (longest request)
+
+
+grep 结果
+     304     304   41648
+
+
+
+** 加了更多日志，又来
+*** 1
+Server Hostname:        127.0.0.1
+Server Port:            3000
+
+Document Path:          /api/hongbao/payment/money
+Document Length:        84 bytes
+
+Concurrency Level:      10
+Time taken for tests:   18.292 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      269000 bytes
+HTML transferred:       84000 bytes
+Requests per second:    54.67 [#/sec] (mean)
+Time per request:       182.916 [ms] (mean)
+Time per request:       18.292 [ms] (mean, across all concurrent requests)
+Transfer rate:          14.36 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:    44  178 322.3    110    2458
+Waiting:       43  178 322.3    109    2457
+Total:         44  179 322.3    110    2458
+
+Percentage of the requests served within a certain time (ms)
+  50%    110
+  66%    127
+  75%    139
+  80%    148
+  90%    183
+  95%    245
+  98%   1682
+  99%   1987
+ 100%   2458 (longest request)
+
+
+1000 个请求都发出去了
+
+on(end) 日志都对
+
+*** 2
+Server Hostname:        127.0.0.1
+Server Port:            3000
+
+Document Path:          /api/hongbao/payment/money
+Document Length:        84 bytes
+
+Concurrency Level:      10
+Time taken for tests:   21.220 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      269000 bytes
+HTML transferred:       84000 bytes
+Requests per second:    47.13 [#/sec] (mean)
+Time per request:       212.199 [ms] (mean)
+Time per request:       21.220 [ms] (mean, across all concurrent requests)
+Transfer rate:          12.38 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       1
+Processing:    44  208 391.4    111    2406
+Waiting:       43  208 391.4    111    2405
+Total:         44  209 391.4    111    2406
+
+Percentage of the requests served within a certain time (ms)
+  50%    111
+  66%    129
+  75%    141
+  80%    148
+  90%    178
+  95%   1468
+  98%   1902
+  99%   2081
+ 100%   2406 (longest request)
+
+
+1000 个请求都发出去了
+
+on(end) 日志都对
+
+*** 3
+
+Server Software:
+Server Hostname:        127.0.0.1
+Server Port:            3000
+
+Document Path:          /api/hongbao/payment/money
+Document Length:        84 bytes
+
+Concurrency Level:      10
+Time taken for tests:   23.621 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      269000 bytes
+HTML transferred:       84000 bytes
+Requests per second:    42.34 [#/sec] (mean)
+Time per request:       236.209 [ms] (mean)
+Time per request:       23.621 [ms] (mean, across all concurrent requests)
+Transfer rate:          11.12 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       0
+Processing:    45  230 450.4    111    2929
+Waiting:       43  229 450.3    111    2927
+Total:         45  230 450.4    112    2929
+
+Percentage of the requests served within a certain time (ms)
+  50%    112
+  66%    126
+  75%    137
+  80%    145
+  90%    179
+  95%   1684
+  98%   2046
+  99%   2205
+ 100%   2929 (longest request)
+
+*** 4
+Server Hostname:        127.0.0.1
+Server Port:            3000
+
+Document Path:          /api/hongbao/payment/money
+Document Length:        84 bytes
+
+Concurrency Level:      10
+Time taken for tests:   20.256 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      269000 bytes
+HTML transferred:       84000 bytes
+Requests per second:    49.37 [#/sec] (mean)
+Time per request:       202.563 [ms] (mean)
+Time per request:       20.256 [ms] (mean, across all concurrent requests)
+Transfer rate:          12.97 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:    42  197 391.7    111    2765
+Waiting:       42  196 391.7    110    2764
+Total:         42  197 391.7    111    2765
+
+Percentage of the requests served within a certain time (ms)
+  50%    111
+  66%    127
+  75%    140
+  80%    146
+  90%    170
+  95%    236
+  98%   2091
+  99%   2319
+ 100%   2765 (longest request)
+
+*** 5
+Server Software:
+Server Hostname:        127.0.0.1
+Server Port:            3000
+
+Document Path:          /api/hongbao/payment/money
+Document Length:        84 bytes
+
+Concurrency Level:      10
+Time taken for tests:   20.434 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      269000 bytes
+HTML transferred:       84000 bytes
+Requests per second:    48.94 [#/sec] (mean)
+Time per request:       204.336 [ms] (mean)
+Time per request:       20.434 [ms] (mean, across all concurrent requests)
+Transfer rate:          12.86 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:    42  197 400.8    107    2593
+Waiting:       42  196 400.8    106    2593
+Total:         43  197 400.8    107    2594
+
+Percentage of the requests served within a certain time (ms)
+  50%    107
+  66%    122
+  75%    131
+  80%    140
+  90%    165
+  95%    953
+  98%   2064
+  99%   2334
+ 100%   2594 (longest request)
+
+*** 又做了几次
+Server Hostname:        127.0.0.1
+Server Port:            3000
+
+Document Path:          /api/hongbao/payment/money
+Document Length:        84 bytes
+
+Concurrency Level:      10
+Time taken for tests:   26.569 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      269000 bytes
+HTML transferred:       84000 bytes
+Requests per second:    37.64 [#/sec] (mean)
+Time per request:       265.693 [ms] (mean)
+Time per request:       26.569 [ms] (mean, across all concurrent requests)
+Transfer rate:          9.89 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       1
+Processing:    46  260 563.3    113    3217
+Waiting:       45  260 563.3    113    3216
+Total:         46  260 563.3    113    3217
+
+Percentage of the requests served within a certain time (ms)
+  50%    113
+  66%    126
+  75%    137
+  80%    146
+  90%    184
+  95%   2085
+  98%   2573
+  99%   2778
+ 100%   3217 (longest request)
+
+
+
+返回中 700 多
+*** keep alive（ab -k） 有问题
+
+
+Server Software:
+Server Hostname:        127.0.0.1
+Server Port:            3000
+
+Document Path:          /api/hongbao/payment/money
+Document Length:        84 bytes
+
+Concurrency Level:      10
+Time taken for tests:   14.939 seconds
+Complete requests:      1000
+Failed requests:        632
+   (Connect: 0, Receive: 0, Length: 632, Exceptions: 0)
+Keep-Alive requests:    500
+Total transferred:      137000 bytes
+HTML transferred:       30912 bytes
+Requests per second:    66.94 [#/sec] (mean)
+Time per request:       149.385 [ms] (mean)
+Time per request:       14.939 [ms] (mean, across all concurrent requests)
+Transfer rate:          8.96 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       0
+Processing:     0  139 467.4     46    3624
+Waiting:        0  141 473.7     57    3624
+Total:          0  139 467.4     46    3624
+
+Percentage of the requests served within a certain time (ms)
+  50%     46
+  66%     99
+  75%    113
+  80%    121
+  90%    151
+  95%    193
+  98%   2535
+  99%   2824
+ 100%   3624 (longest request)
+
+
+# on end 只返回了 505 个请求
+$ grep mt6.*操作 logs/track.log  | wc
+    505
+
+# ab 有 500 个请求
+$ grep 操作 php.log  | wc
+     500
+
+# 应该是 github 的这个 issue
+https://github.com/nodejitsu/node-http-proxy/issues/859
+
+
+# 改之前，基本有 20ms+ 的损耗
+
+*** 改，删复制 req，测试 1
+
+Server Software:
+Server Hostname:        127.0.0.1
+Server Port:            3000
+
+Document Path:          /api/hongbao/payment/money
+Document Length:        84 bytes
+
+Concurrency Level:      10
+Time taken for tests:   22.767 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      269000 bytes
+HTML transferred:       84000 bytes
+Requests per second:    43.92 [#/sec] (mean)
+Time per request:       227.668 [ms] (mean)
+Time per request:       22.767 [ms] (mean, across all concurrent requests)
+Transfer rate:          11.54 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:    52  226 541.9    109    3916
+Waiting:       51  225 541.9    108    3916
+Total:         52  226 541.9    109    3917
+
+Percentage of the requests served within a certain time (ms)
+  50%    109
+  66%    122
+  75%    134
+  80%    143
+  90%    173
+  95%    231
+  98%   2841
+  99%   3000
+ 100%   3917 (longest request)
+
+
+*** 改，删复制 req，测试 2，基本没效果
+
+Server Software:
+Server Hostname:        127.0.0.1
+Server Port:            3000
+
+Document Path:          /api/hongbao/payment/money
+Document Length:        84 bytes
+
+Concurrency Level:      10
+Time taken for tests:   25.988 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      269000 bytes
+HTML transferred:       84000 bytes
+Requests per second:    38.48 [#/sec] (mean)
+Time per request:       259.878 [ms] (mean)
+Time per request:       25.988 [ms] (mean, across all concurrent requests)
+Transfer rate:          10.11 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       1
+Processing:    48  253 586.2    114    3669
+Waiting:       47  252 586.2    113    3668
+Total:         48  253 586.2    114    3669
+
+Percentage of the requests served within a certain time (ms)
+  50%    114
+  66%    133
+  75%    144
+  80%    152
+  90%    181
+  95%   1981
+  98%   2912
+  99%   3135
+ 100%   3669 (longest request)
+
+*** 改 去掉 on res, on end
+
+Document Path:          /api/hongbao/payment/money
+Document Length:        84 bytes
+
+Concurrency Level:      10
+Time taken for tests:   27.845 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      269000 bytes
+HTML transferred:       84000 bytes
+Requests per second:    35.91 [#/sec] (mean)
+Time per request:       278.454 [ms] (mean)
+Time per request:       27.845 [ms] (mean, across all concurrent requests)
+Transfer rate:          9.43 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       1
+Processing:    42  270 651.6    111    4232
+Waiting:       41  270 651.6    111    4232
+Total:         42  270 651.6    112    4232
+
+Percentage of the requests served within a certain time (ms)
+  50%    112
+  66%    126
+  75%    139
+  80%    150
+  90%    180
+  95%   2383
+  98%   3040
+  99%   3263
+ 100%   4232 (longest request)
+
+# 返回会上升
+$ grep 操作 php.log  | wc
+     879
+
+*** 测试2
+
+Server Hostname:        127.0.0.1
+Server Port:            3000
+
+Document Path:          /api/hongbao/payment/money
+Document Length:        84 bytes
+
+Concurrency Level:      10
+Time taken for tests:   27.280 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      269000 bytes
+HTML transferred:       84000 bytes
+Requests per second:    36.66 [#/sec] (mean)
+Time per request:       272.801 [ms] (mean)
+Time per request:       27.280 [ms] (mean, across all concurrent requests)
+Transfer rate:          9.63 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       1
+Processing:    41  266 656.0    110    3777
+Waiting:       41  265 656.0    110    3776
+Total:         41  266 656.0    111    3777
+
+Percentage of the requests served within a certain time (ms)
+  50%    111
+  66%    123
+  75%    133
+  80%    140
+  90%    173
+  95%   2251
+  98%   3209
+  99%   3475
+ 100%   3777 (longest request)
+
+*** -k 怎么都不行
+Server Hostname:        127.0.0.1
+Server Port:            3000
+
+Document Path:          /api/hongbao/payment/money
+Document Length:        0 bytes
+
+Concurrency Level:      10
+Time taken for tests:   10.332 seconds
+Complete requests:      1000
+Failed requests:        360
+   (Connect: 0, Receive: 0, Length: 360, Exceptions: 0)
+Keep-Alive requests:    500
+Total transferred:      137000 bytes
+HTML transferred:       30240 bytes
+Requests per second:    96.78 [#/sec] (mean)
+Time per request:       103.324 [ms] (mean)
+Time per request:       10.332 [ms] (mean, across all concurrent requests)
+Transfer rate:          12.95 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       0
+Processing:     0   90 335.9     49    3961
+Waiting:        0   91 336.0     57    3961
+Total:          0   91 336.0     50    3961
+
+Percentage of the requests served within a certain time (ms)
+  50%     50
+  66%     97
+  75%    112
+  80%    121
+  90%    143
+  95%    159
+  98%    193
+  99%   2191
+ 100%   3961 (longest request)
+
+*** 不加 keepalive true
+
+Server Hostname:        127.0.0.1
+Server Port:            5050
+
+Document Path:          /user/refresh
+Document Length:        136 bytes
+
+Concurrency Level:      10
+Time taken for tests:   0.744 seconds
+Complete requests:      1000
+Failed requests:        699
+   (Connect: 0, Receive: 0, Length: 699, Exceptions: 0)
+Keep-Alive requests:    1000
+Total transferred:      343864 bytes
+HTML transferred:       40936 bytes
+Requests per second:    1344.71 [#/sec] (mean)
+Time per request:       7.437 [ms] (mean)
+Time per request:       0.744 [ms] (mean, across all concurrent requests)
+Transfer rate:          451.56 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       0
+Processing:     3    7   4.2      6      40
+Waiting:        0    2   4.4      0      40
+Total:          3    7   4.2      6      40
+
+Percentage of the requests served within a certain time (ms)
+  50%      6
+  66%      7
+  75%      7
+  80%      8
+  90%     10
+  95%     12
+  98%     19
+  99%     36
+ 100%     40 (longest request)
+
+*** 加 keep alive true
+
+Server Software:
+Server Hostname:        127.0.0.1
+Server Port:            5050
+
+Document Path:          /user/refresh
+Document Length:        136 bytes
+
+Concurrency Level:      10
+Time taken for tests:   0.577 seconds
+Complete requests:      1000
+Failed requests:        724
+   (Connect: 0, Receive: 0, Length: 724, Exceptions: 0)
+Keep-Alive requests:    1000
+Total transferred:      343864 bytes
+HTML transferred:       37536 bytes
+Requests per second:    1733.22 [#/sec] (mean)
+Time per request:       5.770 [ms] (mean)
+Time per request:       0.577 [ms] (mean, across all concurrent requests)
+Transfer rate:          582.02 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       0
+Processing:     4    6   1.8      5      14
+Waiting:        0    2   2.8      0      14
+Total:          4    6   1.8      5      14
+
+Percentage of the requests served within a certain time (ms)
+  50%      5
+  66%      6
+  75%      6
+  80%      6
+  90%      8
+  95%     11
+  98%     12
+  99%     12
+ 100%     14 (longest request)
+
+
+*** php
+
+Server Software:        nginx/1.4.6
+Server Hostname:        10.10.1.10
+Server Port:            90
+
+Document Path:          /api/hongbao/payment/money
+Document Length:        85 bytes
+
+Concurrency Level:      10
+Time taken for tests:   18.656 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      247000 bytes
+HTML transferred:       85000 bytes
+Requests per second:    53.60 [#/sec] (mean)
+Time per request:       186.564 [ms] (mean)
+Time per request:       18.656 [ms] (mean, across all concurrent requests)
+Transfer rate:          12.93 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        1   15  95.1      5    1011
+Processing:    24  163 400.2     71    2509
+Waiting:       24  162 400.1     70    2509
+Total:         30  178 409.1     77    2515
+
+Percentage of the requests served within a certain time (ms)
+  50%     77
+  66%     89
+  75%    101
+  80%    107
+  90%    136
+  95%   1090
+  98%   2049
+  99%   2222
+ 100%   2515 (longest request)

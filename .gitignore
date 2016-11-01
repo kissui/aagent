@@ -1,0 +1,27 @@
+# boss 下没有 sdk
+sdk/
+
+node_modules/
+.build
+.idea
+.project
+.settings
+*.log
+.DS_Store
+coverage/
+dist/
+
+
+# public 中的这些 build 文件目前已移至 dist 目录
+# gitignore 中可以删了
+/public/bundle.*.js
+/public/bundle.js
+/public/bundle.js.map
+/public/styles.*.css
+/public/styles.css
+/public/styles.css.map
+/public/shimsbundle.js
+/public/shimsbundle.js.map
+
+/config
+.proxy_pref.org

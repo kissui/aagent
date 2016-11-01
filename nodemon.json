@@ -1,0 +1,7 @@
+{
+    "ignore": [
+	"bundle.js"
+    ],
+    "ext": "json,js,jsx",
+    "verbose": true
+}
