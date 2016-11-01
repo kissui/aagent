@@ -57,19 +57,6 @@ function requireAuth(nextState, replaceState, cb) {
     }).catch(err => {
         console.error('requireAuth err', err);
 
-        // 现在会出现 Error:
-        // dangerouslyReplaceNodeWithMarkup(...): Cannot replace
-        // markup of the <html> node. This is because browser quirks
-        // make this unreliable and/or slow. If you want to render to
-        // the root you must use server rendering. See
-        // ReactDOMServer.renderToString().
-        //
-        // 原因暂未查出，未避免业务出错，暂在此不跳转
-        //
-        // replaceState({
-        //     pathname: '/app/error',
-        //     state: { nextPathname: nextState.location.pathname }
-        // });
         return cb();
     });
 
@@ -78,7 +65,7 @@ function requireAuth(nextState, replaceState, cb) {
 // @todo 现在有缺少 browserHistory 的报错，但在这儿加了没用，好像是后端 render 的
 export default (
     <Router>
-        <Route path='/app' component={indexPage} >
+        <Route path='/app' component={Layout} >
             <IndexRoute component={indexPage}/>
             <Route path="/app/aagent" component={indexPage}/>
             <Route path="/app/mock" component={MockPage}/>

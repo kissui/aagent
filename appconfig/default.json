@@ -3,16 +3,16 @@
         "server": ""
     },
     "redis": {
-        "server": "127.0.0.1",
-        "port": 3000,
+        "server": "192.168.1.122",
+        "port": 6379,
         "password": "authIOP#876",
         "options": {}
     },
     "be": {
-        "host": "http:127.0.0.1:3001"
+        "host": "http://192.168.1.122:8091"
     },
     "proxy": {
-        "server": "http://127.0.0.1:3001"
+        "server": "http://192.168.1.122:8091"
     },
     "clientVersion": "web_rp_2.0.0"
 }

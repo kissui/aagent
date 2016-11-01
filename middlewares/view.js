@@ -48,14 +48,14 @@ function setup(app) {
     });
     app.get(['/app', '/app/*'], function(req, res, next) {
         console.log(req.url,req.user,req.accessToken);
-        // if (!pathNeedLoggedIn(req.url)) {
-        //     console.log('NOT-NEED logged in');
-        //     // 不需登录
-        //
-        //     return res.render(req.url, {
-        //         // movies: movies
-        //     });
-        // }
+        if (!pathNeedLoggedIn(req.url)) {
+            console.log('NOT-NEED logged in');
+            // 不需登录
+
+            return res.render(req.url, {
+                // movies: movies
+            });
+        }
 
 
         // 因为 render 在 match 时无法传自定义属性，所以需要
@@ -105,7 +105,7 @@ function setup(app) {
             // 所以，用 req.path render，query 按 params 传递
             // { [Error: Cannot find module '-DkYDQ7uwt9m2jRhs8x1ebJoZIzp_yqkeifsOoat9GU'] code: 'MODULE_NOT_FOUND' }
             res.render(req.path, data);
-        }
+        };
 
 
         // boss 对体验要求低，不需要服务端取数据、渲染
