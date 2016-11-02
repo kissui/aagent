@@ -1,0 +1,37 @@
+.bd-header {
+    height: 70px;
+    background: #24465A;
+    width: 100%;
+    color: #fff;
+    margin-bottom: 10px;
+    line-height: 70px;
+    .header-view {
+        width: 1020px;
+        margin: 0 auto;
+        color: #ffffff;
+        .logo {
+            width: 200px;
+            float: left;
+        }
+        .navigation {
+            overflow: hidden;
+            li {
+                display: inline-block;
+                a{
+                    color: #BFD3DD;
+                    font-size: 16px;
+                    padding: 0 16px;
+                    cursor: pointer;
+                    display: inline-block;
+                }
+                a.active {
+                    color: #fff;
+                }
+                a:hover{
+                    color: #ffffff;
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+}

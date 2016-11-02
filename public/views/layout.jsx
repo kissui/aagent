@@ -3,6 +3,7 @@
 const React = require('react');
 const Auth = require('../lib/auth');
 const Shim = require('./shim');
+const HeaderPage = require('./layout/header');
 // const Link = require('react-router/lib/link');
 import Router, {Link, History} from 'react-router';
 module.exports = React.createClass({
@@ -63,15 +64,12 @@ module.exports = React.createClass({
 				<meta charSet='utf-8'/>
 				<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"/>
 				<title>独代</title>
-				{/*Latest compiled and minified CSS */}
-				<link rel="stylesheet"
-					  href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"/>
-				{/*Optional theme */}
-				<link rel="stylesheet"
-					  href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap-theme.min.css"/>
+				<link rel="stylesheet" href="/bower/bootstrap/dist/css/bootstrap.min.css"/>
+				<link rel="stylesheet" href="/bower/font-awesome/css/font-awesome.min.css"/>
 				<link rel='stylesheet' href='/styles.css'></link>
 			</head>
 			<body>
+			<HeaderPage/>
 			<div className="container">
 				{this.props.children}
 			</div>
