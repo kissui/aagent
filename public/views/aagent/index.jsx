@@ -2,6 +2,7 @@
 
 import React from 'react';
 import SidebarPage from '../../components/sidebar/sidebar';
+import ContainerPage from './container';
 import http from '../../lib/http';
 module.exports = React.createClass({
 	getInitialState: function () {
@@ -23,7 +24,7 @@ module.exports = React.createClass({
 			{className: 'fa fa-bar-chart'},
 		];
 		return (
-			<div>
+			<div className="bd-body">
 				<SidebarPage
 					icon={icon}
 					sidebarBox={{
@@ -32,7 +33,8 @@ module.exports = React.createClass({
 						borderRadius: '4px',
 						padding: '5px',
 						width: '220px',
-						minHeight: '1000px'
+						minHeight: '1000px',
+						position:'absolute',
 					}}
 					defaultSidebarData={data}
 					sidebarItem={{
@@ -48,7 +50,7 @@ module.exports = React.createClass({
 						borderTop: '1px solid #36627c'
 					}}
 				/>
-				`
+				<ContainerPage/>
 			</div>
 		)
 	}

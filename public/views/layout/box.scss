@@ -6,8 +6,7 @@
     margin-bottom: 10px;
     line-height: 70px;
     .header-view {
-        width: 1020px;
-        margin: 0 auto;
+        margin: 0 20px;
         color: #ffffff;
         .logo {
             width: 200px;
@@ -17,7 +16,7 @@
             overflow: hidden;
             li {
                 display: inline-block;
-                a{
+                a {
                     color: #BFD3DD;
                     font-size: 16px;
                     padding: 0 16px;
@@ -27,7 +26,7 @@
                 a.active {
                     color: #fff;
                 }
-                a:hover{
+                a:hover {
                     color: #ffffff;
                     text-decoration: none;
                 }
@@ -35,3 +34,60 @@
         }
     }
 }
+
+@mixin view($padX,$padY,$marX,$marY) {
+    background: #fff;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    padding: $padY $padX;
+    margin: $marY $marX;
+    width: 100%;
+    position: relative;
+}
+
+.bd-body {
+    position: relative;
+    margin: 0 20px;
+    .bd-container {
+        margin-left: 230px;
+        top: 0;
+    }
+    .box-view {
+        @include view(40px, 10px, 10px, 10px);
+        .view-option{
+            height: 30px;
+        }
+        .selectCycle {
+            float: left;
+            height: 30px;
+            
+        }
+        .selectDevice {
+            float: left;
+            margin-left: 40px;
+        }
+        
+    }
+    .view-navigation {
+        padding: 0;
+        position: relative;
+        border-bottom: 1px solid #ddd;
+        h2{
+            color: #54bebd;
+            font-weight: bold;
+            font-size: 24px;
+            .dateRange{
+                font-size: 14px;
+                margin-left: 25px;
+                color: #999;
+            }
+        }
+        .nav-right {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+    }
+    
+}
+

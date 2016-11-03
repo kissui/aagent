@@ -60,22 +60,22 @@ module.exports = React.createClass({
 
 		return (
 			<html>
-			<head>
-				<meta charSet='utf-8'/>
-				<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"/>
-				<title>独代</title>
-				<link rel="stylesheet" href="/bower/bootstrap/dist/css/bootstrap.min.css"/>
-				<link rel="stylesheet" href="/bower/font-awesome/css/font-awesome.min.css"/>
-				<link rel='stylesheet' href='/styles.css'></link>
-			</head>
-			<body>
-			<HeaderPage/>
-			<div className="container">
-				{this.props.children}
-			</div>
-			{shimScript}
-			<script src='/bundle.js'></script>
-			</body>
+				<head>
+					<meta charSet='utf-8'/>
+					<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"/>
+					<title>独代</title>
+					<link rel="stylesheet" href="/bower/bootstrap/dist/css/bootstrap.min.css"/>
+					<link rel="stylesheet" href="/bower/font-awesome/css/font-awesome.min.css"/>
+					<link rel='stylesheet' href='/styles.css'></link>
+				</head>
+				<body>
+					<HeaderPage/>
+					<div>
+						{this.props.children}
+					</div>
+					{shimScript}
+					<script src='/bundle.js'></script>
+				</body>
 			</html>
 		);
 	}
