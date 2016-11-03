@@ -619,6 +619,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
             height: 36px;
             line-height: 32px;
             display: inline-block;
+            width: 160px;
             
         }
         a:hover {
@@ -642,7 +643,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
         li:hover {
             color: #1ffdf0;
         }
-        li.active {
+        .active {
             color: #1ffdf0;
         }
     }

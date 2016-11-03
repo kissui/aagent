@@ -18,6 +18,9 @@ module.exports = React.createClass({
 			})
 		})
 	},
+	handleSidebarDetail: function (item) {
+		console.log(item)
+	},
 	render: function () {
 		let data = this.state.data;
 		let icon = [
@@ -49,6 +52,7 @@ module.exports = React.createClass({
 						fontSize: '13px',
 						borderTop: '1px solid #36627c'
 					}}
+					onReceiveDefaultSidebarData={this.handleSidebarDetail}
 				/>
 				<ContainerPage/>
 			</div>

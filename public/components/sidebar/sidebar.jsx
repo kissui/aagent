@@ -2,19 +2,74 @@
 
 import React from 'react';
 
+const defaultSidebarData = [
+	{
+		'title': '概况',
+		'id': 1,
+		'tables': [
+			{
+				'title': '实时数据',
+				'ev': 'realTime',
+			},
+			{
+				'title': '运营报表',
+				'ev': 'report'
+			},
+			{
+				'title': '近期概况分析',
+				'ev': 'recentAnalysis'
+			}
 
+		]
+	},
+	{
+		'title': '留存分析',
+		'id': 2,
+		tables: [
+			{
+				'title': '留存分析',
+				'ev': 'keeper'
+			}
+		]
+
+	}
+];
 module.exports = React.createClass({
 	getInitialState: function () {
+		let {sidebarDefault} = this.props;
 		return {
-			defaultSidebar: null
+			defaultSidebar: sidebarDefault ? sidebarDefault : {
+				second: 'report'
+			},
+			['isShow_1']: true
 		}
 	},
+	componentDidMount: function () {
+		this.props.onReceiveDefaultSidebarData(this.state.defaultSidebar.second)
+	},
+	handleSelectFirst: function (index) {
+		this.setState({
+			['isShow_' + index]: !this.state['isShow_' + index]
+		})
+	},
+	handleSelectSuperItem: function (item) {
 
+		this.setState({
+			defaultSidebar: {
+				second: item
+			}
+		});
+		this.props.onReceiveDefaultSidebarData(item);
+	},
 	render: function () {
 		const {
-			sidebarBox, defaultSidebarData,
-			sidebarItem, sidebarItemBox, sidebarSuperItem, icon
+			sidebarBox,
+			sidebarItem,
+			sidebarItemBox,
+			sidebarSuperItem,
+			icon
 		} = this.props;
+		const {defaultSidebar} = this.state;
 		if (!defaultSidebarData) return null;
 		return (
 			<div className="sidebar"
@@ -22,16 +77,21 @@ module.exports = React.createClass({
 				<ul className="sidebar_first">
 					{defaultSidebarData.map((item, i)=> {
 						return (
-							<li key={i} style={sidebarItem}>
-								<i className={icon[i] ? icon[i].className : '' }>
+							<li key={i}
+								style={sidebarItem}>
+								<i className={icon[i] ? icon[i].className : '' }></i>
+								<a onClick={this.handleSelectFirst.bind(this, item.id)}>{item.title}</a>
+								<i className={this.state['isShow_' + item.id] ? "fa fa-angle-down angle" :
+									"fa fa-angle-right angle"}>
 								</i>
-								<a>{item.title}</a>
-								<i className="fa fa-angle-right angle">
-								</i>
-								<ul className="sidebar_second" style={sidebarItemBox}>
+								<ul className={this.state['isShow_' + item.id] ? "sidebar_second" : 'hide'}
+									style={sidebarItemBox}>
 									{item.tables.map((superItem, superI)=> {
 										return (
-											<li key={superI} style={sidebarSuperItem}>
+											<li key={superI}
+												onClick={this.handleSelectSuperItem.bind(this, superItem.ev)}
+												className={defaultSidebar.second === superItem.ev && 'active'}
+												style={sidebarSuperItem}>
 												{superItem.title}
 											</li>
 										)
