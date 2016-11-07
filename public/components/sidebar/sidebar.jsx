@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import Router, {Link, History} from 'react-router';
+
 const defaultSidebarData = [
 	{
 		'title': '概况',
@@ -10,14 +12,17 @@ const defaultSidebarData = [
 			{
 				'title': '实时数据',
 				'ev': 'realTime',
+				'link': '/app/realTime'
 			},
 			{
 				'title': '运营报表',
-				'ev': 'report'
+				'ev': 'report',
+				'link': '/app/aagent'
 			},
 			{
 				'title': '近期概况分析',
-				'ev': 'recentAnalysis'
+				'ev': 'recentAnalysis',
+				'link': '/app/analysis'
 			}
 
 		]
@@ -28,7 +33,8 @@ const defaultSidebarData = [
 		tables: [
 			{
 				'title': '留存分析',
-				'ev': 'keeper'
+				'ev': 'keeper',
+				'link': '/app/keeper'
 			}
 		]
 
@@ -53,13 +59,12 @@ module.exports = React.createClass({
 		})
 	},
 	handleSelectSuperItem: function (item) {
-
 		this.setState({
 			defaultSidebar: {
 				second: item
 			}
 		});
-		this.props.onReceiveDefaultSidebarData(item);
+		this.props.onReceiveDefaultSidebarData(item,true);
 	},
 	render: function () {
 		const {
@@ -90,9 +95,12 @@ module.exports = React.createClass({
 										return (
 											<li key={superI}
 												onClick={this.handleSelectSuperItem.bind(this, superItem.ev)}
-												className={defaultSidebar.second === superItem.ev && 'active'}
 												style={sidebarSuperItem}>
-												{superItem.title}
+												<Link to={superItem.link}
+													  className={defaultSidebar.second === superItem.ev && 'active'}>
+													{superItem.title}
+												</Link>
+
 											</li>
 										)
 									})}

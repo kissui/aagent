@@ -8,7 +8,7 @@ import Auth, {pathNeedLoggedIn} from './lib/auth';
 
 import Layout from './views/layout.jsx';
 import indexPage from './views/aagent/index.jsx';
-import HomePage from './views/home.jsx';
+import analysisPage from './views/analysis/analysis.jsx';
 import MockPage from './views/mock/mock.jsx';
 import LoginPage from './views/login.jsx';
 import LogoutPage from './views/logout.jsx';
@@ -68,6 +68,7 @@ export default (
         <Route path='/app' component={Layout} >
             <IndexRoute component={indexPage}/>
             <Route path="/app/aagent" component={indexPage}/>
+            <Route path="/app/analysis" component={analysisPage}/>
             <Route path="/app/mock" component={MockPage}/>
             <Route path="/app/login" component={LoginPage}/>
             <Route path="/app/logout" component={LogoutPage}/>

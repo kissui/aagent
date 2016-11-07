@@ -2,7 +2,6 @@
 
 import React from 'react';
 import SidebarPage from '../../components/sidebar/sidebar';
-import ContainerPage from './container';
 import http from '../../lib/http';
 module.exports = React.createClass({
 	contextTypes: {
@@ -20,17 +19,20 @@ module.exports = React.createClass({
 		// 	})
 		// })
 	},
-	handleSidebarDetail: function (item) {
+	handleSidebarDetail: function (item, flag) {
 		if(!item) return;
+		console.log(item);
 		this.setState({
 			'menu': item
 		});
-		//this.context.router.push({
-			//pathname: '/app/aagent',
-			//query: {
-				//'menu': item,
-			//}
-		//});
+		// if(item ==='recentAnalysis'){
+		// 	return;
+		// } else if(item ==='report') {
+		// 	this.context.router.push({
+		// 		pathname: '/app/aagent',
+		// 	});
+		// }
+
 	},
 	render: function () {
 		let data = this.state.data;
@@ -63,9 +65,12 @@ module.exports = React.createClass({
 						fontSize: '13px',
 						borderTop: '1px solid #36627c'
 					}}
+					sidebarDefault={{
+						second: 'recentAnalysis'
+					}}
 					onReceiveDefaultSidebarData={this.handleSidebarDetail}
 				/>
-				<ContainerPage onMenu={this.state.menu}/>
+				analysis
 			</div>
 		)
 	}
