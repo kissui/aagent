@@ -3,6 +3,7 @@
 import React from 'react';
 import SidebarPage from '../../components/sidebar/sidebar';
 import http from '../../lib/http';
+import ContentPage from './content';
 module.exports = React.createClass({
 	contextTypes: {
 		router: React.PropTypes.object.isRequired
@@ -17,22 +18,10 @@ module.exports = React.createClass({
 		// 	this.setState({
 		// 		data: response.data
 		// 	})
-		// })
 	},
 	handleSidebarDetail: function (item, flag) {
 		if(!item) return;
 		console.log(item);
-		this.setState({
-			'menu': item
-		});
-		// if(item ==='recentAnalysis'){
-		// 	return;
-		// } else if(item ==='report') {
-		// 	this.context.router.push({
-		// 		pathname: '/app/aagent',
-		// 	});
-		// }
-
 	},
 	render: function () {
 		let data = this.state.data;
@@ -70,7 +59,7 @@ module.exports = React.createClass({
 					}}
 					onReceiveDefaultSidebarData={this.handleSidebarDetail}
 				/>
-				analysis
+				<ContentPage/>
 			</div>
 		)
 	}

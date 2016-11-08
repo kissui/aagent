@@ -1,0 +1,75 @@
+.analysis-body {
+    .survey {
+        .survey-col {
+            border-right: 1px solid #dddddd;
+            text-align: center;
+            min-width: 25%;
+            display: inline-block;
+            border-bottom: 1px solid #dddddd;
+            height: 102px;
+            padding: 16px 0;
+            position: relative;
+            cursor: pointer;
+        }
+        .title {
+            font-size: 12px;
+            color: #333;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .value {
+            font-weight: bold;
+            font-size: 22px;
+            color: #333;
+        }
+        .percent {
+            font-size: 12px;
+            color: #666;
+        }
+        .default-content {
+            
+            cursor: pointer;
+            height: 70px;
+        }
+        .survey-col-hover {
+            height: 70px;
+            padding: 16px 0;
+            visibility: hidden;
+            .row {
+                padding: 0;
+            }
+        }
+        
+        .survey-col:hover {
+            .default-content {
+                visibility: hidden;
+            }
+            .survey-col-hover {
+                visibility: visible;
+                position: relative;
+                top: -90px;
+            }
+            .value {
+                color: #2cbfbe;
+            }
+        }
+        
+        .active {
+            border: none;
+            border-right:1px solid #ddd;
+            border-top: 2px solid #2cbfbe;
+            .default-content {
+                visibility: hidden;
+            }
+            .survey-col-hover {
+                visibility: visible;
+                position: relative;
+                top: -90px;
+            }
+            .value {
+                color: #2cbfbe;
+            }
+        }
+    }
+}

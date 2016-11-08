@@ -42,7 +42,14 @@ module.exports = React.createClass({
 	},
 	render: function () {
 		const {preDefined} = this.state;
-		const {isShowDateRange, defaultText, onDateRange, onDateBoxSty, isShowIconOrIconClass} = this.props;
+		const {
+			isShowDateRange,
+			isShowDateForm,
+			defaultText,
+			onDateRange,
+			onDateBoxSty,
+			isShowIconOrIconClass
+		} = this.props;
 		return (
 			<div className="view-navigation">
 				<div className="nav-left">
@@ -55,7 +62,7 @@ module.exports = React.createClass({
 							</span> : null}
 					</h2>
 				</div>
-				<div className="nav-right">
+				{isShowDateForm ? null : <div className="nav-right">
 					<DatePickerPage
 						onReceiveData={this.handleReceiveDateRange}
 						isShowRange={false}
@@ -70,7 +77,7 @@ module.exports = React.createClass({
 							width: onDateBoxSty ? onDateBoxSty.boxSty : '230px'
 						}}
 					/>
-				</div>
+				</div>}
 			</div>
 
 		)

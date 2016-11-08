@@ -67,6 +67,7 @@ module.exports = React.createClass({
 					<link rel="stylesheet" href="/bower/bootstrap/dist/css/bootstrap.min.css"/>
 					<link rel="stylesheet" href="/bower/font-awesome/css/font-awesome.min.css"/>
 					<link rel='stylesheet' href='/styles.css'></link>
+					<link rel="stylesheet" type="text/css" href="https://os.alipayobjects.com/rmsportal/UBXCMkzNVlaZYNs.css"/>
 				</head>
 				<body>
 					<HeaderPage/>
@@ -76,6 +77,7 @@ module.exports = React.createClass({
 					{shimScript}
 					<script src='/bundle.js'></script>
 					<script src="https://a.alipayobjects.com/g/datavis/g2/2.1.1/index.js"></script>
+					<script src="https://as.alipayobjects.com/g/datavis/g-plugin-range/0.0.9/index.js"></script>
 				</body>
 			</html>
 		);
