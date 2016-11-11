@@ -7,7 +7,7 @@ import Auth, {pathNeedLoggedIn} from './lib/auth';
 
 
 import Layout from './views/layout.jsx';
-import indexPage from './views/aagent/index.jsx';
+import indexPage from './views/aagent/egent.jsx';
 import analysisPage from './views/analysis/analysis.jsx';
 import MockPage from './views/mock/mock.jsx';
 import LoginPage from './views/login.jsx';
@@ -67,6 +67,7 @@ export default (
     <Router>
         <Route path='/app' component={Layout} >
             <IndexRoute component={indexPage}/>
+            <Route path='/'/>
             <Route path="/app/aagent" component={indexPage}/>
             <Route path="/app/analysis" component={analysisPage}/>
             <Route path="/app/mock" component={MockPage}/>

@@ -108,6 +108,9 @@ module.exports = React.createClass({
 	render: function () {
 		return (
 			<div className="bd-container">
+				<div className="box-view bd-game-fix">
+					诛仙
+				</div>
 				<div className="box-view">
 					<div className="view-option">
 						<div className="selectCycle">

@@ -34,15 +34,15 @@ var proxyCheckObj = {
     validate:[
         {
             method:'GET',
-            url:'/api/*'
+            url:'/dudai/*'
         },
         {
             method:'POST',
-            url:'/api/*'
+            url:'/dudai/*'
         },
         {
             method:'POST',
-            url:'/api/ss/'
+            url:'/dudai/ss/'
         }
 
     ]

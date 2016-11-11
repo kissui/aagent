@@ -3,6 +3,7 @@ import React from 'react';
 
 module.exports = React.createClass({
 	render: function () {
+		const {headerConf} = this.props;
 		return(
 			<div className="bd-header">
 				<div className="header-view">
@@ -24,7 +25,12 @@ module.exports = React.createClass({
 							shane
 						</div>
 					</div>
-
+					<div className="header-s-view">
+						<div className="nav">
+							<ul>
+							</ul>
+						</div>
+					</div>
 				</div>
 			</div>
 		)

@@ -3,7 +3,6 @@
 const React = require('react');
 const Auth = require('../lib/auth');
 const Shim = require('./shim');
-const HeaderPage = require('./layout/header');
 // const Link = require('react-router/lib/link');
 import Router, {Link, History} from 'react-router';
 module.exports = React.createClass({
@@ -70,7 +69,6 @@ module.exports = React.createClass({
 					<link rel="stylesheet" type="text/css" href="https://os.alipayobjects.com/rmsportal/UBXCMkzNVlaZYNs.css"/>
 				</head>
 				<body>
-					<HeaderPage/>
 					<div>
 						{this.props.children}
 					</div>

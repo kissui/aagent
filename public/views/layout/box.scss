@@ -5,6 +5,9 @@
     color: #fff;
     margin-bottom: 10px;
     line-height: 70px;
+    position: fixed;
+    top: 0px;
+    z-index: 11111;
     .header-view {
         margin: 0 20px;
         color: #ffffff;
@@ -47,6 +50,7 @@
 
 .bd-body {
     position: relative;
+    top: 70px;
     margin: 0 20px;
     .bd-container {
         margin-left: 230px;

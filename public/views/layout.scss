@@ -609,6 +609,8 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
 }
 
 .sidebar {
+    position: fixed;
+    top: 80px;
     .sidebar_first {
         i {
             padding-right: 4px;

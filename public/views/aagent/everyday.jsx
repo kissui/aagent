@@ -1,7 +1,8 @@
 'use strict';
 
 import React from 'react';
-import _ from 'lodash';
+import _ from 'lodash'
+import http from '../../lib/http';
 module.exports = React.createClass({
 	getInitialState: function () {
 		return {
@@ -11,12 +12,75 @@ module.exports = React.createClass({
 	},
 	componentDidMount: function () {
 		let data = this.props.onDefaultEveryday;
+		this.getInitData();
 		this.handleAccountData(data);
-		this.handleShowChart('c1',data);
-		this.handleShowChart('c2',data);
-		this.handleShowChart('c3',data);
+		this.handleShowChart('c1', data);
+		this.handleShowChart('c2', data);
+		this.handleShowChart('c3', data);
 	},
-	handleShowChart: function (id,data) {
+	getInitData: function () {
+		let data = {
+			"cycle": "days",
+			"device" : "Android",
+			"weidu" : "role",
+			"appid" : 233002,
+
+			"kpi_conf": {
+				"accumulate":{
+					"start": "2016-11-04",
+					"end":"2016-11-04",
+					"kpis":[
+						{
+							'meta_id':'2816',
+							'name': '新增账号数 '
+						},
+						{
+							'meta_id':'2819',
+							'name': '付费金额 '
+						}
+					]
+				},
+				"everyday":{
+					"start": "2016-11-04",
+					"end":"2016-11-04",
+					"kpis":[
+						{
+							'meta_id':'2817',
+							'name': '登录账号 '
+						},
+						{
+							'meta_id':'2816',
+							'name': '新增账号 '
+						},
+						{
+							'meta_id':'2818',
+							'name': '付费账号 '
+						},
+						{
+							'meta_id':'2816',
+							'name': '在线留存 '
+						}
+					]
+				},
+				"new":{
+					"start": "2016-11-04",
+					"end":"2016-11-04",
+					"kpis":[
+						{
+							'meta_id':'2816',
+							'name': '每日增量 '
+						}
+					]
+				}
+			}
+		};
+		http.get('/dudai/?c=analysis.report&ac=get&token=mgame_afs23cgs23',{params:data})
+			.then(data=>data.data)
+			.then((data)=> {
+				console.log(data);
+			})
+	},
+	handleShowChart: function (id, data) {
 		var chart = new G2.Chart({
 			id: id,
 			forceFit: true,
@@ -27,7 +91,7 @@ module.exports = React.createClass({
 		});
 		var Frame = G2.Frame;
 		var frame = new Frame(data);
-		frame = Frame.combinColumns(frame,['acu','cnt_login'],'population', 'kpi', ['dateid','arpu']);
+		frame = Frame.combinColumns(frame, ['acu', 'cnt_login'], 'population', 'kpi', ['dateid', 'arpu']);
 		chart.legend(false);
 		chart.source(frame);
 		chart.interval(['dodge', 'stack']).position('dateid*population').color('kpi'); // 使用图形语法绘制柱状图
