@@ -20,24 +20,29 @@ module.exports = React.createClass({
 			dateRange: {
 				dateStart: moment(new Date(startRange)).format(format).toString(),
 				dateEnd: moment(new Date()).format(format).toString()
+			},
+			globalConf: {
+				cycle: onCycle,
+				device: onDevice
 			}
 		}
 	},
 	componentDidMount: function () {
-		this.getInitData();
+		const {dateRange, globalConf} = this.state;
+		this.getInitialData(globalConf, dateRange);
 	},
-	getInitData: function () {
+	getInitialData: function (globalConf, dateConf) {
 
 		let data = {
-			"cycle": "days",
-			"device": "Android",
+			"cycle": globalConf.cycle,
+			"device": globalConf.device,
 			"weidu": "role",
 			"appid": 233002,
 
 			"kpi_conf": {
 				"everyday": {
-					"start": "2016-10-27",
-					"end": "2016-11-04",
+					"start": dateConf.dateStart,
+					"end": dateConf.dateEnd,
 					"kpis": [
 						{
 							'meta_id': '2817',
@@ -105,7 +110,7 @@ module.exports = React.createClass({
 				// 			'meta_id': '2837',
 				// 			'name': '第30日留存'
 				// 		},
-				// 	]
+				// 	]z
 				// }
 			}
 		};
@@ -116,7 +121,8 @@ module.exports = React.createClass({
 					let res = data.data.everyday;
 					this.setState({
 						heads: res.fields,
-						bodys: res.datas
+						bodys: res.datas,
+						isLoading: false
 					});
 					console.log(Chart.dealChartData(res.fields, res.datas));
 					let response = Chart.dealChartData(res.fields, res.datas);
@@ -152,7 +158,20 @@ module.exports = React.createClass({
 		})
 	},
 	handleGetDateRange: function (start, end, title) {
-		console.log(start, end, title)
+		console.log(start, end, title);
+		const {globalConf} = this.state;
+		let dateConf = {
+			dateStart: start,
+			dateEnd: end
+		};
+		this.setState({
+			dateRange: {
+				dateStart: start,
+				dateEnd: end
+			},
+			isLoading: true
+		});
+		this.getInitialData(globalConf, dateConf);
 	},
 	render: function () {
 		const {sum, mean, heads, bodys, dateRange} = this.state;

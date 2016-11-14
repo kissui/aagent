@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import Reg from '../../components/chart';
 module.exports = React.createClass({
 	render: function () {
 		const {heads, bodys} = this.props;
@@ -22,7 +23,7 @@ module.exports = React.createClass({
 						<tr key={i}>
 							{items.map((item, si)=> {
 								return (
-									<td key={si}>{item ? item : 0}</td>
+									<td key={si}>{item ? Reg.reg(item,true) : 0}</td>
 								)
 							})}
 						</tr>

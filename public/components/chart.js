@@ -1,20 +1,25 @@
 'use strict';
 
 export default {
+	reg (item,type) {
+		let reg = /^(\d*\.)+\d+$/;
+		if(type) return reg.test(item) ? ((item * 100).toFixed(1) + '%') : parseFloat(item);
+		return reg.test(item) ? ((item * 100).toFixed(1)) : parseFloat(item);
+	},
 	dealChartData (names, fields) {
 		const chartData = [];
 		let surveyName = names;
 		fields.map((item, i)=> {
 			const obj = {};
 			item.map((superItem, k)=> {
-				obj[surveyName[k]] = surveyName[k] === '日期' ? superItem : (
-					superItem === '' ? 0 : parseFloat(superItem));
+				obj[surveyName[k]] = surveyName[k] === '日期' ? superItem : (superItem === '' ? 0 : this.reg(superItem))
 			});
 			chartData.push(obj)
 		});
 		return chartData;
 	},
 	handleShowChart (id, data, indicators, dimensions) {
+		document.getElementById(id).innerHTML = null;
 		var chart = new G2.Chart({
 			id: id,
 			forceFit: true,
