@@ -42,7 +42,7 @@ module.exports = React.createClass({
 				end: end.format(format).toString()
 			}
 		});
-		this.props.onReceiveDateRange(start, end, this.props.defaultText);
+		this.props.onReceiveDateRange(start.format(format).toString(), end.format(format).toString(), this.props.defaultText);
 	},
 	render: function () {
 		const {preDefined} = this.state;

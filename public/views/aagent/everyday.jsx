@@ -35,20 +35,6 @@ module.exports = React.createClass({
 			"appid": 233002,
 
 			"kpi_conf": {
-				// "accumulate": {
-				// 	"start": "2016-11-04",
-				// 	"end": "2016-11-04",
-				// 	"kpis": [
-				// 		{
-				// 			'meta_id': '2816',
-				// 			'name': '新增账号数'
-				// 		},
-				// 		{
-				// 			'meta_id': '2819',
-				// 			'name': '付费金额'
-				// 		}
-				// 	]
-				// },
 				"everyday": {
 					"start": "2016-10-27",
 					"end": "2016-11-04",

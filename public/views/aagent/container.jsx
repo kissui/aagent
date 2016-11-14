@@ -95,8 +95,8 @@ var data = [
 module.exports = React.createClass({
 	getInitialState: function () {
 		return {
-			cycle: 'day',
-			device: 'all'
+			cycle: 'days',
+			device: 'Android'
 		}
 	},
 	componentDidMount: function () {
@@ -112,9 +112,10 @@ module.exports = React.createClass({
 	},
 	handleReceiveSelectDevice: function (value) {
 		let device = this.state.device;
-		console.log('@defaultSelectDevice:', value);
 		if (device === value) return;
-
+		this.setState({
+			device: value
+		});
 	},
 	handleGetDateRange: function (start, end, title) {
 		console.log('12333333',start, end, title)
@@ -132,14 +133,14 @@ module.exports = React.createClass({
 							<SelectBar
 								onSelectBarData={JSON.selectBarData}
 								onReceiveValue={this.handleReceiveSelectCycle}
-								onDefaultValue={'day'}
+								onDefaultValue={'days'}
 							/>
 						</div>
 						<div className="selectDevice">
 							<SelectBar
 								onSelectBarData={JSON.selectBarDevice}
 								onReceiveValue={this.handleReceiveSelectDevice}
-								onDefaultValue={'all'}
+								onDefaultValue={'Android'}
 							/>
 						</div>
 					</div>
@@ -148,14 +149,14 @@ module.exports = React.createClass({
 				<AccumaltePage onDevice={device} onCycle={cycle}/>
 				<EverydayPage onDevice={device} onCycle={cycle}/>
 				<div className="box-view">
-					{/*<ViewNav*/}
-						{/*defaultText="新用户质量"*/}
-						{/*onReceiveDateRange={this.handleGetDateRange}*/}
-						{/*onDateRange={{*/}
-							{/*dateStart: '',*/}
-							{/*dateEnd: ''*/}
-						{/*}}*/}
-					{/*/>*/}
+					<ViewNav
+						defaultText="新用户质量"
+						onReceiveDateRange={this.handleGetDateRange}
+						onDateRange={{
+							dateStart: '',
+							dateEnd: ''
+						}}
+					/>
 					<NewUserPage onData={data}/>
 				</div>
 			</div>

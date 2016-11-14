@@ -35,11 +35,11 @@ module.exports = {
 			value: 'Android',
 			type: 'class'
 		},
-		{
-			title: 'fa fa-apple',
-			value: 'Ios-2',
-			type: 'class'
-		}
+		// {
+		// 	title: 'fa fa-apple',
+		// 	value: 'Ios-2',
+		// 	type: 'class'
+		// }
 
 	],
 	testData:{
