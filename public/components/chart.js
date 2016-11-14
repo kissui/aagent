@@ -1,0 +1,43 @@
+'use strict';
+
+export default {
+	dealChartData (names, fields) {
+		const chartData = [];
+		let surveyName = names;
+		fields.map((item, i)=> {
+			const obj = {};
+			item.map((superItem, k)=> {
+				obj[surveyName[k]] = surveyName[k] === '日期' ? superItem : (
+					superItem === '' ? 0 : parseFloat(superItem));
+			});
+			chartData.push(obj)
+		});
+		return chartData;
+	},
+	handleShowChart (id, data, indicators, dimensions) {
+		var chart = new G2.Chart({
+			id: id,
+			forceFit: true,
+			height: 200,
+			plotCfg: {
+				margin: [0, 0, 30, 0]
+			}
+		});
+		var Frame = G2.Frame;
+		var frame = new Frame(data);
+		chart.axis('日期', {
+			formatter: function (dimValue) {
+				return dimValue.slice(8) + '';
+			}
+		});
+		frame = Frame.combinColumns(frame, indicators, 'population', 'kpi', dimensions);
+		chart.legend(false);
+		chart.source(frame);
+		chart.interval(['stack']).position('日期*population').color('kpi');// 使用图形语法绘制柱状图
+		if (dimensions.length > 1) {
+			let d = dimensions.slice(1).join('*');
+			chart.line().position(dimensions[0] + '*' + dimensions[1]).color(dimensions[1]);
+		}
+		chart.render();
+	}
+}

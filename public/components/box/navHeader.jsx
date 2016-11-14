@@ -26,8 +26,12 @@ import DatePickerPage from '../datePage';
  */
 module.exports = React.createClass({
 	getInitialState: function () {
+		const {onDateRange} = this.props;
 		return {
-			preDefined: {}
+			preDefined: {
+				start: onDateRange.dateStart,
+				end: onDateRange.dateEnd
+			}
 		}
 	},
 	handleReceiveDateRange: function (start, end) {
@@ -66,10 +70,7 @@ module.exports = React.createClass({
 					<DatePickerPage
 						onReceiveData={this.handleReceiveDateRange}
 						isShowRange={false}
-						onDefaultDateRange={{
-							start: onDateRange.start,
-							end: onDateRange.end
-						}}
+						onDefaultDateRange={onDateRange}
 						singleStyle={{
 							width: onDateBoxSty ? onDateBoxSty.inputSty : '90px'
 						}}

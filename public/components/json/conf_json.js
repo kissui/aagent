@@ -4,7 +4,7 @@ module.exports = {
 	selectBarData :[
 		{
 			title: '日报',
-			value: 'day',
+			value: 'days',
 			type: 'text'
 		},
 		{
@@ -22,17 +22,22 @@ module.exports = {
 	selectBarDevice: [
 		{
 			title: '全部',
-			value: 'all',
+			value: 'All',
 			type: 'text'
 		},
 		{
 			title: 'fa fa-apple',
-			value: 'apple',
+			value: 'Apple',
 			type: 'class'
 		},
 		{
 			title: 'fa fa-android',
-			value: 'android',
+			value: 'Android',
+			type: 'class'
+		},
+		{
+			title: 'fa fa-apple',
+			value: 'Ios-2',
 			type: 'class'
 		}
 

@@ -5,17 +5,29 @@ import _ from 'lodash'
 import http from '../../lib/http';
 import ViewNav from '../../components/box/navHeader';
 import TablePage from '../layout/table';
+import Chart from '../../components/chart';
+import moment from 'moment';
 module.exports = React.createClass({
 	getInitialState: function () {
+		let defaultRange = 3600 * 24 * 7 * 1000;
+		let endRange = +new Date();
+		let startRange = endRange - defaultRange;
+		const {onDevice, onCycle} = this.props;
+		let format = 'YYYY-MM-DD';
 		return {
 			sum: {},
-			mean: {}
+			mean: {},
+			dateRange: {
+				dateStart: moment(new Date(startRange)).format(format).toString(),
+				dateEnd: moment(new Date()).format(format).toString()
+			}
 		}
 	},
 	componentDidMount: function () {
 		this.getInitData();
 	},
 	getInitData: function () {
+
 		let data = {
 			"cycle": "days",
 			"device": "Android",
@@ -23,20 +35,20 @@ module.exports = React.createClass({
 			"appid": 233002,
 
 			"kpi_conf": {
-				"accumulate": {
-					"start": "2016-11-04",
-					"end": "2016-11-04",
-					"kpis": [
-						{
-							'meta_id': '2816',
-							'name': '新增账号数'
-						},
-						{
-							'meta_id': '2819',
-							'name': '付费金额'
-						}
-					]
-				},
+				// "accumulate": {
+				// 	"start": "2016-11-04",
+				// 	"end": "2016-11-04",
+				// 	"kpis": [
+				// 		{
+				// 			'meta_id': '2816',
+				// 			'name': '新增账号数'
+				// 		},
+				// 		{
+				// 			'meta_id': '2819',
+				// 			'name': '付费金额'
+				// 		}
+				// 	]
+				// },
 				"everyday": {
 					"start": "2016-10-27",
 					"end": "2016-11-04",
@@ -79,36 +91,36 @@ module.exports = React.createClass({
 						}
 					]
 				},
-				"new": {
-					"start": "2016-11-04",
-					"end": "2016-11-04",
-					"kpis": [
-						{
-							'meta_id': '2816',
-							'name': '新增账号'
-						},
-						{
-							'meta_id': '2833',
-							'name': '次日留存'
-						},
-						{
-							'meta_id': '2834',
-							'name': '第3日留存'
-						},
-						{
-							'meta_id': '2835',
-							'name': '第7日留存'
-						},
-						{
-							'meta_id': '2836',
-							'name': '第15日留存'
-						},
-						{
-							'meta_id': '2837',
-							'name': '第30日留存'
-						},
-					]
-				}
+				// "new": {
+				// 	"start": "2016-11-04",
+				// 	"end": "2016-11-04",
+				// 	"kpis": [
+				// 		{
+				// 			'meta_id': '2816',
+				// 			'name': '新增账号'
+				// 		},
+				// 		{
+				// 			'meta_id': '2833',
+				// 			'name': '次日留存'
+				// 		},
+				// 		{
+				// 			'meta_id': '2834',
+				// 			'name': '第3日留存'
+				// 		},
+				// 		{
+				// 			'meta_id': '2835',
+				// 			'name': '第7日留存'
+				// 		},
+				// 		{
+				// 			'meta_id': '2836',
+				// 			'name': '第15日留存'
+				// 		},
+				// 		{
+				// 			'meta_id': '2837',
+				// 			'name': '第30日留存'
+				// 		},
+				// 	]
+				// }
 			}
 		};
 		http.get('/dudai/?c=analysis.report&ac=get&token=mgame_afs23cgs23', {params: data})
@@ -120,54 +132,14 @@ module.exports = React.createClass({
 						heads: res.fields,
 						bodys: res.datas
 					});
-					console.log(this.handleDealData(res.fields, res.datas));
-					let response = this.handleDealData(res.fields, res.datas);
+					console.log(Chart.dealChartData(res.fields, res.datas));
+					let response = Chart.dealChartData(res.fields, res.datas);
 					this.handleAccountData(response);
-					this.handleShowChart('c1', response, ['登录账号', '新增账号'], ['日期']);
-					this.handleShowChart('c2', response, ['付费账号', '充值收入',], ['日期', '账号日ARPPU', '账号日付费率']);
-					this.handleShowChart('c3', response, ['ACU', 'PCU',], ['日期', '新增账号次留']);
+					Chart.handleShowChart('c1', response, ['登录账号', '新增账号'], ['日期']);
+					Chart.handleShowChart('c2', response, ['付费账号', '充值收入',], ['日期', '账号日ARPPU', '账号日付费率']);
+					Chart.handleShowChart('c3', response, ['ACU', 'PCU',], ['日期', '新增账号次留']);
 				}
 			})
-	},
-	handleDealData: function (names, fields) {
-		const chartData = [];
-		let surveyName = names;
-		fields.map((item, i)=> {
-			const obj = {};
-			item.map((superItem, k)=> {
-				obj[surveyName[k]] = surveyName[k] === '日期' ? superItem : (
-					superItem === '' ? 0 : parseFloat(superItem));
-			});
-			chartData.push(obj)
-		});
-		return chartData;
-
-	},
-	handleShowChart: function (id, data, indicators, dimensions) {
-		var chart = new G2.Chart({
-			id: id,
-			forceFit: true,
-			height: 200,
-			plotCfg: {
-				margin: [0, 0, 30, 0]
-			}
-		});
-		var Frame = G2.Frame;
-		var frame = new Frame(data);
-		chart.axis('日期', {
-			formatter: function (dimValue) {
-				return dimValue.slice(8) + '';
-			}
-		});
-		frame = Frame.combinColumns(frame, indicators, 'population', 'kpi', dimensions);
-		chart.legend(false);
-		chart.source(frame);
-		chart.interval(['stack']).position('日期*population').color('kpi');// 使用图形语法绘制柱状图
-		if (dimensions.length > 1) {
-			let d = dimensions.slice(1).join('*');
-			chart.line().position(dimensions[0] + '*' + dimensions[1]).color(dimensions[1]);
-		}
-		chart.render();
 	},
 	handleAccountData: function (data) {
 		let sum = {
@@ -197,17 +169,14 @@ module.exports = React.createClass({
 		console.log(start, end, title)
 	},
 	render: function () {
-		const {sum, mean, heads, bodys} = this.state;
+		const {sum, mean, heads, bodys, dateRange} = this.state;
 		return (
 			<div className="box-view">
 				<ViewNav
 					defaultText="每日概览"
 					onReceiveDateRange={this.handleGetDateRange}
 					isShowDateRange={true}
-					onDateRange={{
-						start: '',
-						end: ''
-					}}
+					onDateRange={dateRange}
 				/>
 				<div className="everyday-box row">
 					<div className="col b-view">

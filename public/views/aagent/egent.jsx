@@ -26,18 +26,11 @@ module.exports = React.createClass({
 		this.setState({
 			'menu': item
 		});
-		//this.context.router.push({
-		//pathname: '/app/aagent',
-		//query: {
-		//'menu': item,
-		//}
-		//});
 	},
 	render: function () {
 		const{data,menu} = this.state;
 		let defaultConf = null;
 		if(menu) {
-			console.log(this.props.location.state);
 			let locationStates = this.props.location.state;
 			defaultConf={
 				one: 'game',

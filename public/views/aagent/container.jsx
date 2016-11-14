@@ -93,19 +93,34 @@ var data = [
 	}
 ];
 module.exports = React.createClass({
+	getInitialState: function () {
+		return {
+			cycle: 'day',
+			device: 'all'
+		}
+	},
 	componentDidMount: function () {
-	//
+
 	},
 	handleReceiveSelectCycle: function (value) {
+		let cycle = this.state.cycle;
+		if (value === cycle) return;
 		console.log('@defaultSelectCycle', value);
+		this.setState({
+			cycle: value
+		});
 	},
 	handleReceiveSelectDevice: function (value) {
-		console.log('@defaultSelectDevice:', value)
+		let device = this.state.device;
+		console.log('@defaultSelectDevice:', value);
+		if (device === value) return;
+
 	},
 	handleGetDateRange: function (start, end, title) {
-		console.log(start, end, title)
+		console.log('12333333',start, end, title)
 	},
 	render: function () {
+		const {cycle,device} = this.state;
 		return (
 			<div className="bd-container">
 				<div className="box-view bd-game-fix">
@@ -130,17 +145,17 @@ module.exports = React.createClass({
 					</div>
 					{/*<DateWeekPage cycle="week"/>*/}
 				</div>
-				<AccumaltePage/>
-				<EverydayPage/>
+				<AccumaltePage onDevice={device} onCycle={cycle}/>
+				<EverydayPage onDevice={device} onCycle={cycle}/>
 				<div className="box-view">
-					<ViewNav
-						defaultText="新用户质量"
-						onReceiveDateRange={this.handleGetDateRange}
-						onDateRange={{
-							start: '',
-							end: ''
-						}}
-					/>
+					{/*<ViewNav*/}
+						{/*defaultText="新用户质量"*/}
+						{/*onReceiveDateRange={this.handleGetDateRange}*/}
+						{/*onDateRange={{*/}
+							{/*dateStart: '',*/}
+							{/*dateEnd: ''*/}
+						{/*}}*/}
+					{/*/>*/}
 					<NewUserPage onData={data}/>
 				</div>
 			</div>

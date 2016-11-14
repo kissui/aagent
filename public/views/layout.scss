@@ -711,3 +711,10 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
     -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1), 0 16px 24px 0 rgba(81, 129, 228, .1);
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1), 0 16px 24px 0 rgba(81, 129, 228, .1);
 }
+.date_set {
+    position: relative;
+    left: 390px;
+    button{
+        margin-left: 16px;
+    }
+}
