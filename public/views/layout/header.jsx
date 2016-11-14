@@ -1,10 +1,63 @@
 'use strict';
 import React from 'react';
-
+import {router, Link} from 'react-router';
+import _ from 'lodash';
+let data = [
+	{
+		id: 'game',
+		title: '游戏数据',
+		superItem: [
+			{
+				id: 'analysis',
+				title: '基础分析'
+			},
+			{
+				id: 'indicator',
+				title: '定制指标'
+			}
+		]
+	},
+	{
+		id: 'search',
+		title: '发现',
+		superItem: [
+			{
+				id: 'test',
+				title: 'test'
+			}
+		]
+	}
+];
 module.exports = React.createClass({
 	render: function () {
-		const {headerConf} = this.props;
-		return(
+		const {headerConf, active} = this.props;
+		let firstTpl = null, secondTpl = null;
+		if(active) {
+			let index = _.findIndex(data, (attr=>{return attr.id == active.one}))
+			let secondData = data[index].superItem;
+			firstTpl = data.map((item, i)=> {
+				return (
+					<li key={i}>
+						<Link to={'/app/' + item.id}
+							  className={active.one == item.id && 'active'}>
+							{item.title}
+						</Link>
+					</li>
+				)
+			});
+			secondTpl = secondData.map((item, i)=> {
+				return (
+					<li key={i}>
+						<Link to={'/app/' + active.one + '/' + item.id}
+							  className={active.two == item.id && 'active'}>
+							{item.title}
+						</Link>
+					</li>
+				)
+			})
+		}
+
+		return (
 			<div className="bd-header">
 				<div className="header-view">
 					<div className="row">
@@ -13,23 +66,19 @@ module.exports = React.createClass({
 								<img src="/img/logo.png" alt="logo"/>
 							</div>
 							<ul className="navigation">
-								<li>
-									<a>游戏数据</a>
-								</li>
-								<li>
-									<a>发现</a>
-								</li>
+								{firstTpl}
 							</ul>
 						</div>
 						<div className="col-md-6 text-right">
 							shane
 						</div>
 					</div>
-					<div className="header-s-view">
-						<div className="nav">
-							<ul>
-							</ul>
-						</div>
+				</div>
+				<div className="header-s-view">
+					<div className="s-nav">
+						<ul>
+							{secondTpl}
+						</ul>
 					</div>
 				</div>
 			</div>

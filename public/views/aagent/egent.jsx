@@ -4,7 +4,7 @@ import React from 'react';
 import SidebarPage from '../../components/sidebar/sidebar';
 import ContainerPage from './container';
 import http from '../../lib/http';
-import HeaderPage from './layout/header';
+import HeaderPage from '../layout/header';
 module.exports = React.createClass({
 	contextTypes: {
 		router: React.PropTypes.object.isRequired
@@ -34,13 +34,24 @@ module.exports = React.createClass({
 		//});
 	},
 	render: function () {
-		let data = this.state.data;
+		const{data,menu} = this.state;
+		let defaultConf = null;
+		if(menu) {
+			console.log(this.props.location.state);
+			let locationStates = this.props.location.state;
+			defaultConf={
+				one: 'game',
+				two: locationStates ? locationStates.two : 'analysis'
+			};
+		}
+
 		let icon = [
 			{className: 'fa fa-bar-chart'},
 		];
 		return (
+
 			<div>
-				<HeaderPage headerConf={HeaderData}/>
+				<HeaderPage headerConf={null} active={defaultConf}/>
 				<div className="bd-body">
 					<SidebarPage
 						icon={icon}

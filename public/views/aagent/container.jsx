@@ -6,7 +6,7 @@ import ViewNav from '../../components/box/navHeader';
 import EverydayPage from './everyday';
 import NewUserPage from './newuser';
 import JSON from '../../components/json/conf_json';
-
+import AccumaltePage from './accumalte';
 var data = [
 	{
 		"arppu": "20.34247",
@@ -130,39 +130,8 @@ module.exports = React.createClass({
 					</div>
 					{/*<DateWeekPage cycle="week"/>*/}
 				</div>
-				<div className="box-view">
-					<ViewNav
-						defaultText="累计数据"
-						onReceiveDateRange={this.handleGetDateRange}
-						isShowDateRange={true}
-						onDateRange={{
-							start: '',
-							end: ''
-						}}
-					/>
-					<div className="accumulate-box row">
-						<div className="col blank-view">
-							<p className="title">新增账号数</p>
-							<p className="number">1234,221</p>
-						</div>
-						<div className="col blank-view">
-							<p className="title">付费金额</p>
-							<p className="number">1234,221</p>
-						</div>
-					</div>
-				</div>
-				<div className="box-view">
-					<ViewNav
-						defaultText="每日概览"
-						onReceiveDateRange={this.handleGetDateRange}
-						isShowDateRange={true}
-						onDateRange={{
-							start: '',
-							end: ''
-						}}
-					/>
-					<EverydayPage onDefaultEveryday={data}/>
-				</div>
+				<AccumaltePage/>
+				<EverydayPage/>
 				<div className="box-view">
 					<ViewNav
 						defaultText="新用户质量"

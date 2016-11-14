@@ -11,7 +11,6 @@ module.exports = React.createClass({
 		}
 	},
 	handleDealData: function (names, fields, ev) {
-
 		const chartData = [];
 		let surveyName = names;
 		fields.map((item, i)=> {

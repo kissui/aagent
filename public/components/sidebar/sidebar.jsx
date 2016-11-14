@@ -12,17 +12,17 @@ const defaultSidebarData = [
 			{
 				'title': '实时数据',
 				'ev': 'realTime',
-				'link': '/app/realTime'
+				'link': '/app/game/analysis/survey/realTime'
 			},
 			{
 				'title': '运营报表',
 				'ev': 'report',
-				'link': '/app/aagent'
+				'link': '/app/game/analysis/survey/report'
 			},
 			{
 				'title': '近期概况分析',
 				'ev': 'recentAnalysis',
-				'link': '/app/analysis'
+				'link': '/app/game/analysis/survey/analysis'
 			}
 
 		]
@@ -34,7 +34,7 @@ const defaultSidebarData = [
 			{
 				'title': '留存分析',
 				'ev': 'keeper',
-				'link': '/app/keeper'
+				'link': '/app/game/analysis/keeper'
 			}
 		]
 

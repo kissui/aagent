@@ -67,9 +67,9 @@ export default (
     <Router>
         <Route path='/app' component={Layout} >
             <IndexRoute component={indexPage}/>
-            <Route path='/'/>
-            <Route path="/app/aagent" component={indexPage}/>
-            <Route path="/app/analysis" component={analysisPage}/>
+            <Route path="/app/game" component={indexPage}/>
+            <Route path="/app/game/analysis/survey/report" component={indexPage}/>
+            <Route path="/app/game/analysis/survey/analysisER" component={analysisPage}/>
             <Route path="/app/mock" component={MockPage}/>
             <Route path="/app/login" component={LoginPage}/>
             <Route path="/app/logout" component={LogoutPage}/>
