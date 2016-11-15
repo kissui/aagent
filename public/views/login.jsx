@@ -2,51 +2,61 @@
 
 import React from 'react';
 import Auth from '../lib/auth';
-import { withRouter, Link } from 'react-router'
+import {withRouter, Link} from 'react-router'
 
 const Login = React.createClass({
 
-  getInitialState() {
-    return {
-      error: false
-    }
-  },
+	getInitialState() {
+		return {
+			error: false
+		}
+	},
 
-  handleSubmit(event) {
-    event.preventDefault();
+	handleSubmit(event) {
+		event.preventDefault();
 
-    const email = this.refs.email.value;
-    const pass = this.refs.pass.value;
+		const email = this.refs.email.value;
+		const pass = this.refs.pass.value;
 
-    Auth.login(email, pass, (loggedIn) => {
-      if (!loggedIn)
-        return this.setState({ error: true });
+		Auth.login(email, pass, (loggedIn) => {
+			if (!loggedIn)
+				return this.setState({error: true});
 
-      const { location } = this.props;
+			const {location} = this.props;
+			console.log(location);
+			if (location.state && location.state.nextPathname) {
+				this.props.router.replace(location.state.nextPathname)
+			} else {
+				this.props.router.replace('/app/login')
+			}
+		})
+	},
 
-      if (location.state && location.state.nextPathname) {
-        this.props.router.replace(location.state.nextPathname)
-      } else {
-        this.props.router.replace('/app')
-      }
-    })
-  },
+	render() {
+		return (
+			<div className="default-box">
+				<div className="logo">
+					<img src="/img/logo.png" alt="独代"/>
+				</div>
+				<div id='login' className="login">
+					<h1 className="text-center">Please log in.</h1>
+					<form onSubmit={this.handleSubmit} className="text-center">
+						<div className="row-block">
+							<input ref="email" placeholder="域账户" className="form-control"/>
+						</div>
+						<div className="row-block">
+							<input ref="pass" type="password" placeholder="password" className="form-control"/>
+						</div>
+						<button type="submit" className="btn btn-primary">登录</button>
+						{this.state.error && (
+							<p>Bad login information</p>
+						)}
+					</form>
+				</div>
+			</div>
 
-  render() {
-    return (
-      <div id='login'>
-        <h1>管理员登陆</h1>
-        <form onSubmit={this.handleSubmit}>
-          <label><input ref="email" placeholder="email" defaultValue="admin" /></label><br/>
-          <label><input ref="pass" placeholder="password" /></label> (hint: admin)<br />
-          <button type="submit">login</button>
-          {this.state.error && (
-            <p>Bad login information</p>
-          )}
-        </form>
-      </div>
-    )
-  }
+		)
+	}
 
 });
 

@@ -3,12 +3,11 @@
 import React from 'react';
 import SelectBar from '../../components/box/selectBar';
 import JSON from '../../components/json/conf_json';
-import HeadPage from '../../components/box/navHeader';
 import SurveyPage from './survey';
 const testData = JSON.testData;
 module.exports = React.createClass({
 	getInitialState: function () {
-		return{
+		return {
 			chart_conf: null
 		}
 	},
@@ -16,6 +15,7 @@ module.exports = React.createClass({
 		console.log(value);
 	},
 	render: function () {
+
 		return (
 			<div className="bd-container analysis-body">
 				<div className="box-view">
@@ -24,26 +24,25 @@ module.exports = React.createClass({
 							<SelectBar
 								onSelectBarData={JSON.selectBarDevice}
 								onReceiveValue={this.handleReceiveSelectDevice}
-								onDefaultValue={'all'}
+								onDefaultValue={'All'}
 							/>
 						</div>
 					</div>
 				</div>
 				<div className="box-view">
-					<HeadPage
-						isShowDateForm={true}
-						defaultText="概览"
-					/>
+					{/*<HeadPage*/}
+					{/*isShowDateForm={true}*/}
+					{/*defaultText="概览"*/}
+					{/*/>*/}
 					<SurveyPage surveyData={testData}/>
 				</div>
 				<div className="box-view">
-					<HeadPage
-						isShowDateForm={true}
-						defaultText="近期数据"
-					/>
+					{/*<HeadPage*/}
+					{/*isShowDateForm={true}*/}
+					{/*defaultText="近期数据"*/}
+					{/*/>*/}
 				</div>
 			</div>
-
 		)
 	}
 });

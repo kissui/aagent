@@ -665,7 +665,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
         border-radius: 10px;
         width: 60px;
         text-align: center;
-        i{
+        i {
             font-size: 16px;
         }
     }
@@ -674,6 +674,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
         color: #fff;
     }
 }
+
 .datePicker-container {
     .datePicker-view-input {
         width: 340px;
@@ -689,7 +690,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
         .character {
             padding-right: 13px;
         }
-        i{
+        i {
             position: absolute;
             right: 6px;
             top: 9px;
@@ -711,10 +712,38 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
     -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1), 0 16px 24px 0 rgba(81, 129, 228, .1);
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1), 0 16px 24px 0 rgba(81, 129, 228, .1);
 }
+
 .date_set {
     position: relative;
     left: 390px;
-    button{
+    button {
         margin-left: 16px;
+    }
+}
+
+.default-box {
+    .logo {
+        height: 60px;
+        line-height: 60px;
+        background: #24465a;
+        padding: 0 20px;
+    }
+    .login {
+        position: fixed;
+        top: 30%;
+        left: 50%;
+        width: 400px;
+        margin-left: -200px;
+        background: #fff;
+        border-radius: 4px;
+        padding: 20px;
+        border: 1px solid #24465a;
+        .row-block {
+            width: 100%;
+            margin: 15px 20%;
+            input {
+                max-width: 60%;
+            }
+        }
     }
 }

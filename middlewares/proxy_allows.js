@@ -20,7 +20,7 @@ var proxyCheckObj = {
                 path: '^/_user/auto-login'
             }, {
                 method: 'post',
-                path: '^/_user/login'
+                path: '^/dudai/login.php'
             }, {
                 method: 'get',
                 path: '^/api/sign'
