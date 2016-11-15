@@ -57,7 +57,7 @@ function middleware() {
             });
 
 
-            if (!user.uid && !user.hb_uid) {
+            if (!user.username) {
                 throw new JsonWebTokenError();
             }
 
@@ -109,7 +109,6 @@ function middleware() {
             req.headers['dealer-code'] = _.get(req.user, 'dealer_code', '');
             req.headers['dealer-user-id'] = _.get(req.user, 'duid', '');
 
-            req.headers['identifier'] = req.user.dealer_id + '-' + req.user.duid;
 
             req.headers['api-auth-method'] = 'token';
 

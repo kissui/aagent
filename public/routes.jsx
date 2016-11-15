@@ -38,20 +38,16 @@ function requireAuth(nextState, replaceState, cb) {
         console.log('AUTH result', ret);
 
         if (ret) {
-
             console.log('allow access');
-
             // 登录成功
             return cb();
         }
-
         console.log('forbid access');
-
         // 登录失败
-        replaceState({
-            pathname: '/app/error',
-            state: {nextPathname: nextState.location.pathname}
-        });
+        // replaceState({
+        //     pathname: '/app/error',
+        //     state: {nextPathname: nextState.location.pathname}
+        // });
         return cb();
 
     }).catch(err => {

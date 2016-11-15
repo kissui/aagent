@@ -26,7 +26,7 @@ export default {
 			.then(r => {
 				console.log('@then 1', sessionStorage, r);
 
-				if (r.data.error_code != 0) {
+				if (r.data != 0) {
 					return Promise.reject(r.data);
 				}
 
@@ -40,7 +40,7 @@ export default {
 			})
 			.catch(e => {
 				console.log('@then err', e);
-				if (cb) cb(false)
+				if (cb) cb(false);
 				this.onChange(false)
 			});
 	},
