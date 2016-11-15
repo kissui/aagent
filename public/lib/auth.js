@@ -7,7 +7,6 @@ export const pathNotNeedLoggedIn = [
 	'/app/error',
 	'/app/login',
 	'/app/mock',
-	'/app/aagent',
 	'/401'
 ];
 
@@ -20,16 +19,14 @@ export default {
 	login(email, pass, cb) {
 
 		cb = arguments[arguments.length - 1];
-		http.get('/dudai/login.php', {
-			params: {
-				user: email,
+		http.post('/_user/login', {
+				username: email,
 				password: pass
-			}
 		})
 			.then(r => {
-				console.log('@then 1',sessionStorage, r);
+				console.log('@then 1', sessionStorage, r);
 
-				if (r.error_code != 0) {
+				if (r.data.error_code != 0) {
 					return Promise.reject(r.data);
 				}
 
@@ -43,7 +40,6 @@ export default {
 			})
 			.catch(e => {
 				console.log('@then err', e);
-
 				if (cb) cb(false)
 				this.onChange(false)
 			});
@@ -71,13 +67,12 @@ export default {
 	},
 
 	logout(cb) {
-		delete sessionStorage.user
-		if (cb) cb()
+		delete sessionStorage.user;
+		if (cb) cb();
 		this.onChange(false)
 	},
 
 	loggedIn() {
-		console.log('@loggedin');
 		if (isServer()) {
 			// @TODO
 			// 由于 match 无法传任意值，所以 server render
@@ -88,8 +83,7 @@ export default {
 
 		return http.get('/_user/refresh')
 			.then(r => {
-				console.log('@then 1', r)
-
+				console.log('@then 1,auth', r)
 				if (r.status != 200) {
 					return Promise.reject(r.data);
 				}
@@ -131,5 +125,6 @@ function pretendRequest(email, pass, cb) {
 
 
 function isServer() {
+	console.log('@typeof window', typeof window, window.document,!(typeof window != 'undefined' && window.document));
 	return !(typeof window != 'undefined' && window.document);
 }

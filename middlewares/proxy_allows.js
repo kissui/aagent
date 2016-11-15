@@ -42,6 +42,10 @@ var proxyCheckObj = {
         },
         {
             method:'POST',
+            url:'/login.php'
+        },
+        {
+            method:'POST',
             url:'/dudai/ss/'
         }
 

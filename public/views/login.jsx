@@ -14,16 +14,14 @@ const Login = React.createClass({
 
 	handleSubmit(event) {
 		event.preventDefault();
-
 		const email = this.refs.email.value;
 		const pass = this.refs.pass.value;
-
 		Auth.login(email, pass, (loggedIn) => {
+			console.log("view", loggedIn, this.props);
 			if (!loggedIn)
 				return this.setState({error: true});
-
 			const {location} = this.props;
-			console.log(location);
+
 			if (location.state && location.state.nextPathname) {
 				this.props.router.replace(location.state.nextPathname)
 			} else {

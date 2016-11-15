@@ -41,15 +41,15 @@ function setup(app) {
 
     // add our app routes
     app.get('/', function(req, res) {
-        res.redirect('/app');
+        // res.redirect('/app');
         // @todo 改为下面的写法，减少一次来回请求，
         // 但需 router 挂载多个地址
-        // req.url = '/app';
+        req.url = '/app';
     });
     app.get(['/app', '/app/*'], function(req, res, next) {
-        console.log(req.url,req.user,req.accessToken);
+        console.log('isLogin: ',req.url,req.user,req.accessToken);
         if (!pathNeedLoggedIn(req.url)) {
-            console.log('NOT-NEED logged in');
+            console.log('NOT-NEED logged in',pathNeedLoggedIn(req.url));
             // 不需登录
 
             return res.render(req.url, {
@@ -60,11 +60,11 @@ function setup(app) {
 
         // 因为 render 在 match 时无法传自定义属性，所以需要
         // 在 render 前判断权限、跳转
-        // if (!req.user) {
-        //     req.url = '/app/login';
-        // }
+        if (!req.user) {
+            req.url = '/app/login';
+        }
 
-        // console.log('### should get', req.url);
+        console.log('### should get', req.url);
 
         if (req.accessToken) {
             res.cookie('token', req.accessToken, {
@@ -88,7 +88,7 @@ function setup(app) {
         }
 
         var render = function(initialState) {
-
+            console.log('initialState',initialState,req.query)
             let data = {
                 // render 时传 ua，以判断是否加载 shim
                 ua: req.get('user-agent'),
