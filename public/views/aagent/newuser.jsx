@@ -30,6 +30,20 @@ module.exports = React.createClass({
 		const {dateRange, globalConf} = this.state;
 		this.getInitialData(globalConf, dateRange);
 	},
+	componentWillReceiveProps: function (nextProps) {
+		const {dateRange, globalConf} = this.state;
+		if(nextProps.onCycle === globalConf.cycle && nextProps.onDevice === globalConf.device) return;
+		const receivePropsConf = {
+			cycle: nextProps.onCycle,
+			device: nextProps.onDevice
+		}
+		this.setState({
+			globalConf: receivePropsConf,
+			isLoading: true
+		})
+		this.getInitialData(receivePropsConf,dateRange);
+		console.log('@nextProps',nextProps.onCycle,nextProps.onDevice,globalConf);
+	},
 	getInitialData: function (globalConf, dateConf) {
 
 		let data = {
@@ -181,14 +195,6 @@ module.exports = React.createClass({
 		const {heads, bodys, dateRange, sum, mean,isLoading} = this.state;
 		let content = (
 			<div>
-				<ViewNav
-					defaultText="新用户质量"
-					onReceiveDateRange={this.handleGetDateRange}
-					onDateRange={{
-						dateStart: dateRange.dateStart,
-						dateEnd: dateRange.dateEnd
-					}}
-				/>
 				<div className="new-user row">
 					<div className="col user-view">
 						<p className="title">
@@ -227,6 +233,14 @@ module.exports = React.createClass({
 		)
 		return (
 			<div className="box-view">
+				<ViewNav
+					defaultText="新用户质量"
+					onReceiveDateRange={this.handleGetDateRange}
+					onDateRange={{
+						dateStart: dateRange.dateStart,
+						dateEnd: dateRange.dateEnd
+					}}
+				/>
 				{!isLoading && heads ? content : <LoadingPage/>}
 			</div>
 		)

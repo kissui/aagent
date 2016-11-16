@@ -27,7 +27,22 @@ module.exports = React.createClass({
 		const {dateRange, globalConf} = this.state;
 		this.getInitialData(globalConf, dateRange);
 	},
+	componentWillReceiveProps: function (nextProps) {
+		const {dateRange, globalConf} = this.state;
+		if(nextProps.onCycle === globalConf.cycle && nextProps.onDevice === globalConf.device) return;
+		const receivePropsConf = {
+			cycle: nextProps.onCycle,
+			device: nextProps.onDevice
+		}
+		this.setState({
+			globalConf: receivePropsConf,
+			isLoading: true
+		})
+		this.getInitialData(receivePropsConf,dateRange);
+		console.log('@nextProps',nextProps.onCycle,nextProps.onDevice,globalConf);
+	},
 	getInitialData: function (globalConf, dateConf) {
+		console.log('globalConf',globalConf);
 		let data = {
 			"cycle": globalConf.cycle,
 			"device": globalConf.device,
@@ -92,12 +107,6 @@ module.exports = React.createClass({
 		}
 		let content = (
 			<div>
-				<ViewNav
-					defaultText="累计数据"
-					onReceiveDateRange={this.handleGetDateRange}
-					isShowDateRange={true}
-					onDateRange={this.state.dateRange}
-				/>
 				<div className="accumulate-box row">
 					<div className="col blank-view">
 						<p className="title">新增账号数</p>
@@ -112,6 +121,12 @@ module.exports = React.createClass({
 		);
 		return (
 			<div className="box-view">
+				<ViewNav
+					defaultText="累计数据"
+					onReceiveDateRange={this.handleGetDateRange}
+					isShowDateRange={true}
+					onDateRange={this.state.dateRange}
+				/>
 				{!isLoading && accumulate ? content : <LoadingPage/>}
 			</div>
 		)
