@@ -42,7 +42,7 @@ export default {
 		chart.interval(['stack']).position('日期*population').color('kpi');// 使用图形语法绘制柱状图
 		if (dimensions.length > 1) {
 			let d = dimensions.slice(1).join('*');
-			chart.line().position(dimensions[0] + '*' + dimensions[1]).color(dimensions[1]);
+			chart.line().position(dimensions[0] + '*' + d).color('kpi');
 		}
 		chart.render();
 	}

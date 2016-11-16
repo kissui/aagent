@@ -114,28 +114,44 @@ module.exports = React.createClass({
 					});
 					console.log(Chart.dealChartData(res.fields, res.datas));
 					let response = Chart.dealChartData(res.fields, res.datas);
-					// this.handleAccountData(response);
-					Chart.handleShowChart('c4', response, ['新增账号'], ['日期','次日留存','第3日留存','第7日留存','第15日留存','第30日留存']);
-					Chart.handleShowChart('c5', response, ['新增账号'], ['日期', 'LTV-1', 'LTV-3','LTV-7','LTV-15','LTV-30','LTV-45','LTV-60','LTV-90']);
+					this.handleAccountData(response);
+					Chart.handleShowChart('c4', response, ['新增账号'], ['日期', '次日留存', '第3日留存', '第7日留存', '第15日留存', '第30日留存']);
+					Chart.handleShowChart('c5', response, ['新增账号'], ['日期', 'LTV-1', 'LTV-3', 'LTV-7', 'LTV-15', 'LTV-30', 'LTV-45', 'LTV-60', 'LTV-90']);
 				}
 			})
 	},
 	handleAccountData: function (data) {
 		let sum = {
-			ac_cash: _.sumBy(data, (o)=> {
-				return parseFloat(o['充值收入'])
-			}),
 			ac_new: _.sumBy(data, (o)=> {
 				return o['新增账号']
 			})
 		};
 		let mean = {
-			mean_account: _.meanBy(data, (m)=> {
-				return parseFloat(m['登录账号'])
-			}),
-			mean_cash: _.meanBy(data, (m)=> {
-				return parseFloat(m['账号日付费率'])
-			})
+			lastRemain: _.meanBy(data, (m)=> {
+				return parseFloat(m['次日留存'])
+			}).toFixed(1)+'%',
+			threeRemain: _.meanBy(data, (m)=> {
+				return parseFloat(m['第3日留存'])
+			}).toFixed(1)+'%',
+			sevenRemain: _.meanBy(data, (m)=> {
+				return parseFloat(m['第7日留存'])
+			}).toFixed(1)+'%',
+			fifteenRemain: _.meanBy(data, (m)=> {
+				return parseFloat(m['第15日留存'])
+			}).toFixed(1)+'%',
+			LTV_1: _.meanBy(data, (m)=> {
+				return parseFloat(m['LTV-1'])
+			}).toFixed(1)+'%',
+			LTV_7: _.meanBy(data, (m)=> {
+				return parseFloat(m['LTV-7'])
+			}).toFixed(1)+'%',
+			LTV_15: _.meanBy(data, (m)=> {
+				return parseFloat(m['LTV-15'])
+			}).toFixed(1)+'%',
+			LTV_30: _.meanBy(data, (m)=> {
+				return parseFloat(m['LTV-30'])
+			}).toFixed(1)+'%'
+
 		};
 		mean.mean_account = Math.ceil(mean.mean_account);
 		mean.mean_cash = (mean.mean_cash * 100).toFixed(2);
@@ -161,15 +177,15 @@ module.exports = React.createClass({
 		this.getInitialData(globalConf, dateConf);
 	},
 	render: function () {
-		const {heads,bodys} = this.state;
+		const {heads, bodys, dateRange, sum, mean} = this.state;
 		return (
 			<div className="box-view">
 				<ViewNav
 					defaultText="新用户质量"
 					onReceiveDateRange={this.handleGetDateRange}
 					onDateRange={{
-						dateStart: '',
-						dateEnd: ''
+						dateStart: dateRange.dateStart,
+						dateEnd: dateRange.dateEnd
 					}}
 				/>
 				<div className="new-user row">
@@ -178,21 +194,21 @@ module.exports = React.createClass({
 							<i className=" icon fa fa-user-plus"></i>
 							累计新增账号/角色
 						</p>
-						<p className="number">23112</p>
+						<p className="number">{sum.ac_new}</p>
 					</div>
 					<div className="col user-view">
 						<p className="title">
 							<i className=" icon fa fa-user"></i>
 							(平均)次日留存/7日留存/15日留存
 						</p>
-						<p className="number">23112</p>
+						<p className="number">{mean.lastRemain + '/' + mean.sevenRemain + '/' + mean.fifteenRemain}</p>
 					</div>
 					<div className="col user-view br-none">
 						<p className="title">
 							<i className=" icon fa fa-user-times"></i>
 							(平均)1日LTV/7日LTV/15日LTV/30日LTV
 						</p>
-						<p className="number">23112</p>
+						<p className="number">{mean.LTV_1 + '/' + mean.LTV_7 + '/' + mean.LTV_15 + '/' + mean.LTV_30}</p>
 					</div>
 					<div className="everyday-chart row">
 						<div className="col-user">

@@ -82,36 +82,7 @@ module.exports = React.createClass({
 						}
 					]
 				},
-				// "new": {
-				// 	"start": "2016-11-04",
-				// 	"end": "2016-11-04",
-				// 	"kpis": [
-				// 		{
-				// 			'meta_id': '2816',
-				// 			'name': '新增账号'
-				// 		},
-				// 		{
-				// 			'meta_id': '2833',
-				// 			'name': '次日留存'
-				// 		},
-				// 		{
-				// 			'meta_id': '2834',
-				// 			'name': '第3日留存'
-				// 		},
-				// 		{
-				// 			'meta_id': '2835',
-				// 			'name': '第7日留存'
-				// 		},
-				// 		{
-				// 			'meta_id': '2836',
-				// 			'name': '第15日留存'
-				// 		},
-				// 		{
-				// 			'meta_id': '2837',
-				// 			'name': '第30日留存'
-				// 		},
-				// 	]z
-				// }
+
 			}
 		};
 		http.get('/dudai/?c=analysis.report&ac=get&token=mgame_afs23cgs23', {params: data})

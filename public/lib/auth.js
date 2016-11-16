@@ -19,7 +19,7 @@ export default {
 	login(email, pass, cb) {
 
 		cb = arguments[arguments.length - 1];
-		http.post('/_user/login', {
+		http.post('/login.php', {
 				username: email,
 				password: pass
 		})
