@@ -3,7 +3,8 @@
 export default {
 	reg (item,type) {
 		let reg = /^(\d*\.)+\d+$/;
-		if(type) return reg.test(item) ? ((item * 100).toFixed(1) + '%') : parseFloat(item);
+		let regDate = /^(\d*\-)+\d+$/;
+		if(type) return reg.test(item) ? ((item * 100).toFixed(1) + '%') : (regDate.test(item)? item : parseFloat(item));
 		return reg.test(item) ? ((item * 100).toFixed(1)) : parseFloat(item);
 	},
 	dealChartData (names, fields) {

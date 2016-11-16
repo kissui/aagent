@@ -148,17 +148,7 @@ module.exports = React.createClass({
 				</div>
 				<AccumaltePage onDevice={device} onCycle={cycle}/>
 				<EverydayPage onDevice={device} onCycle={cycle}/>
-				<div className="box-view">
-					<ViewNav
-						defaultText="新用户质量"
-						onReceiveDateRange={this.handleGetDateRange}
-						onDateRange={{
-							dateStart: '',
-							dateEnd: ''
-						}}
-					/>
-					<NewUserPage onData={data}/>
-				</div>
+				<NewUserPage onDevice={device} onCycle={cycle}/>
 			</div>
 		)
 	}

@@ -6,7 +6,7 @@ module.exports = React.createClass({
 	render: function () {
 		const {heads, bodys} = this.props;
 		return (
-			<table className="table table-bordered">
+			<table className="table table-bordered table-striped">
 				<thead>
 				<tr>
 					{heads ? heads.map((item, i)=> {
@@ -23,7 +23,7 @@ module.exports = React.createClass({
 						<tr key={i}>
 							{items.map((item, si)=> {
 								return (
-									<td key={si}>{item ? Reg.reg(item,true) : 0}</td>
+									<td key={si} className={si === 1 && 'active'}>{item ? Reg.reg(item, true) : 0}</td>
 								)
 							})}
 						</tr>
