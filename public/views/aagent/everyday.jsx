@@ -7,6 +7,7 @@ import ViewNav from '../../components/box/navHeader';
 import TablePage from '../layout/table';
 import Chart from '../../components/chart';
 import moment from 'moment';
+import LoadingPage from '../../components/is_loading';
 module.exports = React.createClass({
 	getInitialState: function () {
 		let defaultRange = 3600 * 24 * 7 * 1000;
@@ -145,9 +146,9 @@ module.exports = React.createClass({
 		this.getInitialData(globalConf, dateConf);
 	},
 	render: function () {
-		const {sum, mean, heads, bodys, dateRange} = this.state;
-		return (
-			<div className="box-view">
+		const {sum, mean, heads, bodys, dateRange,isLoading} = this.state;
+		let content = (
+			<div>
 				<ViewNav
 					defaultText="每日概览"
 					onReceiveDateRange={this.handleGetDateRange}
@@ -199,6 +200,11 @@ module.exports = React.createClass({
 					</div>
 				</div>
 				<TablePage heads={heads} bodys={bodys}/>
+			</div>
+		)
+		return (
+			<div className="box-view">
+				{!isLoading && heads ? content : <LoadingPage/>}
 			</div>
 		)
 	}

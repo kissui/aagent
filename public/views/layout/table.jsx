@@ -6,9 +6,9 @@ module.exports = React.createClass({
 	render: function () {
 		const {heads, bodys} = this.props;
 		return (
-			<table className="table table-bordered table-striped">
+			<table className="table table-striped text-center">
 				<thead>
-				<tr>
+				<tr className="text-center">
 					{heads ? heads.map((item, i)=> {
 						return (
 							<th key={i}>{item}</th>

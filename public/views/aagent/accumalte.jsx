@@ -28,7 +28,6 @@ module.exports = React.createClass({
 		this.getInitialData(globalConf, dateRange);
 	},
 	getInitialData: function (globalConf, dateConf) {
-
 		let data = {
 			"cycle": globalConf.cycle,
 			"device": globalConf.device,

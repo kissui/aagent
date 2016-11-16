@@ -5,6 +5,7 @@ import Chart from '../../components/chart';
 import http from '../../lib/http';
 import ViewNav from '../../components/box/navHeader';
 import moment from 'moment';
+import LoadingPage from '../../components/is_loading';
 module.exports = React.createClass({
 	getInitialState: function () {
 		let defaultRange = 3600 * 24 * 7 * 1000;
@@ -177,9 +178,9 @@ module.exports = React.createClass({
 		this.getInitialData(globalConf, dateConf);
 	},
 	render: function () {
-		const {heads, bodys, dateRange, sum, mean} = this.state;
-		return (
-			<div className="box-view">
+		const {heads, bodys, dateRange, sum, mean,isLoading} = this.state;
+		let content = (
+			<div>
 				<ViewNav
 					defaultText="新用户质量"
 					onReceiveDateRange={this.handleGetDateRange}
@@ -222,6 +223,11 @@ module.exports = React.createClass({
 					</div>
 					<TablePage heads={heads} bodys={bodys}/>
 				</div>
+			</div>
+		)
+		return (
+			<div className="box-view">
+				{!isLoading && heads ? content : <LoadingPage/>}
 			</div>
 		)
 	}
