@@ -47,7 +47,7 @@ function setup(app) {
 	});
 	app.get(['/app', '/app/*'], function (req, res, next) {
 		console.log('isLogin: ', req.url, req.user, req.accessToken);
-		if (!pathNeedLoggedIn(req.url)) {
+		if (pathNeedLoggedIn(req.url)) {
 			console.log('NOT-NEED logged in', pathNeedLoggedIn(req.url));
 
 			return res.render(req.url, {

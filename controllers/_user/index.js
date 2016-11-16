@@ -13,7 +13,6 @@ let debug = Debug('sdk');
 module.exports = function (router) {
 
 	router.get('/refresh', function (req, res) {
-		console.log('user121223324d34234223234', req.user);
 		return res.json(req.user);
 	});
 
