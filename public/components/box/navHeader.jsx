@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import DatePickerPage from '../datePage';
-
+import SelectRollPage from '../../components/box/selectRoll';
 /**
  * @TODO 各个模块初始化的header展示及其时间区间的回调
  * @DEMO
@@ -44,6 +44,9 @@ module.exports = React.createClass({
 		});
 		this.props.onReceiveDateRange(start.format(format).toString(), end.format(format).toString(), this.props.defaultText);
 	},
+	handleReceiveRoll: function(value){
+		this.props.onReceiveValue(value);
+	},
 	render: function () {
 		const {preDefined} = this.state;
 		const {
@@ -52,7 +55,8 @@ module.exports = React.createClass({
 			defaultText,
 			onDateRange,
 			onDateBoxSty,
-			isShowIconOrIconClass
+			isShowIconOrIconClass,
+			isShowRoll,
 		} = this.props;
 		return (
 			<div className="view-navigation">
@@ -67,6 +71,7 @@ module.exports = React.createClass({
 					</h2>
 				</div>
 				{isShowDateForm ? null : <div className="nav-right">
+					{isShowRoll ? <SelectRollPage onReceiveValue={this.handleReceiveRoll}/> : null}
 					<DatePickerPage
 						onReceiveData={this.handleReceiveDateRange}
 						isShowRange={false}

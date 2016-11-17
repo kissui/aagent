@@ -8,6 +8,7 @@ import TablePage from '../layout/table';
 import Chart from '../../components/chart';
 import moment from 'moment';
 import LoadingPage from '../../components/is_loading';
+
 module.exports = React.createClass({
 	getInitialState: function () {
 		let defaultRange = 3600 * 24 * 7 * 1000;
@@ -159,6 +160,9 @@ module.exports = React.createClass({
 		});
 		this.getInitialData(globalConf, dateConf);
 	},
+	handleReceiveRoll: function(value){
+		console.log(value)
+	},
 	render: function () {
 		const {sum, mean, heads, bodys, dateRange,isLoading} = this.state;
 		let content = (
@@ -217,6 +221,8 @@ module.exports = React.createClass({
 					onReceiveDateRange={this.handleGetDateRange}
 					isShowDateRange={true}
 					onDateRange={dateRange}
+					onReceiveValue={this.handleReceiveRoll}
+					isShowRoll={true}
 				/>
 				{!isLoading && heads ? content : <LoadingPage/>}
 			</div>

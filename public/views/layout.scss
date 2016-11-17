@@ -750,3 +750,49 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
 .table{
     font-size: 12px;
 }
+.select_roll {
+    position: absolute;
+    right: 250px;
+    .roll_block{
+        width: 150px;
+        border: 1px solid #ccc;
+        height: 30px;
+        line-height: 30px;
+        border-radius: 15px;
+        text-indent: 1em;
+        position: relative;
+        cursor: pointer;
+        i{
+            position: absolute;
+            right: 10px;
+            font-size: 24px;
+            top: 2px;
+            border-left: 1px solid #2cbfbe;
+            color: #2cbfbe;
+        }
+    }
+    .roll_box {
+        background: #fff;
+        position: relative;
+        z-index: 111;
+        width: 150px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        overflow: hidden;
+        text-indent: 1em;
+        font-size: 12px;
+        cursor: pointer;
+        li{
+            height: 20px;
+            line-height: 20px;
+        }
+        li:hover{
+            background: #2cbfbe;
+            color: #fff;
+        }
+        .active{
+            background: #2cbfbe;
+            color: #fff;
+        }
+    }
+}

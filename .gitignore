@@ -22,6 +22,6 @@ dist/
 /public/styles.css.map
 /public/shimsbundle.js
 /public/shimsbundle.js.map
-
+/appconfig
 /config
 .proxy_pref.org
