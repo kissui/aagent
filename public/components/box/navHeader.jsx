@@ -45,7 +45,7 @@ module.exports = React.createClass({
 		this.props.onReceiveDateRange(start.format(format).toString(), end.format(format).toString(), this.props.defaultText);
 	},
 	handleReceiveRoll: function(value){
-		this.props.onReceiveValue(value);
+		this.props.onReceiveRollValue(value);
 	},
 	render: function () {
 		const {preDefined} = this.state;
@@ -71,7 +71,7 @@ module.exports = React.createClass({
 					</h2>
 				</div>
 				{isShowDateForm ? null : <div className="nav-right">
-					{isShowRoll ? <SelectRollPage onReceiveValue={this.handleReceiveRoll}/> : null}
+					{isShowRoll ? <SelectRollPage onReceiveRollValue={this.handleReceiveRoll}/> : null}
 					<DatePickerPage
 						onReceiveData={this.handleReceiveDateRange}
 						isShowRange={false}

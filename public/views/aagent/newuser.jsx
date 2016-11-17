@@ -22,7 +22,8 @@ module.exports = React.createClass({
 			},
 			globalConf: {
 				cycle: onCycle,
-				device: onDevice
+				device: onDevice,
+				dimension: 'account'
 			}
 		}
 	},
@@ -49,7 +50,7 @@ module.exports = React.createClass({
 		let data = {
 			"cycle": globalConf.cycle,
 			"device": globalConf.device,
-			"weidu": "role",
+			"weidu": globalConf.dimension,
 			"appid": 233002,
 
 			"kpi_conf": {
@@ -191,6 +192,14 @@ module.exports = React.createClass({
 		});
 		this.getInitialData(globalConf, dateConf);
 	},
+	handleReceiveRoll: function (value) {
+		const {globalConf,dateRange} = this.state;
+		globalConf.dimension = value;
+		this.setState({
+			isLoading: true
+		});
+		this.getInitialData(globalConf,dateRange);
+	},
 	render: function () {
 		const {heads, bodys, dateRange, sum, mean,isLoading} = this.state;
 		let content = (
@@ -236,6 +245,8 @@ module.exports = React.createClass({
 				<ViewNav
 					defaultText="新用户质量"
 					onReceiveDateRange={this.handleGetDateRange}
+					isShowRoll={true}
+					onReceiveRollValue={this.handleReceiveRoll}
 					onDateRange={{
 						dateStart: dateRange.dateStart,
 						dateEnd: dateRange.dateEnd

@@ -8,7 +8,6 @@ import TablePage from '../layout/table';
 import Chart from '../../components/chart';
 import moment from 'moment';
 import LoadingPage from '../../components/is_loading';
-
 module.exports = React.createClass({
 	getInitialState: function () {
 		let defaultRange = 3600 * 24 * 7 * 1000;
@@ -25,7 +24,8 @@ module.exports = React.createClass({
 			},
 			globalConf: {
 				cycle: onCycle,
-				device: onDevice
+				device: onDevice,
+				dimension: 'account'
 			}
 		}
 	},
@@ -52,7 +52,7 @@ module.exports = React.createClass({
 		let data = {
 			"cycle": globalConf.cycle,
 			"device": globalConf.device,
-			"weidu": "role",
+			"weidu": globalConf.dimension,
 			"appid": 233002,
 
 			"kpi_conf": {
@@ -162,6 +162,12 @@ module.exports = React.createClass({
 	},
 	handleReceiveRoll: function(value){
 		console.log(value)
+		const {globalConf,dateRange} = this.state;
+		globalConf.dimension = value;
+		this.setState({
+			isLoading: true
+		})
+		this.getInitialData(globalConf, dateRange);
 	},
 	render: function () {
 		const {sum, mean, heads, bodys, dateRange,isLoading} = this.state;
@@ -221,7 +227,7 @@ module.exports = React.createClass({
 					onReceiveDateRange={this.handleGetDateRange}
 					isShowDateRange={true}
 					onDateRange={dateRange}
-					onReceiveValue={this.handleReceiveRoll}
+					onReceiveRollValue={this.handleReceiveRoll}
 					isShowRoll={true}
 				/>
 				{!isLoading && heads ? content : <LoadingPage/>}

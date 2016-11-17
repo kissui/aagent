@@ -35,7 +35,7 @@ module.exports = React.createClass({
             },
             isShow: !isShow
         })
-        this.props.onReceiveValue(value);
+        this.props.onReceiveRollValue(value);
     },
     handleToggleDisplay: function() {
         this.setState({
