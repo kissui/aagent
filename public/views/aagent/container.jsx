@@ -41,7 +41,7 @@ module.exports = React.createClass({
 			<div className="bd-container">
 				<div className="box-view bd-game-fix">
 					诛仙
-					<WeekDatePickerPage onReceiveWeekRange={this.handleReceiveWeekRang}/>
+					{/*<WeekDatePickerPage onReceiveWeekRange={this.handleReceiveWeekRang}/>*/}
 				</div>
 				<div className="box-view">
 					<div className="view-option">
