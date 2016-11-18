@@ -796,3 +796,52 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
         }
     }
 }
+
+//===========================week datePicker scss
+.week_box{
+    .week_border_right{
+        border-right: 1px solid #ccc;
+    }
+    .week_table{
+        display: inline-block;;
+        width: 245px;
+        background: #fff;
+        position: relative;
+        .week_caption {
+            text-align: center;
+            i{
+                position: absolute;
+                color: #2cbfbe;
+                font-size: 20px;
+                cursor: pointer;
+            }
+            .left{
+                left:20px;
+
+            }
+            .right{
+                right: 20px;
+            }
+        }
+        .week_body{
+            padding: 10px;
+            span {
+                cursor: pointer;
+                width: 25px;
+                height: 25px;
+                text-align: center;
+                line-height: 25px;
+                display: inline-block;
+            }
+            .active{
+                background: #2cbfbe;
+                border-radius: 12px;
+                color: #fff;
+            }
+            .range{
+                background: #2cbfbe;
+                color: #fff;
+            }
+        }
+    }
+}
