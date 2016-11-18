@@ -32,13 +32,16 @@ module.exports = React.createClass({
 			device: value
 		});
 	},
+	handleReceiveWeekRang: function (type,data) {
+		console.log(type,data);
+	},
 	render: function () {
 		const {cycle,device} = this.state;
 		return (
 			<div className="bd-container">
 				<div className="box-view bd-game-fix">
 					诛仙
-					<WeekDatePickerPage/>
+					<WeekDatePickerPage onReceiveWeekRange={this.handleReceiveWeekRang}/>
 				</div>
 				<div className="box-view">
 					<div className="view-option">
