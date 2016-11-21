@@ -38,12 +38,13 @@ module.exports = React.createClass({
 		if(nextProps.onCycle === globalConf.cycle && nextProps.onDevice === globalConf.device) return;
 		const receivePropsConf = {
 			cycle: nextProps.onCycle,
-			device: nextProps.onDevice
-		}
+			device: nextProps.onDevice,
+			dimension: globalConf.dimension
+		};
 		this.setState({
 			globalConf: receivePropsConf,
 			isLoading: true
-		})
+		});
 		this.getInitialData(receivePropsConf,dateRange);
 		console.log('@nextProps',nextProps.onCycle,nextProps.onDevice,globalConf);
 	},

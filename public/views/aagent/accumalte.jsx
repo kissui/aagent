@@ -33,11 +33,11 @@ module.exports = React.createClass({
 		const receivePropsConf = {
 			cycle: nextProps.onCycle,
 			device: nextProps.onDevice
-		}
+		};
 		this.setState({
 			globalConf: receivePropsConf,
 			isLoading: true
-		})
+		});
 		this.getInitialData(receivePropsConf,dateRange);
 		console.log('@nextProps',nextProps.onCycle,nextProps.onDevice,globalConf);
 	},
