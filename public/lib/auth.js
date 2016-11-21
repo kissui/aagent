@@ -81,11 +81,11 @@ export default {
 			return Promise.resolve(true);
 		}
 
-		return http.get('/_user/refresh')
+		return http.get('/dudai/?c=analysis.report&ac=refresh&token=mgame_afs23cgs23')
 			.then(r => {
 				console.log('@then 1,auth', r)
 				if (r.status != 200) {
-					return Promise.reject(r.data);
+					return Promise.reject(r.data.data);
 				}
 
 				if (!r.data) {
@@ -94,9 +94,9 @@ export default {
 
 				console.log('@then 2', r.data);
 
-				sessionStorage.user = JSON.stringify(r.data);
+				sessionStorage.user = JSON.stringify(r.data.data);
 
-				console.log('SAVE TO SESSION', sessionStorage.user);
+				console.log('SAVE TO SESSION', sessionStorage.user,Promise.resolve(sessionStorage.user));
 
 				return Promise.resolve(sessionStorage.user);
 			})

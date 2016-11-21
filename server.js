@@ -73,12 +73,6 @@ StaticFiles.setup(app);
 
 // app.use(CheckAuth.middleware());
 
-// 对一些老接口做重定向
-app.get('/autoLogin', function(req, res, next) {
-    req.url = '/user/auto-login';
-    next();
-});
-
 // 设置自有路由
 app.use(enrouten({directory: 'controllers'}));
 

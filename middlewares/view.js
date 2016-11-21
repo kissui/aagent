@@ -21,7 +21,7 @@ function setup(app) {
 		routes: routes,
 		routesFilePath: join(__dirname, '/../public/routes.jsx'),
 		performanceCollector: function (stats) {
-			console.log(stats);
+			console.log(stats,'salkdfjdsfjklsadjflksadj');
 		}
 	});
 
@@ -68,10 +68,6 @@ function setup(app) {
 			res.cookie('token', req.accessToken, {
 				httpOnly: true,
 
-				// @todo 设置 domain，页面既可能是单独网站，又可能是 iframe。
-				// 对于 iframe，不设置 domain，cookie 就都存到 app 的 domain 了，
-				// 就泄漏了。但 domain 需判断域名，可能有多域名 yunzhanghu/easemob 等
-
 				// @TODO 设置与 token 相同的 expires（有必要吗？FE 没法拿 cookie、
 				// 用 cookie 判断登陆状态及登陆是否过期）
 				// expires: Date, Expiry date of the cookie in GMT. If not
@@ -86,7 +82,7 @@ function setup(app) {
 		}
 
 		var render = function (initialState) {
-			console.log('initialState', initialState, req.query)
+			console.log('initialState', initialState, req.query);
 			let data = {
 				// render 时传 ua，以判断是否加载 shim
 				ua: req.get('user-agent'),
