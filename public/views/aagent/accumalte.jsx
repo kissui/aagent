@@ -71,7 +71,7 @@ module.exports = React.createClass({
 			.then(res=> {
 				if (res.error_code === 0) {
 					this.setState({
-						accumulate: Chart.dealChartData(res.data.accumulate.fields, res.data.accumulate.datas),
+						accumulate: Chart.dealChartData(res.data.accumulate.theads, res.data.accumulate.table),
 						isLoading: false
 					})
 				}

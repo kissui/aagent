@@ -108,12 +108,12 @@ module.exports = React.createClass({
 				if (data.error_code === 0) {
 					let res = data.data.everyday;
 					this.setState({
-						heads: res.fields,
-						bodys: res.datas,
+						heads: res.theads,
+						bodys: res.table,
 						isLoading: false
 					});
-					console.log(Chart.dealChartData(res.fields, res.datas));
-					let response = Chart.dealChartData(res.fields, res.datas);
+					console.log(Chart.dealChartData(res.theads, res.table));
+					let response = Chart.dealChartData(res.theads, res.table);
 					this.handleAccountData(response);
 					Chart.handleShowChart('c1', response, ['登录账号', '新增账号'], ['日期']);
 					Chart.handleShowChart('c2', response, ['付费账号', '充值收入',], ['日期', '账号日ARPPU', '账号日付费率']);
