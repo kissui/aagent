@@ -8,6 +8,7 @@ import NewUserPage from './newuser';
 import JSON from '../../components/json/conf_json';
 import AccumaltePage from './accumalte';
 import WeekDatePickerPage from '../../components/WeekDatePicker';
+/*<WeekDatePickerPage onReceiveWeekRange={this.handleReceiveWeekRang}/>*/
 module.exports = React.createClass({
 	getInitialState: function () {
 		return {
@@ -41,7 +42,7 @@ module.exports = React.createClass({
 			<div className="bd-container">
 				<div className="box-view bd-game-fix">
 					诛仙
-					{/*<WeekDatePickerPage onReceiveWeekRange={this.handleReceiveWeekRang}/>*/}
+					
 				</div>
 				<div className="box-view">
 					<div className="view-option">

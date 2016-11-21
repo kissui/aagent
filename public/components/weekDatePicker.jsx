@@ -3,7 +3,7 @@
 import React from 'react';
 import moment from 'moment';
 import momentISO from 'moment-isocalendar';
-import _ from 'lodash';
+import _ from 'lodash';c
 module.exports = React.createClass({
 	getInitialState: function () {
 		const {dateRange} = this.props;
