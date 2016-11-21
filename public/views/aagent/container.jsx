@@ -7,8 +7,6 @@ import EverydayPage from './everyday';
 import NewUserPage from './newuser';
 import JSON from '../../components/json/conf_json';
 import AccumaltePage from './accumalte';
-import WeekDatePickerPage from '../../components/WeekDatePicker';
-/*<WeekDatePickerPage onReceiveWeekRange={this.handleReceiveWeekRang}/>*/
 module.exports = React.createClass({
 	getInitialState: function () {
 		return {
