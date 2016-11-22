@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import moment from 'moment';
 import {defaultRanges, Calendar, DateRange} from 'react-date-range';
-
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 module.exports = React.createClass({
 	getInitialState: function () {
 		const {isShowRange, onDefaultDateRange} = this.props;
@@ -33,14 +34,6 @@ module.exports = React.createClass({
 		this.props.onReceiveData(start, end);
 	},
 	render: function () {
-		moment.updateLocale('en', {
-			months: [
-				"1月", "2月", "3月", "4月", "5月", "6月", "7月",
-				"8月", "9月", "10月", "11月", "12月"
-			],
-			weekdaysMin: ['日', '一', '二', '三', '四', '五', '六']
-
-		});
 		let changeDefaultRanges = {};
 		changeDefaultRanges['今天'] = defaultRanges['Today'];
 		changeDefaultRanges['昨天'] = defaultRanges['Yesterday'];

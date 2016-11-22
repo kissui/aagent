@@ -220,7 +220,7 @@ module.exports = React.createClass({
 				</div>
 				<TablePage heads={heads} bodys={bodys}/>
 			</div>
-		)
+		);
 		return (
 			<div className="box-view">
 				<ViewNav

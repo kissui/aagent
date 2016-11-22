@@ -747,13 +747,15 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
         }
     }
 }
-.table{
+
+.table {
     font-size: 12px;
 }
+
 .select_roll {
     position: absolute;
     right: 250px;
-    .roll_block{
+    .roll_block {
         width: 150px;
         border: 1px solid #ccc;
         height: 30px;
@@ -762,7 +764,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
         text-indent: 1em;
         position: relative;
         cursor: pointer;
-        i{
+        i {
             position: absolute;
             right: 10px;
             font-size: 24px;
@@ -782,15 +784,15 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
         text-indent: 1em;
         font-size: 12px;
         cursor: pointer;
-        li{
+        li {
             height: 20px;
             line-height: 20px;
         }
-        li:hover{
+        li:hover {
             background: #2cbfbe;
             color: #fff;
         }
-        .active{
+        .active {
             background: #2cbfbe;
             color: #fff;
         }
@@ -798,32 +800,32 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
 }
 
 //===========================week datePicker scss
-.week_box{
-    .week_border_right{
+.week_box {
+    .week_border_right {
         border-right: 1px solid #ccc;
     }
-    .week_table{
+    .week_table {
         display: inline-block;;
         width: 245px;
         background: #fff;
         position: relative;
         .week_caption {
             text-align: center;
-            i{
+            i {
                 position: absolute;
                 color: #2cbfbe;
                 font-size: 20px;
                 cursor: pointer;
             }
-            .left{
-                left:20px;
+            .left {
+                left: 20px;
 
             }
-            .right{
+            .right {
                 right: 20px;
             }
         }
-        .week_body{
+        .week_body {
             padding: 10px;
             span {
                 cursor: pointer;
@@ -833,15 +835,53 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
                 line-height: 25px;
                 display: inline-block;
             }
-            .active{
+            .active {
                 background: #2cbfbe;
                 border-radius: 12px;
                 color: #fff;
             }
-            .range{
+            .range {
                 background: #2cbfbe;
                 color: #fff;
             }
         }
+    }
+}
+
+/*
+ * ================================== bd-pagination scss
+ */
+
+.bd-pagination {
+    margin: 20px 0;
+    text-align: right;
+    .page-icon {
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        background: #fff;
+        color: #ccc;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin: 0 5px;
+    }
+    .pre-page {
+        display: inline-block;
+    }
+    .next-page {
+        display: inline-block;
+    }
+    .list-page {
+        display: inline-block;
+        li {
+            display: inline-block;
+        }
+    }
+    .page-icon:hover, .active {
+        background: #54bebd;
+        border: 1px solid #54bebd;
+        color: #fff;
     }
 }
