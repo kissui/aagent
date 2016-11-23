@@ -57,7 +57,6 @@ module.exports = React.createClass({
 	render: function () {
 		const {heads} = this.props;
 		const {defaultBody, pre, next, pages, current} = this.state;
-		console.log('@render',defaultBody);
 		let pageList = [];
 		for (let i = 0; i < pages; i++) {
 			pageList.push(

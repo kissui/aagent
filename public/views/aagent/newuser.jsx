@@ -129,7 +129,6 @@ module.exports = React.createClass({
 						bodys: res.table,
 						isLoading: false
 					});
-					console.log(Chart.dealChartData(res.theads, res.table));
 					let response = Chart.dealChartData(res.theads, res.table);
 					this.handleAccountData(response);
 					Chart.handleShowChart('c4', response, ['新增账号'], ['日期', '次日留存', '第3日留存', '第7日留存', '第15日留存', '第30日留存']);

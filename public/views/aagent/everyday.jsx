@@ -112,7 +112,6 @@ module.exports = React.createClass({
 						bodys: res.table,
 						isLoading: false
 					});
-					console.log(Chart.dealChartData(res.theads, res.table));
 					let response = Chart.dealChartData(res.theads, res.table);
 					this.handleAccountData(response);
 					Chart.handleShowChart('c1', response, ['登录账号', '新增账号'], ['日期']);
