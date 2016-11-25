@@ -9,10 +9,10 @@
         "options": {}
     },
     "be": {
-        "host": "http://192.168.0.253:8068"
+        "host": "http://192.168.16.27:8068"
     },
     "proxy": {
-        "server": "http://192.168.0.253:8068"
+        "server": "http://192.168.16.27:8068"
     },
     "clientVersion": "web_rp_2.0.0"
 }

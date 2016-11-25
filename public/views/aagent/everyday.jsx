@@ -166,7 +166,7 @@ module.exports = React.createClass({
 		globalConf.dimension = value;
 		this.setState({
 			isLoading: true
-		})
+		});
 		this.getInitialData(globalConf, dateRange);
 	},
 	render: function () {

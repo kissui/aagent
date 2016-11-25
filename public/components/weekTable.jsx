@@ -1,81 +1,115 @@
 'use strict';
 import React from 'react';
-
+import DatePickerWeekCalender from './weekDatePicker';
+import moment from 'moment';
+import momentISO from 'moment-isocalendar';
 module.exports = React.createClass({
-	handleInitialRange: function (dataRange) {
-		let start = dataRange.start;
-		let end = dataRange.end;
-		return [
-			{
-				year: start.year,
-				weeks: this.handleDealDate(start.year),
-				selected: start.select,
-				range: start.select
-			},
-			{
-				year: end.year,
-				weeks: this.handleDealDate(end.year),
-				selected: end.select,
-				range: end.select
-			}
-		]
-	},
-	handleDealDate: function (selectYear) {
-		let nextDates = moment(new Date(selectYear + 1, 0, 1)).isocalendar();
-		let monthDays = nextDates[0] != selectYear ? (31 - nextDates[2]) : 31;
-		let dates = moment(new Date(selectYear, 11, monthDays)).isocalendar();
-		let weeks = dates[1];
-		let year = dates[0];
-		let datas = [];
-		for (let i = 0; i < weeks; i++) {
-			datas.push({
-				value: i + 1,
-				year: year,
-				dateRange: moment.fromIsocalendar([year, i, 7, 0]).format('YYYY-MM-DD') + '/' + moment.fromIsocalendar([year, i + 1, 7, 0]).format('YYYY-MM-DD')
-			})
+	getInitialState: function () {
+		let current = moment(new Date()).isocalendar();
+		let nextDates = moment(new Date(current[0] - 1, 11, 31)).isocalendar();
+		let startYear = current[0], startWeek = current[1] - 7;
+		if (current[1] - 7 < 0) {
+			startYear = current[0] - 1;
+			startWeek = nextDates[1] + current[1] - 7
 		}
-		return datas;
-	},
-	render: function () {
-		let tables = this.handleInitialRange({
-			start: {
-				year: 2015,
-				select: 48
+		return {
+			initialState: true,
+			toggleOpen: false,
+			text: {
+				startText: startYear + '第' + startWeek + '周',
+				endText: current[0] + '第' + current[1] + '周'
 			},
-			end: {
-				year: 2016,
-				select: 4
+			dateRange: {
+				startDate: [startYear, startWeek, 7, 0],
+				endDate: current
+			},
+			save: {
+				start: moment.fromIsocalendar([startYear, startWeek, 7, 0]).format('YYYY-MM-DD'),
+				end: moment.fromIsocalendar(current).format('YYYY-MM-DD')
+			}
+		}
+	},
+	componentWillMount: function () {
+		this.props.dateRange(this.state.save)
+	},
+	handleReceiveWeekRang: function (dataRange, singleRange, range) {
+		const {initialState} = this.state;
+		if (initialState) {
+			this.setState({
+				initialState: false
+			});
+			return;
+		}
+		let startDate, endDate, startYear, endYear, startText, endText;
+		startYear = dataRange.startDate ? dataRange.startDate[0] : null;
+		endYear = dataRange.endDate ? dataRange.endDate[0] : null;
+		if (singleRange && singleRange.length === 2) {
+			startDate = moment.fromIsocalendar([startYear || endYear, singleRange[0], 7, 870]).format('YYYY-MM-DD');
+			endDate = moment.fromIsocalendar([startYear || endYear, singleRange[1], 7, 870]).format('YYYY-MM-DD');
+			startText = (startYear || endYear) + '第' + singleRange[0] + '周';
+			endText = (startYear || endYear) + '第' + singleRange[1] + '周'
+		} else if (startYear && endYear) {
+			startDate = moment.fromIsocalendar(dataRange.startDate).format('YYYY-MM-DD');
+			endDate = moment.fromIsocalendar(dataRange.endDate).format('YYYY-MM-DD');
+			startText = dataRange.startDate[0] + '第' + dataRange.startDate[1] + '周';
+			endText = dataRange.endDate[0] + '第' + dataRange.endDate[1] + '周'
+
+		} else if (range) {
+			range = range.split('/');
+			startDate = range[0];
+			endDate = range[1];
+			startText = startYear ? dataRange.startDate[0] + '第' + dataRange.startDate[1] + '周' :
+			dataRange.endDate[0] + '第' + dataRange.endDate[1] + '周';
+			endText = endYear ? dataRange.endDate[0] + '第' + dataRange.endDate[1] + '周' :
+			dataRange.startDate[0] + '第' + dataRange.startDate[1] + '周';
+		}
+		this.setState({
+			save: {
+				start: startDate,
+				end: endDate
+			},
+			texts: {
+				startText: startText,
+				endText: endText
 			}
 		});
-
+	},
+	handleSaveTime: function () {
+		const {toggleOpen,save,text,texts} = this.state;
+		this.props.dateRange(save);
+		this.setState({
+			toggleOpen: !toggleOpen,
+			text: texts ? texts : text
+		})
+	},
+	handleCancel: function () {
+		this.setState({
+			toggleOpen: false,
+		})
+	},
+	handleOpenCalender: function (){
+		const {toggleOpen} = this.state;
+		this.setState({
+			toggleOpen: !toggleOpen,
+		})
+	},
+	render: function () {
+		const {dateRange, text,toggleOpen} = this.state;
 		return (
-			<div className="week_table">
-				{tables.map((item, i)=> {
-					return (
-						<div key={i}>
-							<div className="week_caption">
-								{item.year}
-								<i className="fa fa fa-caret-left left"
-								   onClick={this.handleSelectYear.bind(this, item.year)}
-								>
-								</i>
-							</div>
-							<div className="week_body">
-								{item.weeks.map((w_item, w)=> {
-									return (
-										<span key={w}
-											  className={w_item.value == item.select ? 'active' :
-												  item.range ? 'range' : ''}
-											  onClick={this.handleSelectWeek.bind(this, 'left', w_item.year, w_item.value)}>
-                                 			{w_item.value}
-                             			</span>
-									)
-								})}
-							</div>
-						</div>
-					)
-				})}
-
+			<div className="datePicker-week-wrap">
+				<div className="datePicker-week-input" onClick={this.handleOpenCalender}>
+					<span>{text.startText}</span> - <span>{text.endText}</span>
+				</div>
+				{toggleOpen ? <div className="datePicker-week-body">
+					<DatePickerWeekCalender
+						onReceiveWeekRange={this.handleReceiveWeekRang}
+						dateRange={dateRange}
+					/>
+					<div className="save-date">
+						<button className="btn btn-primary" onClick={this.handleSaveTime}>确定</button>
+						<button className="btn btn-default" onClick={this.handleCancel}>取消</button>
+					</div>
+				</div> : null}
 			</div>
 		)
 	}

@@ -9,12 +9,12 @@ module.exports = {
 		},
 		{
 			title: '周报',
-			value: 'week',
+			value: 'weeks',
 			type: 'text'
 		},
 		{
 			title: '月报',
-			value: 'month',
+			value: 'months',
 			type: 'text'
 		}
 

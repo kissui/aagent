@@ -885,3 +885,33 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
         color: #fff;
     }
 }
+
+/****************** datePicker week calender *************/
+.datePicker-week-wrap{
+    position: relative;
+    .datePicker-week-input {
+        width: 210px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 0 16px;
+        height: 28px;
+        line-height: 30px;
+    }
+    .datePicker-week-body {
+        width: 510px;
+        margin-top: 5px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 8px;
+        position: absolute;
+        z-index: 11;
+        background: #fff;
+        right: 0;
+        .save-date {
+            text-align: right;
+            button {
+                margin-left: 10px;
+            }
+        }
+    }
+}

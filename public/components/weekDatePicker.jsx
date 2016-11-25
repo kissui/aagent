@@ -31,11 +31,11 @@ module.exports = React.createClass({
 		}
 	},
 	componentWillMount: function () {
-		this.props.onReceiveWeekRange('init');
+		const {selectSingleRange,dateRange} = this.state;
+		this.props.onReceiveWeekRange(dateRange, selectSingleRange);
 	},
 	handleSelectWeek: function (index, year, week, range) {
 		const {initialEvent, yearRang, dateRange, eventAccount, selectTable, isShowRangeYear, selectSingleRange} = this.state;
-		console.log(year, week, yearRang, dateRange, eventAccount, selectTable, selectSingleRange);
 		if (initialEvent) {
 			if (selectTable === year) {
 				if (week > selectSingleRange[0]) {
@@ -86,7 +86,7 @@ module.exports = React.createClass({
 					selectSingleRange: [week]
 				})
 			}
-
+		setTimeout(()=>{this.props.onReceiveWeekRange(this.state.dateRange,selectSingleRange)},40);
 		} else {
 			if (year === yearRang.startYear) {
 				this.setState({
@@ -106,13 +106,15 @@ module.exports = React.createClass({
 			this.setState({
 				selectTable: year,
 				selectSingleRange: [week]
-			})
+			});
+			setTimeout(()=>{this.props.onReceiveWeekRange(this.state.dateRange,true,range)},40);
 		}
 		this.setState({
 			initialEvent: !initialEvent,
 			eventAccount: eventAccount + 1,
 			isShowRangeYear: false
-		})
+		});
+
 	},
 	handleSelectYear: function (direction) {
 		const {yearRang,dateRange} = this.state;
@@ -205,4 +207,4 @@ module.exports = React.createClass({
 			</div>
 		)
 	}
-})
+});
