@@ -7,7 +7,7 @@ import EverydayPage from './everyday';
 import NewUserPage from './newuser';
 import JSON from '../../components/json/conf_json';
 import AccumaltePage from './accumalte';
-import WeekDatePage from '../../components/weekTable';
+import WeekDatePage from './everyweek';
 module.exports = React.createClass({
 	getInitialState: function () {
 		return {
@@ -32,16 +32,12 @@ module.exports = React.createClass({
 			device: value
 		});
 	},
-	handleDate: function (data) {
-		console.log(data);
-	},
 	render: function () {
 		const {cycle,device} = this.state;
 		return (
 			<div className="bd-container">
 				<div className="box-view bd-game-fix">
 					诛仙
-					<WeekDatePage dateRange={this.handleDate}/>
 				</div>
 				<div className="box-view">
 					<div className="view-option">
@@ -63,7 +59,7 @@ module.exports = React.createClass({
 
 				</div>
 				{cycle=="days" ? <AccumaltePage onDevice={device} onCycle={cycle}/> : null}
-				<EverydayPage onDevice={device} onCycle={cycle}/>
+				{cycle== "days" ? <EverydayPage onDevice={device} onCycle={cycle}/> : <WeekDatePage onDevice={device} onCycle={cycle}/>}
 				<NewUserPage onDevice={device} onCycle={cycle}/>
 			</div>
 		)

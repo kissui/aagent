@@ -30,7 +30,7 @@ module.exports = React.createClass({
 		}
 	},
 	componentWillMount: function () {
-		this.props.dateRange(this.state.save)
+		this.props.onReceiveWeekDate(this.state.save,this.state.text)
 	},
 	handleReceiveWeekRang: function (dataRange, singleRange, range) {
 		const {initialState} = this.state;
@@ -40,24 +40,30 @@ module.exports = React.createClass({
 			});
 			return;
 		}
-		let startDate, endDate, startYear, endYear, startText, endText;
+		let startDate, endDate, startYear, endYear, startText, endText,start,end;
 		startYear = dataRange.startDate ? dataRange.startDate[0] : null;
 		endYear = dataRange.endDate ? dataRange.endDate[0] : null;
 		if (singleRange && singleRange.length === 2) {
-			startDate = moment.fromIsocalendar([startYear || endYear, singleRange[0], 7, 870]).format('YYYY-MM-DD');
-			endDate = moment.fromIsocalendar([startYear || endYear, singleRange[1], 7, 870]).format('YYYY-MM-DD');
+			startDate = [startYear || endYear, singleRange[0], 7, 870];
+			endDate = [startYear || endYear, singleRange[1], 7, 870];
+			start = moment.fromIsocalendar(startDate).format('YYYY-MM-DD');
+			end = moment.fromIsocalendar(endDate).format('YYYY-MM-DD');
 			startText = (startYear || endYear) + '第' + singleRange[0] + '周';
 			endText = (startYear || endYear) + '第' + singleRange[1] + '周'
 		} else if (startYear && endYear) {
-			startDate = moment.fromIsocalendar(dataRange.startDate).format('YYYY-MM-DD');
-			endDate = moment.fromIsocalendar(dataRange.endDate).format('YYYY-MM-DD');
+			startDate = dataRange.startDate;
+			endDate = dataRange.endDate;
+			start = moment.fromIsocalendar(startDate).format('YYYY-MM-DD');
+			end = moment.fromIsocalendar(endDate).format('YYYY-MM-DD');
 			startText = dataRange.startDate[0] + '第' + dataRange.startDate[1] + '周';
 			endText = dataRange.endDate[0] + '第' + dataRange.endDate[1] + '周'
 
 		} else if (range) {
 			range = range.split('/');
-			startDate = range[0];
-			endDate = range[1];
+			start = range[0];
+			end = range[1];
+			startDate = dataRange.startDate;
+			endDate = dataRange.endDate;
 			startText = startYear ? dataRange.startDate[0] + '第' + dataRange.startDate[1] + '周' :
 			dataRange.endDate[0] + '第' + dataRange.endDate[1] + '周';
 			endText = endYear ? dataRange.endDate[0] + '第' + dataRange.endDate[1] + '周' :
@@ -65,8 +71,12 @@ module.exports = React.createClass({
 		}
 		this.setState({
 			save: {
-				start: startDate,
-				end: endDate
+				start: start,
+				end: end
+			},
+			dateRange: {
+				startDate: startDate,
+				endDate: endDate
 			},
 			texts: {
 				startText: startText,
@@ -76,10 +86,11 @@ module.exports = React.createClass({
 	},
 	handleSaveTime: function () {
 		const {toggleOpen,save,text,texts} = this.state;
-		this.props.dateRange(save);
+		let sentText = texts ? texts : text;
+		this.props.onReceiveWeekDate(save,sentText);
 		this.setState({
 			toggleOpen: !toggleOpen,
-			text: texts ? texts : text
+			text: sentText
 		})
 	},
 	handleCancel: function () {
