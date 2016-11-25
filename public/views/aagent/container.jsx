@@ -2,12 +2,12 @@
 
 import React from 'react';
 import SelectBar from '../../components/box/selectBar';
-import ViewNav from '../../components/box/navHeader';
 import EverydayPage from './everyday';
 import NewUserPage from './newuser';
 import JSON from '../../components/json/conf_json';
 import AccumaltePage from './accumalte';
 import WeekDatePage from './everyweek';
+import WeekNewUserPage from './newWeekUser';
 module.exports = React.createClass({
 	getInitialState: function () {
 		return {
@@ -34,6 +34,16 @@ module.exports = React.createClass({
 	},
 	render: function () {
 		const {cycle,device} = this.state;
+		let accumalte = cycle =="days" ? <AccumaltePage onDevice={device} onCycle={cycle}/> : null;
+		let everyContent = <EverydayPage onDevice={device} onCycle={cycle}/>;
+		let newContent = <NewUserPage onDevice={device} onCycle={cycle}/>;
+		if(cycle == 'weeks') {
+			everyContent = <WeekDatePage onDevice={device} onCycle={cycle}/>;
+			newContent = <WeekNewUserPage onDevice={device} onCycle={cycle}/>;
+		} else if(cycle == 'months') {
+			everyContent = null;
+			newContent = null;
+		}
 		return (
 			<div className="bd-container">
 				<div className="box-view bd-game-fix">
@@ -58,9 +68,9 @@ module.exports = React.createClass({
 					</div>
 
 				</div>
-				{cycle=="days" ? <AccumaltePage onDevice={device} onCycle={cycle}/> : null}
-				{cycle== "days" ? <EverydayPage onDevice={device} onCycle={cycle}/> : <WeekDatePage onDevice={device} onCycle={cycle}/>}
-				<NewUserPage onDevice={device} onCycle={cycle}/>
+				{accumalte}
+				{everyContent}
+				{newContent}
 			</div>
 		)
 	}

@@ -3,7 +3,7 @@ import React from 'react';
 import TablePage from '../layout/table';
 import Chart from '../../components/chart';
 import http from '../../lib/http';
-import ViewNav from '../../components/box/navHeader';
+import ViewNav from '../../components/box/navWeekHeader';
 import moment from 'moment';
 import LoadingPage from '../../components/is_loading';
 module.exports = React.createClass({
@@ -29,7 +29,7 @@ module.exports = React.createClass({
 	},
 	componentDidMount: function () {
 		const {dateRange, globalConf} = this.state;
-		this.getInitialData(globalConf, dateRange);
+		// this.getInitialData(globalConf, dateRange);
 	},
 	componentWillReceiveProps: function (nextProps) {
 		const {dateRange, globalConf} = this.state;
@@ -44,10 +44,8 @@ module.exports = React.createClass({
 			isLoading: true
 		});
 		this.getInitialData(receivePropsConf,dateRange);
-		console.log('@nextPropssss',globalConf);
 	},
 	getInitialData: function (globalConf, dateConf) {
-		console.log('new',globalConf)
 		let data = {
 			"cycle": globalConf.cycle,
 			"device": globalConf.device,
@@ -176,17 +174,16 @@ module.exports = React.createClass({
 			mean: mean
 		})
 	},
-	handleGetDateRange: function (start, end, title) {
-		console.log(start, end, title);
+	handleGetDateRange: function (save) {
 		const {globalConf} = this.state;
 		let dateConf = {
-			dateStart: start,
-			dateEnd: end
+			dateStart: save.start,
+			dateEnd: save.end
 		};
 		this.setState({
 			dateRange: {
-				dateStart: start,
-				dateEnd: end
+				dateStart: save.start,
+				dateEnd: save.end
 			},
 			isLoading: true
 		});

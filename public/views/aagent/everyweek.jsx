@@ -31,7 +31,7 @@ module.exports = React.createClass({
 	},
 	componentDidMount: function () {
 		const {dateRange, globalConf} = this.state;
-		this.getInitialData(globalConf, dateRange);
+		// this.getInitialData(globalConf, dateRange);
 	},
 	componentWillReceiveProps: function (nextProps) {
 		const {dateRange, globalConf} = this.state;
