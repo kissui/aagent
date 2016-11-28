@@ -74,20 +74,23 @@ module.exports = React.createClass({
 							'name': '付费账号 '
 						},
 						{
-							meta_id: '2853',
-							name: '账号日付费率'
+							'meta_id': '2853',
+							'name': '账号日付费率',
+							'num_type': 'percent'
 						},
 						{
 							'meta_id': '2819',
 							'name': '充值收入 '
 						},
 						{
-							meta_id: '2854',
-							name: '账号日ARPPU'
+							'meta_id': '2854',
+							'name': '账号日ARPPU',
+							'num_type': 'fixed_2'
 						},
 						{
 							'meta_id': '2833',
-							'name': '新增账号次留'
+							'name': '新增账号次留',
+							'num_type': 'percent'
 						},
 						{
 							'meta_id': '2844',

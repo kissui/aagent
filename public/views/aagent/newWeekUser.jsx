@@ -63,55 +63,68 @@ module.exports = React.createClass({
 						},
 						{
 							'meta_id': '2833',
-							'name': '次日留存'
+							'name': '次日留存',
+							'num_type': 'percent'
 						},
 						{
 							'meta_id': '2834',
-							'name': '第3日留存'
+							'name': '第3日留存',
+							'num_type': 'percent'
 						},
 						{
 							'meta_id': '2835',
-							'name': '第7日留存'
+							'name': '第7日留存',
+							'num_type': 'percent'
 						},
 						{
 							'meta_id': '2836',
-							'name': '第15日留存'
+							'name': '第15日留存',
+							'num_type': 'percent'
 						},
 						{
 							'meta_id': '2837',
-							'name': '第30日留存'
+							'name': '第30日留存',
+							'num_type': 'percent'
 						},
 						{
 							'meta_id': '2857',
-							'name': 'LTV-1'
+							'name': 'LTV-1',
+							'num_type': 'fixed_2'
 						},
 						{
 							'meta_id': '2858',
-							'name': 'LTV-3'
+							'name': 'LTV-3',
+							'num_type': 'fixed_2'
 						},
 						{
 							'meta_id': '2859',
-							'name': 'LTV-7'
+							'name': 'LTV-7',
+							'num_type': 'fixed_2'
 						},
 						{
 							'meta_id': '2860',
-							'name': 'LTV-15'
+							'name': 'LTV-15',
+							'num_type': 'fixed_2'
 						},
 						{
 							'meta_id': '2861',
-							'name': 'LTV-30'
+							'name': 'LTV-30',
+							'num_type': 'fixed_2'
 						},
 						{
 							'meta_id': '2862',
-							'name': 'LTV-45'
+							'name': 'LTV-45',
+							'num_type': 'fixed_2'
 						},
 						{
 							'meta_id': '2863',
-							'name': 'LTV-60'
+							'name': 'LTV-60',
+							'num_type': 'fixed_2'
 						},
 						{
 							'meta_id': '2864',
-							'name': 'LTV-90'
+							'name': 'LTV-90',
+							'num_type': 'fixed_2'
 						},
 					]
 				}

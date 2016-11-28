@@ -8,6 +8,7 @@ import JSON from '../../components/json/conf_json';
 import AccumaltePage from './accumalte';
 import WeekDatePage from './everyweek';
 import WeekNewUserPage from './newWeekUser';
+import YearDatePage from '../../components/yearDatePicer';
 module.exports = React.createClass({
 	getInitialState: function () {
 		return {
@@ -48,6 +49,7 @@ module.exports = React.createClass({
 			<div className="bd-container">
 				<div className="box-view bd-game-fix">
 					诛仙
+					<YearDatePage/>
 				</div>
 				<div className="box-view">
 					<div className="view-option">

@@ -800,11 +800,11 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
 }
 
 //===========================week datePicker scss
-.week_box {
+.week_box, .year-box {
     .week_border_right {
         border-right: 1px solid #ccc;
     }
-    .week_table {
+    .week_table,.year-table {
         display: inline-block;;
         width: 245px;
         background: #fff;
@@ -825,7 +825,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
                 right: 20px;
             }
         }
-        .week_body {
+        .week_body,.year-body {
             padding: 10px;
             span {
                 cursor: pointer;
@@ -845,6 +845,9 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
                 color: #fff;
             }
         }
+    }
+    .table {
+        width: 180px;
     }
 }
 

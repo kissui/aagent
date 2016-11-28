@@ -1,19 +1,31 @@
 'use strict';
-
+import _ from 'lodash';
 export default {
-	reg (item,type) {
+	reg (item, type) {
 		let reg = /^(\d*\.)+\d+$/;
+		let percent =  /^(\d*\.)+\d+%$/;
+		let china = /^[\u4e00-\u9fa5]/;
 		let regDate = /^(\d*\-)+\d+$/;
-		if(type) return reg.test(item) ? ((item * 100).toFixed(1) + '%') : (regDate.test(item)? item : parseFloat(item));
-		return reg.test(item) ? ((item * 100).toFixed(1)) : parseFloat(item);
+		if (type) return china.test(item) ? item : reg.test(item) ? ((item * 100).toFixed(1) + '%') : (regDate.test(item) ? item : parseFloat(item));
+		return percent.test(item) ? parseFloat(item.slice(0,item.length-1)) : parseFloat(item);
+	},
+	filterKey (key, col,type) {
+		_.forEach(collection, (item)=> {
+			if(key === item && 'percent') {
+				return item
+			} else {
+				return item;
+			}
+		})
 	},
 	dealChartData (names, fields) {
 		const chartData = [];
 		let surveyName = names;
 		fields.map((item, i)=> {
 			const obj = {};
+
 			item.map((superItem, k)=> {
-				obj[surveyName[k]] = surveyName[k] === '日期' ? superItem : (superItem === '' ? 0 : this.reg(superItem))
+				obj[surveyName[k]] =surveyName[k] == '日期' ? superItem : (superItem === '' ? 0 : this.reg(superItem))
 			});
 			chartData.push(obj)
 		});

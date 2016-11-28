@@ -86,7 +86,7 @@ module.exports = React.createClass({
 								{items.map((item, si)=> {
 									return (
 										<td key={si}
-											className={si === 1 && 'active'}>{item ? Reg.reg(item, true) : 0}</td>
+											className={si === 1 && 'active'}>{item ? item : '-'}</td>
 									)
 								})}
 							</tr>
