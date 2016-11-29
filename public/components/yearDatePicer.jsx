@@ -1,84 +1,111 @@
 'use strict';
-
 import React from 'react';
+import DatePickerWeekCalender from './year2';
 import moment from 'moment';
-
+import momentISO from 'moment-isocalendar';
 module.exports = React.createClass({
 	getInitialState: function () {
-		let current = moment(new Date()).format('MM');
-		let year = moment(new Date()).format('YYYY');
-		// const {dateRange} = this.props;
-		let dateRange={
-			start: '2016-4',
-			end: '2016-11',
-		};
+		let current = moment(new Date()).format('YYYY-MM');
+		let startYear = current.split("-")[0], startMonth = current.split('-')[1] - 6;
+		if (startMonth < 0) {
+			startYear = startYear - 1;
+			startMonth = 12 + startMonth - 6
+		}
 		return {
-			yearRange: {
-				start: year-1,
-				end: year
+			initialState: true,
+			toggleOpen: false,
+			text: {
+				startText: startYear + '第' + startMonth + '月',
+				endText: current.split('-')[0] + '第' + current.split('-')[1] + '月'
 			},
-			monthRange: {
-				start: current - 7,
-				end: current
-			},
+			dateRange: {
+				startDate: startYear + "-" + startMonth,
+				endDate: current
+			}
 		}
 	},
-	handleDealDate: function (selectYear, selected) {
-		let datas = [];
-		for (let i = 1; i < 13; i++) {
-			i = i > 9 ? i : '0' + i;
-			datas.push({
-				date: selectYear + '-' + i + '01',
-				month: i,
-				selected: selected == i ? true : false
-			})
-		}
-		return datas;
+	componentWillMount: function () {
+		this.props.onReceiveWeekDate(this.state.dateRange, this.state.text)
 	},
-	handleSelectYear: function (dir_type) {
+	handleReceiveWeekRang: function (dataRange, singleRange, range) {
+		const {initialState} = this.state;
+		if (initialState) {
+			this.setState({
+				initialState: false
+			});
+			return;
+		}
+		let startDate, endDate, startYear, endYear, startText, endText, start, end;
+		startYear = dataRange.startDate ? dataRange.startDate.split('-')[0] : null;
+		endYear = dataRange.endDate ? dataRange.endDate.split('-')[0] : null;
+		if (singleRange && singleRange.length === 2) {
+			startDate = (startYear || endYear) + "-" + singleRange[0];
+			endDate = (startYear || endYear) + "-" + singleRange[1];
+			startText = (startYear || endYear) + '第' + singleRange[0] + '月';
+			endText = (startYear || endYear) + '第' + singleRange[1] + '月'
+		} else if (startYear && endYear) {
+			startDate = dataRange.startDate;
+			endDate = dataRange.endDate;
+			startText = dataRange.startDate.split('-')[0] + '第' + dataRange.startDate.split('-')[1] + '月';
+			endText = dataRange.endDate.split('-')[0] + '第' + dataRange.endDate.split('-')[1] + '月'
 
+		} else if (range) {
+			// let rangeArray = range.split('-');
+			startDate = dataRange.startDate;
+			endDate = dataRange.endDate;
+			startText = startYear ? dataRange.startDate.split('-')[0] + '第' + dataRange.startDate.split('-')[1] + '月' :
+			dataRange.endDate.split('-')[0] + '第' + dataRange.endDate.split('-')[1] + '月';
+			endText = endYear ? dataRange.endDate.split('-')[0] + '第' + dataRange.endDate.split('-')[1] + '月' :
+			dataRange.startDate.split('-')[0] + '第' + dataRange.startDate.split('-')[1] + '月';
+		}
+		this.setState({
+			dateRange: {
+				startDate: startDate,
+				endDate: endDate
+			},
+			texts: {
+				startText: startText,
+				endText: endText
+			}
+		});
+	},
+	handleSaveTime: function () {
+		const {toggleOpen, dateRange, text, texts} = this.state;
+		let sentText = texts ? texts : text;
+		this.props.onReceiveWeekDate(dateRange, sentText);
+		this.setState({
+			toggleOpen: !toggleOpen,
+			text: sentText
+		})
+	},
+	handleCancel: function () {
+		this.setState({
+			toggleOpen: false,
+		})
+	},
+	handleOpenCalender: function () {
+		const {toggleOpen} = this.state;
+		this.setState({
+			toggleOpen: !toggleOpen,
+		})
 	},
 	render: function () {
-		const {yearRange,monthRange} = this.state;
-		let start = this.handleDealDate(yearRange.start, monthRange.start);
-		let end = this.handleDealDate(yearRange.end, monthRange.end);
-		console.log(start);
+		const {dateRange, text, toggleOpen} = this.state;
 		return (
-			<div className="year-box">
-				<div className="year-table table">
-					<div className="week_caption">
-						{yearRange.start}
-						<i className="fa fa fa-caret-left left"
-						   onClick={this.handleSelectYear.bind(this, 'left')}
-						>
-						</i>
-					</div>
-					<div className="year-body">
-						{start.map((item, i)=> {
-							return <span className={item.selected && 'active'}
-										 key={i}>
-								{item.month}
-							</span>
-						})}
-					</div>
+			<div className="datePicker-week-wrap">
+				<div className="datePicker-week-input" onClick={this.handleOpenCalender}>
+					<span>{text.startText}</span> - <span>{text.endText}</span>
 				</div>
-				<div className="year-table table">
-					<div className="week_caption">
-						{yearRange.end}
-						<i className="fa fa fa-caret-right right"
-						   onClick={this.handleSelectYear.bind(this, 'left')}
-						>
-						</i>
+				{toggleOpen ? <div className="datePicker-week-body">
+					<DatePickerWeekCalender
+						onReceiveWeekRange={this.handleReceiveWeekRang}
+						dateRange={dateRange}
+					/>
+					<div className="save-date">
+						<button className="btn btn-primary" onClick={this.handleSaveTime}>确定</button>
+						<button className="btn btn-default" onClick={this.handleCancel}>取消</button>
 					</div>
-					<div className="year-body">
-						{end.map((item, i)=> {
-							return <span className={item.selected && 'active'}
-										 key={i}>
-								{item.month}
-							</span>
-						})}
-					</div>
-				</div>
+				</div> : null}
 			</div>
 		)
 	}

@@ -8,7 +8,8 @@ import JSON from '../../components/json/conf_json';
 import AccumaltePage from './accumalte';
 import WeekDatePage from './everyweek';
 import WeekNewUserPage from './newWeekUser';
-import YearDatePage from '../../components/yearDatePicer';
+import YearDatePage from './everyYear';
+import YearNewUserPage from './newYearUser';
 module.exports = React.createClass({
 	getInitialState: function () {
 		return {
@@ -42,14 +43,14 @@ module.exports = React.createClass({
 			everyContent = <WeekDatePage onDevice={device} onCycle={cycle}/>;
 			newContent = <WeekNewUserPage onDevice={device} onCycle={cycle}/>;
 		} else if(cycle == 'months') {
-			everyContent = null;
-			newContent = null;
+			everyContent = <YearDatePage onDevice={device} onCycle={cycle}/>;
+			newContent = <YearNewUserPage onDevice={device} onCycle={cycle}/>;
 		}
 		return (
 			<div className="bd-container">
 				<div className="box-view bd-game-fix">
 					诛仙
-					<YearDatePage/>
+
 				</div>
 				<div className="box-view">
 					<div className="view-option">
