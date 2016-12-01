@@ -27,7 +27,7 @@ module.exports = {
 		},
 		{
 			title: 'fa fa-apple',
-			value: 'Apple',
+			value: 'ios',
 			type: 'class'
 		},
 		{

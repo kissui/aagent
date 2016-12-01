@@ -1,7 +1,7 @@
 import ReactEngine from 'react-engine';
 import {join} from 'path';
 import routes from '../public/routes.jsx';
-import Auth from '../lib/auth';
+// import Auth from '../lib/auth';
 
 import _ from 'lodash';
 import http from '../public/lib/http';
@@ -9,7 +9,7 @@ import http from '../public/lib/http';
 import BPromise from 'bluebird';
 
 // @todo 需要找办法前后端共享该文件
-import {pathNeedLoggedIn} from '../public/lib/auth';
+import Auth, {pathNeedLoggedIn} from '../public/lib/auth';
 
 import url from 'url';
 
@@ -47,6 +47,9 @@ function setup(app) {
 	});
 	app.get(['/app', '/app/*'], function (req, res, next) {
 		console.log('isLogin: ', req.url, req.user, req.accessToken);
+		// Auth.loggedIn().then(ret => {
+		// 	console.log(ret,'==========')
+		// });
 		if (pathNeedLoggedIn(req.url)) {
 			console.log('NOT-NEED logged in', pathNeedLoggedIn(req.url));
 

@@ -94,11 +94,13 @@ module.exports = React.createClass({
 						},
 						{
 							'meta_id': '2844',
-							'name': 'ACU'
+							'name': 'ACU',
+							'self_weidu': 'acu'
 						},
 						{
 							'meta_id': '2844',
-							'name': 'PCU'
+							'name': 'PCU',
+							'self_weidu': 'pcu'
 						}
 					]
 				},

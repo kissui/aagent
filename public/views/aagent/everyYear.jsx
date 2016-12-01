@@ -93,11 +93,13 @@ module.exports = React.createClass({
 						},
 						{
 							'meta_id': '2844',
-							'name': 'ACU'
+							'name': 'ACU',
+							'self_weidu': 'acu'
 						},
 						{
 							'meta_id': '2844',
-							'name': 'PCU'
+							'name': 'PCU',
+							'self_weidu': 'pcu'
 						}
 					]
 				},
@@ -136,7 +138,7 @@ module.exports = React.createClass({
 				return parseFloat(m['登录账号'])
 			}),
 			mean_cash: _.meanBy(data, (m)=> {
-				return parseFloat(m['账号周付费率'])
+				return parseFloat(m['账号月付费率'])
 			})
 		};
 		mean.mean_account = Math.ceil(mean.mean_account);
@@ -196,7 +198,7 @@ module.exports = React.createClass({
 					<div className="col b-view br-none">
 						<p className="title">
 							<i className=" icon fa fa-money"></i>
-							周均付费率
+							月均付费率
 						</p>
 						<p className="number">{mean.mean_cash}%</p>
 					</div>

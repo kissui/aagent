@@ -11,7 +11,7 @@ var proxyCheckObj = {
                 path: '^/log'
             }, {
                 method: 'get',
-                path: '^/app'
+                path: '^/duidai'
             }, {
                 method: 'get',
                 path: '^/autoLogin'

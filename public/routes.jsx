@@ -43,7 +43,6 @@ function requireAuth(nextState, replaceState, cb) {
             return cb();
         }
         console.log('forbid access');
-        登录失败
         replaceState({
             pathname: '/app/error',
             state: {nextPathname: nextState.location.pathname}
