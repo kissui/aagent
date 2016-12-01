@@ -10,7 +10,7 @@ module.exports = React.createClass({
 			limit: 10,
 			current: 0,
 			bodys: bodys,
-			defaultBody:bodys.slice(0, 10),
+			defaultBody: bodys.slice(0, 10),
 			pre: null,
 			next: 1,
 			pages: Math.ceil(lists / 10),
@@ -24,7 +24,7 @@ module.exports = React.createClass({
 				limit: 10,
 				current: 0,
 				bodys: bodys,
-				defaultBody:bodys.slice(0, 10),
+				defaultBody: bodys.slice(0, 10),
 				pre: null,
 				next: 1,
 				pages: Math.ceil(lists / 10),
@@ -34,24 +34,24 @@ module.exports = React.createClass({
 	handleChangePage: function (page) {
 		const {bodys} = this.state;
 		this.setState({
-			current: page-1,
-			defaultBody: bodys.slice((page-1)*10, 10 * page)
+			current: page - 1,
+			defaultBody: bodys.slice((page - 1) * 10, 10 * page)
 		})
 	},
 	handleChangePre: function (pre) {
-		const {current,bodys,pages} = this.state;
-		if(current === 0) return;
+		const {current, bodys, pages} = this.state;
+		if (current === 0) return;
 		this.setState({
 			current: current - 1,
-			defaultBody: bodys.slice(10 * (current-1), 10 * current)
+			defaultBody: bodys.slice(10 * (current - 1), 10 * current)
 		})
 	},
 	handleChangeNext: function (next) {
-		const {current,bodys,pages} = this.state;
-		if(current+1 === pages) return;
+		const {current, bodys, pages} = this.state;
+		if (current + 1 === pages) return;
 		this.setState({
 			current: current + 1,
-			defaultBody: bodys.slice(10 * current, 10 * (current+1))
+			defaultBody: bodys.slice(10 * current, 10 * (current + 1))
 		})
 	},
 	render: function () {
@@ -61,7 +61,7 @@ module.exports = React.createClass({
 		for (let i = 0; i < pages; i++) {
 			pageList.push(
 				<li key={i}
-					onClick={this.handleChangePage.bind(this, i+1)}
+					onClick={this.handleChangePage.bind(this, i + 1)}
 					className={current === i ? "page-icon active" : "page-icon"}>
 					{i + 1}
 				</li>
@@ -86,7 +86,8 @@ module.exports = React.createClass({
 								{items.map((item, si)=> {
 									return (
 										<td key={si}
-											className={si === 1 && 'active'}>{item ? item : '-'}</td>
+											className={si === 1 && 'active'}>{si === 0 ? item.split('%')[0] : item ? item : '-'}
+										</td>
 									)
 								})}
 							</tr>
@@ -94,7 +95,7 @@ module.exports = React.createClass({
 					}) : null}
 					</tbody>
 				</table>
-				<div className={pages>1?"bd-pagination":"hide"}>
+				<div className={pages > 1 ? "bd-pagination" : "hide"}>
 					<div className="pre-page page-icon" onClick={this.handleChangePre.bind(this, pre)}>
 						<i className="fa fa-angle-left"></i>
 					</div>

@@ -119,7 +119,7 @@ module.exports = React.createClass({
 					});
 					let response = Chart.dealChartData(res.theads, res.table);
 					this.handleAccountData(response);
-					Chart.handleShowChart('c1', response, ['登录账号', '新增账号'], ['日期']);
+					Chart.handleShowChart('c1', response, ['登录账号', '新增账号'], ['日期','新增账号次留']);
 					Chart.handleShowChart('c2', response, ['付费账号', '充值收入',], ['日期', '账号日ARPPU', '账号日付费率']);
 					Chart.handleShowChart('c3', response, ['ACU', 'PCU',], ['日期', '新增账号次留']);
 				}

@@ -74,7 +74,7 @@ module.exports = React.createClass({
 					</div>
 					{shimScript}
 					<script src='/bundle.js'></script>
-					<script src="https://a.alipayobjects.com/g/datavis/g2/2.1.1/index.js"></script>
+					<script src="/g2/index.js"></script>
 					<script src="https://as.alipayobjects.com/g/datavis/g-plugin-range/0.0.9/index.js"></script>
 				</body>
 			</html>

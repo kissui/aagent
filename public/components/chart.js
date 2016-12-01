@@ -1,17 +1,18 @@
 'use strict';
 import _ from 'lodash';
+const FOOTBAR_FLAG = false;
 export default {
 	reg (item, type) {
 		let reg = /^(\d*\.)+\d+$/;
-		let percent =  /^(\d*\.)+\d+%$/;
+		let percent = /^(\d*\.)+\d+%$/;
 		let china = /^[\u4e00-\u9fa5]/;
 		let regDate = /^(\d*\-)+\d+$/;
 		if (type) return china.test(item) ? item : reg.test(item) ? ((item * 100).toFixed(1) + '%') : (regDate.test(item) ? item : parseFloat(item));
-		return percent.test(item) ? parseFloat(item.slice(0,item.length-1)) : parseFloat(item);
+		return percent.test(item) ? parseFloat(item.slice(0, item.length - 1)) : parseFloat(item);
 	},
-	filterKey (key, col,type) {
+	filterKey (key, col, type) {
 		_.forEach(collection, (item)=> {
-			if(key === item && 'percent') {
+			if (key === item && 'percent') {
 				return item
 			} else {
 				return item;
@@ -25,7 +26,7 @@ export default {
 			const obj = {};
 
 			item.map((superItem, k)=> {
-				obj[surveyName[k]] =surveyName[k] == '日期' ? superItem : (superItem === '' ? 0 : this.reg(superItem))
+				obj[surveyName[k]] = surveyName[k] == '日期' ? superItem.split('%')[1] : (superItem === '' ? 0 : this.reg(superItem))
 			});
 			chartData.push(obj)
 		});
@@ -43,18 +44,27 @@ export default {
 		});
 		var Frame = G2.Frame;
 		var frame = new Frame(data);
+		console.log(frame);
 		chart.axis('日期', {
 			formatter: function (dimValue) {
-				return dimValue.slice(8) + '';
+				return dimValue;
 			}
 		});
-		frame = Frame.combinColumns(frame, indicators, 'population', 'kpi', dimensions);
+		let colors = ['#45594e', '#8fbeac', '#8fbeac', '#fbbe7b', '#fff6e5', '#fff6e5', '#f5de50', '#f6deda','#f6deda'];
+		let reverseColors = colors.reverse();
+		frame = Frame.combinColumns(frame, indicators, 'population', 'kpi', dimensions, 'di');
 		chart.legend(false);
 		chart.source(frame);
-		chart.interval(['stack']).position('日期*population').color('kpi');// 使用图形语法绘制柱状图
-		if (dimensions.length > 1) {
+		chart.interval(['dodge', 'stack']).position('日期*population').color('kpi', colors);// 使用图形语法绘制柱状图
+		if (dimensions.length > 0) {
 			let d = dimensions.slice(1).join('*');
-			chart.line().position(dimensions[0] + '*' + d).color('kpi');
+			dimensions.map((item, i)=> {
+				if (i > 0 && i != 0) {
+					chart.line().position('日期*' + item).color(reverseColors[i]).size(2).shape('smooth');
+					chart.point().position('日期*' + item).color(reverseColors[i]); // 绘制点图
+				}
+			})
+
 		}
 		chart.render();
 	}
