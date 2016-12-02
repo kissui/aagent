@@ -33,7 +33,7 @@ module.exports = React.createClass({
 	},
 	componentWillReceiveProps: function (nextProps) {
 		const {dateRange, globalConf} = this.state;
-		if(nextProps.onCycle === globalConf.cycle && nextProps.onDevice === globalConf.device) return;
+		if (nextProps.onCycle === globalConf.cycle && nextProps.onDevice === globalConf.device) return;
 		const receivePropsConf = {
 			cycle: nextProps.onCycle,
 			device: nextProps.onDevice,
@@ -43,11 +43,28 @@ module.exports = React.createClass({
 			globalConf: receivePropsConf,
 			isLoading: true
 		});
-		this.getInitialData(receivePropsConf,dateRange);
-		console.log('@nextPropssss',globalConf);
+		this.getInitialData(receivePropsConf, dateRange);
+	},
+	handleDealDimensionText: function (dimension) {
+		let dimensionText = '账号';
+		switch (dimension) {
+			case 'account':
+				dimensionText = '账号';
+				break;
+			case 'role':
+				dimensionText = '角色';
+				break;
+			case 'device':
+				dimensionText = '设备';
+				break;
+			default:
+				dimensionText = '用户';
+				break;
+		}
+		return dimensionText
 	},
 	getInitialData: function (globalConf, dateConf) {
-		console.log('new',globalConf)
+		let dimensionText = this.handleDealDimensionText(globalConf.dimension);
 		let data = {
 			"cycle": globalConf.cycle,
 			"device": globalConf.device,
@@ -61,7 +78,7 @@ module.exports = React.createClass({
 					"kpis": [
 						{
 							'meta_id': '2816',
-							'name': '新增账号'
+							'name': '新增' + dimensionText
 						},
 						{
 							'meta_id': '2833',
@@ -143,43 +160,43 @@ module.exports = React.createClass({
 						isLoading: false
 					});
 					let response = Chart.dealChartData(res.theads, res.table);
-					this.handleAccountData(response);
-					Chart.handleShowChart('c4', response, ['新增账号'], ['日期', '次日留存', '第3日留存', '第7日留存', '第15日留存', '第30日留存']);
-					Chart.handleShowChart('c5', response, ['新增账号'], ['日期', 'LTV-1', 'LTV-3', 'LTV-7', 'LTV-15', 'LTV-30', 'LTV-45', 'LTV-60', 'LTV-90']);
+					this.handleAccountData(response,dimensionText);
+					Chart.handleShowChart('c4', response, ['新增' + dimensionText], ['日期', '次日留存', '第3日留存', '第7日留存', '第15日留存', '第30日留存']);
+					Chart.handleShowChart('c5', response, ['新增' + dimensionText], ['日期', 'LTV-1', 'LTV-3', 'LTV-7', 'LTV-15', 'LTV-30', 'LTV-45', 'LTV-60', 'LTV-90']);
 				}
 			})
 	},
-	handleAccountData: function (data) {
+	handleAccountData: function (data,dimensionText) {
 		let sum = {
 			ac_new: _.sumBy(data, (o)=> {
-				return o['新增账号']
+				return o['新增'+dimensionText]
 			})
 		};
 		let mean = {
 			lastRemain: _.meanBy(data, (m)=> {
 				return parseFloat(m['次日留存'])
-			}).toFixed(1)+'%',
+			}).toFixed(1) + '%',
 			threeRemain: _.meanBy(data, (m)=> {
 				return parseFloat(m['第3日留存'])
-			}).toFixed(1)+'%',
+			}).toFixed(1) + '%',
 			sevenRemain: _.meanBy(data, (m)=> {
 				return parseFloat(m['第7日留存'])
-			}).toFixed(1)+'%',
+			}).toFixed(1) + '%',
 			fifteenRemain: _.meanBy(data, (m)=> {
 				return parseFloat(m['第15日留存'])
-			}).toFixed(1)+'%',
+			}).toFixed(1) + '%',
 			LTV_1: _.meanBy(data, (m)=> {
 				return parseFloat(m['LTV-1'])
-			}).toFixed(1)+'%',
+			}).toFixed(1) + '%',
 			LTV_7: _.meanBy(data, (m)=> {
 				return parseFloat(m['LTV-7'])
-			}).toFixed(1)+'%',
+			}).toFixed(1) + '%',
 			LTV_15: _.meanBy(data, (m)=> {
 				return parseFloat(m['LTV-15'])
-			}).toFixed(1)+'%',
+			}).toFixed(1) + '%',
 			LTV_30: _.meanBy(data, (m)=> {
 				return parseFloat(m['LTV-30'])
-			}).toFixed(1)+'%'
+			}).toFixed(1) + '%'
 
 		};
 		mean.mean_account = Math.ceil(mean.mean_account);
@@ -206,22 +223,23 @@ module.exports = React.createClass({
 		this.getInitialData(globalConf, dateConf);
 	},
 	handleReceiveRoll: function (value) {
-		const {globalConf,dateRange} = this.state;
+		const {globalConf, dateRange} = this.state;
 		globalConf.dimension = value;
 		this.setState({
 			isLoading: true
 		});
-		this.getInitialData(globalConf,dateRange);
+		this.getInitialData(globalConf, dateRange);
 	},
 	render: function () {
-		const {heads, bodys, dateRange, sum, mean,isLoading} = this.state;
+		const {heads, bodys, dateRange, sum, mean,globalConf, isLoading} = this.state;
+		let dimensionDetailText = this.handleDealDimensionText(globalConf.dimension);
 		let content = (
 			<div>
 				<div className="new-user row">
 					<div className="col user-view">
 						<p className="title">
 							<i className=" icon fa fa-user-plus"></i>
-							累计新增账号/角色
+							{'累计新增'+dimensionDetailText}
 						</p>
 						<p className="number">{sum.ac_new}</p>
 					</div>

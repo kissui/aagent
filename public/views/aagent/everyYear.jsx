@@ -35,7 +35,7 @@ module.exports = React.createClass({
 	},
 	componentWillReceiveProps: function (nextProps) {
 		const {dateRange, globalConf} = this.state;
-		if(nextProps.onCycle === globalConf.cycle && nextProps.onDevice === globalConf.device) return;
+		if (nextProps.onCycle === globalConf.cycle && nextProps.onDevice === globalConf.device) return;
 		const receivePropsConf = {
 			cycle: nextProps.onCycle,
 			device: nextProps.onDevice,
@@ -45,11 +45,28 @@ module.exports = React.createClass({
 			globalConf: receivePropsConf,
 			isLoading: true
 		});
-		this.getInitialData(receivePropsConf,dateRange);
-		console.log('@nextProps',nextProps.onCycle,nextProps.onDevice,globalConf);
+		this.getInitialData(receivePropsConf, dateRange);
+	},
+	handleDealDimensionText: function (dimension) {
+		let dimensionText = '账号';
+		switch (dimension) {
+			case 'account':
+				dimensionText = '账号';
+				break;
+			case 'role':
+				dimensionText = '角色';
+				break;
+			case 'device':
+				dimensionText = '设备';
+				break;
+			default:
+				dimensionText = '用户';
+				break;
+		}
+		return dimensionText
 	},
 	getInitialData: function (globalConf, dateConf) {
-
+		let dimensionText = this.handleDealDimensionText(globalConf.dimension);
 		let data = {
 			"cycle": globalConf.cycle,
 			"device": globalConf.device,
@@ -62,19 +79,19 @@ module.exports = React.createClass({
 					"kpis": [
 						{
 							'meta_id': '2820',
-							'name': '登录账号'
+							'name': '登录' + dimensionText
 						},
 						{
 							'meta_id': '2816',
-							'name': '新增账号 '
+							'name': '新增' + dimensionText
 						},
 						{
 							'meta_id': '2821',
-							'name': '付费账号 '
+							'name': '付费' + dimensionText
 						},
 						{
 							'meta_id': '2874',
-							'name': '账号月付费率',
+							'name': dimensionText + '月付费率',
 							'num_type': 'percent'
 						},
 						{
@@ -83,12 +100,12 @@ module.exports = React.createClass({
 						},
 						{
 							'meta_id': '2875',
-							'name': '账号月ARPPU',
+							'name': dimensionText + '月ARPPU',
 							'num_type': 'fixed_2'
 						},
 						{
 							'meta_id': '2833',
-							'name': '新增账号次留',
+							'name': '新增' + dimensionText + '次留',
 							'num_type': 'percent'
 						},
 						{
@@ -117,28 +134,28 @@ module.exports = React.createClass({
 						isLoading: false
 					});
 					let response = Chart.dealChartData(res.theads, res.table);
-					this.handleAccountData(response);
-					Chart.handleShowChart('c1', response, ['登录账号', '新增账号'], ['日期']);
-					Chart.handleShowChart('c2', response, ['付费账号', '充值收入',], ['日期', '账号周ARPPU', '账号周付费率']);
-					Chart.handleShowChart('c3', response, ['ACU', 'PCU',], ['日期', '新增账号次留']);
+					this.handleAccountData(response, dimensionText);
+					Chart.handleShowChart('c1', response, ['登录' + dimensionText, '新增' + dimensionText], ['日期']);
+					Chart.handleShowChart('c2', response, ['付费' + dimensionText, '充值收入',], ['日期', dimensionText + '月ARPPU', dimensionText + '月付费率']);
+					Chart.handleShowChart('c3', response, ['ACU', 'PCU',], ['日期', '新增' + dimensionText + '次留']);
 				}
 			})
 	},
-	handleAccountData: function (data) {
+	handleAccountData: function (data, dimensionText) {
 		let sum = {
 			ac_cash: _.sumBy(data, (o)=> {
 				return parseFloat(o['充值收入'])
 			}),
 			ac_new: _.sumBy(data, (o)=> {
-				return o['新增账号']
+				return o['新增' + dimensionText]
 			})
 		};
 		let mean = {
 			mean_account: _.meanBy(data, (m)=> {
-				return parseFloat(m['登录账号'])
+				return parseFloat(m['登录' + dimensionText])
 			}),
 			mean_cash: _.meanBy(data, (m)=> {
-				return parseFloat(m['账号月付费率'])
+				return parseFloat(m[dimensionText + '月付费率'])
 			})
 		};
 		mean.mean_account = Math.ceil(mean.mean_account);
@@ -150,7 +167,7 @@ module.exports = React.createClass({
 	},
 	handleGetDateRange: function (save) {
 		const {globalConf} = this.state;
-		console.log(save,'save');
+		console.log(save, 'save');
 		let dateConf = {
 			dateStart: save.startDate,
 			dateEnd: save.endDate
@@ -161,8 +178,8 @@ module.exports = React.createClass({
 		});
 		this.getInitialData(globalConf, dateConf);
 	},
-	handleReceiveRoll: function(value){
-		const {globalConf,dateRange} = this.state;
+	handleReceiveRoll: function (value) {
+		const {globalConf, dateRange} = this.state;
 		globalConf.dimension = value;
 		this.setState({
 			isLoading: true
@@ -170,7 +187,7 @@ module.exports = React.createClass({
 		this.getInitialData(globalConf, dateRange);
 	},
 	render: function () {
-		const {sum, mean, heads, bodys, dateRange,isLoading,globalConf} = this.state;
+		const {sum, mean, heads, bodys, dateRange, isLoading, globalConf} = this.state;
 		let content = (
 			<div>
 				<div className="everyday-box row">

@@ -14,7 +14,7 @@ const defaultRollList = [
         title: '设备',
         value: 'device'
     }
-]
+];
 module.exports = React.createClass({
     getInitialState: function(){
         return {
@@ -34,7 +34,7 @@ module.exports = React.createClass({
                 title: title
             },
             isShow: !isShow
-        })
+        });
         this.props.onReceiveRollValue(value);
     },
     handleToggleDisplay: function() {
@@ -66,4 +66,4 @@ module.exports = React.createClass({
             </div>
         )
     }
-})
+});
