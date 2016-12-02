@@ -50,14 +50,15 @@ export default {
 				return dimValue;
 			}
 		});
-		let colors = ['#45594e', '#8fbeac', '#8fbeac', '#fbbe7b', '#fff6e5', '#fff6e5', '#f5de50', '#f6deda','#f6deda'];
-		let reverseColors = colors.reverse();
+		let colors = ['#45594e', '#8fbeac', '#5e9882', '#fbbe7b', '#fff6e5', '#e89ba5', '#f5de50', '#f6deda', '#fbbe7a'];
+		let stackColor = colors.slice(0, indicators.length);
 		frame = Frame.combinColumns(frame, indicators, 'population', 'kpi', dimensions, 'di');
 		chart.legend(false);
 		chart.source(frame);
-		chart.interval(['dodge', 'stack']).position('日期*population').color('kpi', colors);// 使用图形语法绘制柱状图
+		chart.interval(['dodge', 'stack']).position('日期*population').color('kpi', stackColor);// 使用图形语法绘制柱状图
 		if (dimensions.length > 0) {
 			let d = dimensions.slice(1).join('*');
+			let reverseColors = colors.reverse();
 			dimensions.map((item, i)=> {
 				if (i > 0 && i != 0) {
 					chart.line().position('日期*' + item).color(reverseColors[i]).size(2).shape('smooth');
