@@ -1,6 +1,16 @@
 'use strict';
 import _ from 'lodash';
-const FOOTBAR_FLAG = false;
+Number.prototype.flover = function(c, d, t){
+	var n = this,
+		c = isNaN(c = Math.abs(c)) ? 2 : c,
+		d = d == undefined ? "." : d,
+		t = t == undefined ? "," : t,
+		s = n < 0 ? "-" : "",
+		i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+		jj = i.length,
+		j = jj > 3 ? jj % 3 : 0;
+	return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+};
 export default {
 	reg (item, type) {
 		let reg = /^(\d*\.)+\d+$/;
@@ -18,6 +28,17 @@ export default {
 				return item;
 			}
 		})
+	},
+	numMoney (num, c, d, t){
+		// let n = num;
+		// let c = isNaN(c = Math.abs(c)) ? 2 : c,
+		// 	d = d == undefined ? "." : d,
+		// 	t = t == undefined ? "," : t,
+		// 	s = n < 0 ? "-" : "",
+		// 	i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+		// 	jj = i.length,
+		// 	j = jj > 3 ? jj % 3 : 0;
+		// return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 	},
 	dealChartData (names, fields) {
 		const chartData = [];

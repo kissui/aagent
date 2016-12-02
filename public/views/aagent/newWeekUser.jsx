@@ -240,7 +240,7 @@ module.exports = React.createClass({
 							<i className=" icon fa fa-user-plus"></i>
 							{'累计新增' + dimensionDetailText}
 						</p>
-						<p className="number">{sum.ac_new}</p>
+						<p className="number">{parseFloat(sum.ac_new).flover(0)}</p>
 					</div>
 					<div className="col user-view">
 						<p className="title">

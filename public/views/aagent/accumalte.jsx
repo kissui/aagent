@@ -29,7 +29,7 @@ module.exports = React.createClass({
 	},
 	componentWillReceiveProps: function (nextProps) {
 		const {dateRange, globalConf} = this.state;
-		if(nextProps.onCycle === globalConf.cycle && nextProps.onDevice === globalConf.device) return;
+		if (nextProps.onCycle === globalConf.cycle && nextProps.onDevice === globalConf.device) return;
 		const receivePropsConf = {
 			cycle: nextProps.onCycle,
 			device: nextProps.onDevice
@@ -38,11 +38,11 @@ module.exports = React.createClass({
 			globalConf: receivePropsConf,
 			isLoading: true
 		});
-		this.getInitialData(receivePropsConf,dateRange);
-		console.log('@nextProps',nextProps.onCycle,nextProps.onDevice,globalConf);
+		this.getInitialData(receivePropsConf, dateRange);
+		console.log('@nextProps', nextProps.onCycle, nextProps.onDevice, globalConf);
 	},
 	getInitialData: function (globalConf, dateConf) {
-		console.log('globalConf',globalConf);
+		console.log('globalConf', globalConf);
 		let data = {
 			"cycle": globalConf.cycle,
 			"device": globalConf.device,
@@ -110,11 +110,11 @@ module.exports = React.createClass({
 				<div className="accumulate-box row">
 					<div className="col blank-view blank-c-1">
 						<p className="title">新增账号数</p>
-						<p className="number">{ac_new}</p>
+						<p className="number">{parseFloat(ac_new).flover(0)}</p>
 					</div>
 					<div className="col blank-view blank-c-2">
 						<p className="title">付费金额</p>
-						<p className="number">{ac_cash}</p>
+						<p className="number">{parseFloat(ac_cash).flover(0)}</p>
 					</div>
 				</div>
 			</div>
