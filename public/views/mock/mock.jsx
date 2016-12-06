@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-
 import IsLoading from '../../components/is_loading.jsx';//正在加载
 import BillRow from './row.jsx';
 import http from '../../lib/http';

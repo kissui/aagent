@@ -1,28 +1,26 @@
 import ReactEngine from 'react-engine';
+import redis from 'redis';
+import session from '../public/lib/session_storage';
 import {join} from 'path';
 import routes from '../public/routes.jsx';
-// import Auth from '../lib/auth';
-
-import _ from 'lodash';
-import http from '../public/lib/http';
-
-import BPromise from 'bluebird';
-
-// @todo 需要找办法前后端共享该文件
-import Auth, {pathNeedLoggedIn} from '../public/lib/auth';
-
-import url from 'url';
-
-
+function getRedis() {
+	let RDS_PORT = 6379,
+		RDS_HOST = '192.168.0.184',
+		RDS_OPTS = {},
+		client = redis.createClient(RDS_PORT,RDS_HOST,RDS_OPTS);
+	client.on('connect',()=>{
+		console.log(client.get('user',(value,key)=>{
+			console.log(value,key,'00000000');
+		}));
+	})
+}
 function setup(app) {
 
 	// create the view engine with `react-engine`
 	let engine = ReactEngine.server.create({
 		routes: routes,
 		routesFilePath: join(__dirname, '/../public/routes.jsx'),
-		performanceCollector: function (stats) {
-			console.log(stats,'salkdfjdsfjklsadjflksadj');
-		}
+		performanceCollector: function (stats) {}
 	});
 
 	// set the engine
@@ -36,80 +34,16 @@ function setup(app) {
 
 	// finally, set the custom view
 	app.set('view', ReactEngine.expressView);
-
-
 	// add our app routes
 	app.get('/', function (req, res) {
-		// res.redirect('/app');
+		res.redirect('/app/game');
 		// @todo 改为下面的写法，减少一次来回请求，
-		// 但需 router 挂载多个地址
-		req.url = '/app';
+		// 但需 router 挂载多个地
 	});
-	app.get(['/app', '/app/*'], function (req, res, next) {
-		console.log('isLogin: ', req.url, req.user, req.accessToken);
-		// Auth.loggedIn().then(ret => {
-		// 	console.log(ret,'==========')
-		// });
-		if (pathNeedLoggedIn(req.url)) {
-			console.log('NOT-NEED logged in', pathNeedLoggedIn(req.url));
-
-			return res.render(req.url, {
-				// movies: movies
-			});
-		}
-
-
-		// 因为 render 在 match 时无法传自定义属性，所以需要
-		// 在 render 前判断权限、跳转
-		if (!req.user) {
-			req.url = '/app/login';
-		}
-
-		console.log('### should get', req.url,req.accessToken);
-
-		if (req.accessToken) {
-			res.cookie('token', req.accessToken, {
-				httpOnly: true,
-
-				// @TODO 设置与 token 相同的 expires（有必要吗？FE 没法拿 cookie、
-				// 用 cookie 判断登陆状态及登陆是否过期）
-				// expires: Date, Expiry date of the cookie in GMT. If not
-				//          specified or set to 0, creates a session cookie.
-				// maxAge: String, Convenient option for setting the expiry time
-				//         relative to the current time in milliseconds.
-
-				// @TODO 还有一些安全设置可参考：
-				// https://stormpath.com/blog/where-to-store-your-jwts-cookies-vs-html5-web-storage/
-
-			});
-		}
-
-		var render = function (initialState) {
-			console.log('initialState', initialState, req.query);
-			let data = {
-				// render 时传 ua，以判断是否加载 shim
-				ua: req.get('user-agent'),
-
-				// 供首屏加载
-				serverSide: !_.isEmpty(initialState),
-				initialState: initialState,
-				originalQuery: req.query
-			};
-
-			console.log('@render', req.path, data);
-
-			// @TODO 只要 url 带 query，render 就会报错，未查出原因，
-			// 所以，用 req.path render，query 按 params 传递
-			// { [Error: Cannot find module '-DkYDQ7uwt9m2jRhs8x1ebJoZIzp_yqkeifsOoat9GU'] code: 'MODULE_NOT_FOUND' }
-			res.render(req.path, data);
-		};
-
-
-		// boss 对体验要求低，不需要服务端取数据、渲染
-
-		render();
-
-
+	app.get(['/app/game', '/app/game/*'], function (req, res, next) {
+		return res.render(req.url, {
+			// movies: movies
+		});
 	});
 
 }

@@ -2,6 +2,7 @@
 
 // import the react-router routes
 import Routes from './routes.jsx';
+import ReactDOM from 'react-dom';
 // import the react-engine's client side booter
 const ReactEngineClient = require('react-engine/lib/client');
 
@@ -20,3 +21,10 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
     // boot the app when the DOM is ready
     ReactEngineClient.boot(options);
 });
+
+const ROOT = document.getElementById('root');
+console.log(ROOT)
+
+if(ROOT) {
+    ReactDOM.render(Routes,ROOT);
+}

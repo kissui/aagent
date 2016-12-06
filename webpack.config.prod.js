@@ -163,5 +163,30 @@ function cdnReplace() {
            + " || sed " + jsSedParams);
 
 }
+function cdnReplaceHtml() {
+  var layoutTemplate = "dist/index.html";
+  var cdn = '';
 
+  var cssLine = 'link.*styles.*link';
+  var jsLine = 'script.*bundle.*script';
+
+  var cdnCss = cdn + '/' + versionCss;
+  var cdnJs = cdn + '/' + versionJs;
+
+  var cdnCssLine = "<link rel=\"stylesheet\" href=\"" + cdnCss + "\"></link>";
+  var cdnJsLine = "<script src=\"" + cdnJs + "\"></script>";
+
+  var cssSedParams = "-i '/" + cssLine + "/c\\" + cdnCssLine + "' " + layoutTemplate;
+  var jsSedParams = "-i '/" + jsLine + "/c\\" + cdnJsLine + "' " + layoutTemplate;
+
+  // mac 上用 gsed，linux 上用 sed
+  execSync("type gsed"
+      + " && gsed " + cssSedParams
+      + " || sed " + cssSedParams);
+  execSync("type gsed"
+      + " && gsed " + jsSedParams
+      + " || sed " + jsSedParams);
+
+}
+cdnReplaceHtml();
 cdnReplace();
