@@ -1,8 +1,8 @@
 'use strict';
 
-import sessionStorage from './session_storage';
+// import sessionStorage from './session_storage';
 import http from './http';
-
+let USER = '';
 export const pathNotNeedLoggedIn = [
 	'/app/error',
 	'/app/login',
@@ -17,40 +17,24 @@ export function pathNeedLoggedIn(path) {
 export default {
 
 	login(email, pass, cb) {
-
 		cb = arguments[arguments.length - 1];
-		http.post('/login.php', {
-				username: email,
-				password: pass
-		})
+		http.post('/login.php', {username: email, password: pass})
+			.then(r => r.data)
 			.then(r => {
-				console.log('@then 1', sessionStorage, r);
-
-				if (r.data != 0) {
-					return Promise.reject(r.data);
+				if (r.error_code != 0) {
+					if (cb) cb(false);
+					return
 				}
-
-				console.log('@then 2', r.data);
-
-				sessionStorage.user = JSON.stringify(r.data);
-
+				USER = r.user;
+				sessionStorage.setItem('user',r.user);
 				if (cb) cb(true);
-				this.onChange(true)
-
 			})
-			.catch(e => {
-				console.log('@then err', e);
-				if (cb) cb(false);
-				this.onChange(false)
-			});
 	},
 
 	getUser() {
-
-		if (sessionStorage.user) {
-			return JSON.parse(sessionStorage.user);
+		if (sessionStorage.getItem('user')) {
+			return sessionStorage.getItem('user');
 		}
-
 	},
 
 	getDealerProxy() {
@@ -67,12 +51,12 @@ export default {
 	},
 
 	logout(cb) {
-		delete sessionStorage.user;
+		// delete sessionStorage.user;
 		if (cb) cb();
 		this.onChange(false)
 	},
 
-	loggedIn() {
+	loggedIn(cb) {
 		if (isServer()) {
 			// @TODO
 			// 由于 match 无法传任意值，所以 server render
@@ -80,33 +64,17 @@ export default {
 			// 检查。但前端有 checksum 不同不渲染的问题
 			return Promise.resolve(true);
 		}
-
-		return http.get('/dudai/?c=analysis.report&ac=refresh&token=mgame_afs23cgs23')
-			.then(r => {
-				console.log('@then 1,auth', r)
-				if (r.status != 200) {
-					return Promise.reject(r.data.data);
-				}
-
-				if (!r.data) {
-					return Promise.resolve();
-				}
-
-				console.log('@then 2', r.data);
-
-				sessionStorage.user = JSON.stringify(r.data.data);
-
-				console.log('SAVE TO SESSION', sessionStorage.user,Promise.resolve(sessionStorage.user));
-
-				return Promise.resolve(sessionStorage.user);
+			return http.get('/dudai/?c=analysis.report&ac=refresh&token=mgame_afs23cgs23')
+			.then(r =>r.data)
+			.then(r=> {
+				if (r.error_code === 0)
+					console.log(r,233);
+					USER = r.data.username;
+					sessionStorage.setItem('user',r.data.username) ;
+				cb(r.error_code);
 			})
-			.catch(e => {
-				return Promise.reject(e);
-			});
 
-	},
 
-	onChange() {
 	}
 }
 
@@ -125,6 +93,6 @@ function pretendRequest(email, pass, cb) {
 
 
 function isServer() {
-	console.log('@typeof window', typeof window, window.document,!(typeof window != 'undefined' && window.document));
+	console.log('@typeof window', typeof window, window.document, !(typeof window != 'undefined' && window.document));
 	return !(typeof window != 'undefined' && window.document);
 }

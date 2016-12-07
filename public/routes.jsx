@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Router, Route,hashHistory, IndexRoute, Redirect } from 'react-router';
+
 import Auth, {pathNeedLoggedIn} from './lib/auth';
 
 import Layout from './views/layout.jsx';
@@ -17,7 +18,7 @@ import errorPage from './views/error/error.jsx';
 export default (
     <Router history={hashHistory}>
         <Route path='/' component={Layout}>
-            <IndexRoute component={indexPage}/>
+            <IndexRoute component={MockPage}/>
             <Route path="/app/game" component={indexPage}/>
             <Route path="/app/game/analysis/survey/report" component={indexPage}/>
             <Route path="/app/game/analysis/survey/analysis" component={analysisPage}/>

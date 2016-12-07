@@ -17,16 +17,9 @@ const Login = React.createClass({
 		const email = this.refs.email.value;
 		const pass = this.refs.pass.value;
 		Auth.login(email, pass, (loggedIn) => {
-			console.log("view", loggedIn, this.props);
 			if (!loggedIn)
 				return this.setState({error: true});
-			const {location} = this.props;
-
-			if (location.state && location.state.nextPathname) {
-				this.props.router.replace(location.state.nextPathname)
-			} else {
-				this.props.router.replace('/app/login')
-			}
+			this.props.router.replace('/app/game')
 		})
 	},
 
@@ -47,7 +40,7 @@ const Login = React.createClass({
 						</div>
 						<button type="submit" className="btn btn-primary">登录</button>
 						{this.state.error && (
-							<p>Bad login information</p>
+							<p>登录失败</p>
 						)}
 					</form>
 				</div>

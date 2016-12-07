@@ -2,6 +2,7 @@
 import React from 'react';
 import {router, Link} from 'react-router';
 import _ from 'lodash';
+import Auth from '../../lib/auth';
 let data = [
 	{
 		id: 'game',
@@ -11,22 +12,22 @@ let data = [
 				id: 'analysis',
 				title: '基础分析'
 			},
-			{
-				id: 'indicator',
-				title: '定制指标'
-			}
+			// {
+			// 	id: 'indicator',
+			// 	title: '定制指标'
+			// }
 		]
 	},
-	{
-		id: 'search',
-		title: '发现',
-		superItem: [
-			{
-				id: 'test',
-				title: 'test'
-			}
-		]
-	}
+	// {
+	// 	id: 'search',
+	// 	title: '发现',
+	// 	superItem: [
+	// 		{
+	// 			id: 'test',
+	// 			title: 'test'
+	// 		}
+	// 	]
+	// }
 ];
 module.exports = React.createClass({
 	render: function () {
@@ -70,7 +71,7 @@ module.exports = React.createClass({
 							</ul>
 						</div>
 						<div className="col-md-6 text-right">
-							shane
+							{Auth.getUser()}
 						</div>
 					</div>
 				</div>

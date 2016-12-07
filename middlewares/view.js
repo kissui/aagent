@@ -36,11 +36,11 @@ function setup(app) {
 	app.set('view', ReactEngine.expressView);
 	// add our app routes
 	app.get('/', function (req, res) {
-		res.redirect('/app/game');
+		res.redirect('/app');
 		// @todo 改为下面的写法，减少一次来回请求，
 		// 但需 router 挂载多个地
 	});
-	app.get(['/app/game', '/app/game/*'], function (req, res, next) {
+	app.get(['/app/', '/app/*'], function (req, res, next) {
 		return res.render(req.url, {
 			// movies: movies
 		});
