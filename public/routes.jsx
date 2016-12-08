@@ -17,7 +17,7 @@ import errorPage from './views/error/error.jsx';
 // @todo 现在有缺少 browserHistory 的报错，但在这儿加了没用，好像是后端 render 的
 export default (
     <Router history={hashHistory}>
-        <Route path='/' component={Layout}>
+        <Route path='/'>
             <IndexRoute component={MockPage}/>
             <Route path="/app/game" component={indexPage}/>
             <Route path="/app/game/analysis/survey/report" component={indexPage}/>

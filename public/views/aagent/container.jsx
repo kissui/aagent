@@ -16,11 +16,26 @@ module.exports = React.createClass({
 	getInitialState: function () {
 		return {
 			cycle: 'days',
-			device: 'Android'
+			device: 'Android',
+			gameConf: null
 		}
 	},
-	componentDidMount: function () {
+	componentWillReceiveProps: function (nextProps) {
+		if (nextProps.gameConf && nextProps.gameConf.gameId) {
+			this.setState({
+				gameConf: nextProps.gameConf
+			})
+		}
+	},
+	handleReceiveRoll: function (value) {
 
+		const {gameConf} = this.state;
+		this.setState({
+			gameConf: {
+				gameId: value,
+				gameList: gameConf.gameList
+			}
+		})
 	},
 	handleReceiveSelectCycle: function (value) {
 		let cycle = this.state.cycle;
@@ -37,23 +52,27 @@ module.exports = React.createClass({
 		});
 	},
 	render: function () {
-		const {cycle, device} = this.state;
-		const {gameConf} = this.props;
-		let accumalte = cycle == "days" ? <AccumaltePage onDevice={device} onCycle={cycle}/> : null;
-		let everyContent = <EverydayPage onDevice={device} onCycle={cycle}/>;
-		let newContent = <NewUserPage onDevice={device} onCycle={cycle}/>;
+		const {cycle, device, gameConf} = this.state;
+		let accumalte = cycle == "days" ? gameConf &&
+		<AccumaltePage onDevice={device} onCycle={cycle} onGameId={gameConf.gameId}/> : null;
+		let everyContent = gameConf && <EverydayPage onDevice={device} onCycle={cycle} onGameId={gameConf.gameId}/>;
+		let newContent = gameConf && <NewUserPage onDevice={device} onCycle={cycle} onGameId={gameConf.gameId}/>;
 		if (cycle == 'weeks') {
-			everyContent = <WeekDatePage onDevice={device} onCycle={cycle}/>;
-			newContent = <WeekNewUserPage onDevice={device} onCycle={cycle}/>;
+			everyContent = gameConf && <WeekDatePage onDevice={device} onCycle={cycle} onGameId={gameConf.gameId}/>;
+			newContent = gameConf && <WeekNewUserPage onDevice={device} onCycle={cycle} onGameId={gameConf.gameId}/>;
 		} else if (cycle == 'months') {
-			everyContent = <YearDatePage onDevice={device} onCycle={cycle}/>;
-			newContent = <YearNewUserPage onDevice={device} onCycle={cycle}/>;
+			everyContent = gameConf && <YearDatePage onDevice={device} onCycle={cycle} onGameId={gameConf.gameId}/>;
+			newContent = gameConf && <YearNewUserPage onDevice={device} onCycle={cycle} onGameId={gameConf.gameId}/>;
 		}
 		return (
 			<div className="bd-container">
 				<div className="box-view bd-game-fix">
 					{gameConf && <SelectRollPage
 						onReceiveRollValue={this.handleReceiveRoll}
+						onStyle={{
+							position: 'relative',
+							right: 0
+						}}
 						rollRange={gameConf.gameList}
 					/>}
 				</div>

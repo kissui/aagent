@@ -762,7 +762,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
         line-height: 30px;
         border-radius: 15px;
         text-indent: 1em;
-        position: absolute;
+        position: relative;
         cursor: pointer;
         i {
             position: absolute;
@@ -775,7 +775,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
     }
     .roll_box {
         background: #fff;
-        position: relative;
+        position: absolute;
         z-index: 111;
         width: 150px;
         border: 1px solid #ccc;
