@@ -13,7 +13,7 @@ module.exports = React.createClass({
 		let defaultRange = 3600 * 24 * 7 * 1000;
 		let endRange = +new Date();
 		let startRange = endRange - defaultRange;
-		const {onDevice, onCycle} = this.props;
+		const {onDevice, onCycle, onGameId} = this.props;
 		let format = 'YYYY-MM-DD';
 		return {
 			sum: {},
@@ -25,6 +25,7 @@ module.exports = React.createClass({
 			globalConf: {
 				cycle: onCycle,
 				device: onDevice,
+				gameId: onGameId,
 				dimension: 'account'
 			}
 		}
@@ -35,10 +36,11 @@ module.exports = React.createClass({
 	},
 	componentWillReceiveProps: function (nextProps) {
 		const {dateRange, globalConf} = this.state;
-		if (nextProps.onCycle === globalConf.cycle && nextProps.onDevice === globalConf.device) return;
+		if (nextProps.onCycle === globalConf.cycle && nextProps.onDevice === globalConf.device && nextProps.onGameId === globalConf.gameId) return;
 		const receivePropsConf = {
 			cycle: nextProps.onCycle,
 			device: nextProps.onDevice,
+			gameId: nextProps.onGameId,
 			dimension: globalConf.dimension
 		};
 		this.setState({
@@ -46,7 +48,6 @@ module.exports = React.createClass({
 			isLoading: true
 		});
 		this.getInitialData(receivePropsConf, dateRange);
-		console.log('@nextProps', nextProps.onCycle, nextProps.onDevice, globalConf);
 	},
 	handleDealDimensionText: function (dimension) {
 		let dimensionText = '账号';
@@ -72,7 +73,7 @@ module.exports = React.createClass({
 			"cycle": globalConf.cycle,
 			"device": globalConf.device,
 			"weidu": globalConf.dimension,
-			"appid": 233002,
+			"appid": globalConf.gameId,
 
 			"kpi_conf": {
 				"everyday": {
@@ -214,7 +215,7 @@ module.exports = React.createClass({
 					<div className="col b-view">
 						<p className="title">
 							<i className=" icon fa fa-user-o"></i>
-							{'日均登录'+dimensionTitleDetail}
+							{'日均登录' + dimensionTitleDetail}
 						</p>
 						<p className="number">{mean.mean_account}</p>
 					</div>

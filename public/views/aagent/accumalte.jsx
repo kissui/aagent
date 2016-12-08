@@ -7,7 +7,7 @@ import Chart from '../../components/chart';
 import LoadingPage from '../../components/is_loading';
 module.exports = React.createClass({
 	getInitialState: function () {
-		const {onDevice, onCycle} = this.props;
+		const {onDevice, onCycle, onGameId} = this.props;
 		let defaultRange = 3600 * 24 * 7 * 1000;
 		let endRange = +new Date();
 		let startRange = endRange - defaultRange;
@@ -19,7 +19,8 @@ module.exports = React.createClass({
 			},
 			globalConf: {
 				cycle: onCycle,
-				device: onDevice
+				device: onDevice,
+				gameId: onGameId
 			}
 		}
 	},
@@ -29,25 +30,24 @@ module.exports = React.createClass({
 	},
 	componentWillReceiveProps: function (nextProps) {
 		const {dateRange, globalConf} = this.state;
-		if (nextProps.onCycle === globalConf.cycle && nextProps.onDevice === globalConf.device) return;
+		if (nextProps.onCycle === globalConf.cycle && nextProps.onDevice === globalConf.device && nextProps.onGameId === globalConf.gameId) return;
 		const receivePropsConf = {
 			cycle: nextProps.onCycle,
-			device: nextProps.onDevice
+			device: nextProps.onDevice,
+			gameId: nextProps.onGameId
 		};
 		this.setState({
 			globalConf: receivePropsConf,
 			isLoading: true
 		});
 		this.getInitialData(receivePropsConf, dateRange);
-		console.log('@nextProps', nextProps.onCycle, nextProps.onDevice, globalConf);
 	},
 	getInitialData: function (globalConf, dateConf) {
-		console.log('globalConf', globalConf);
 		let data = {
 			"cycle": globalConf.cycle,
 			"device": globalConf.device,
 			"weidu": "role",
-			"appid": 233002,
+			"appid": globalConf.gameId,
 
 			"kpi_conf": {
 				"accumulate": {
