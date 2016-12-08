@@ -71,7 +71,7 @@ module.exports = React.createClass({
 							</ul>
 						</div>
 						<div className="col-md-6 text-right">
-							dddd
+							{Auth.getUser()}
 						</div>
 					</div>
 				</div>
