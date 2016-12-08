@@ -96,7 +96,7 @@ module.exports = React.createClass({
 				<div className="datePicker-week-input" onClick={this.handleOpenCalender}>
 					<span>{text.startText}</span> - <span>{text.endText}</span>
 				</div>
-				{toggleOpen ? <div className="datePicker-week-body">
+				{toggleOpen ? <div className="datePicker-week-body datePicker-month-body">
 					<DatePickerWeekCalender
 						onReceiveWeekRange={this.handleReceiveWeekRang}
 						dateRange={dateRange}

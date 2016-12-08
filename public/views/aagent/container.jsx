@@ -10,6 +10,8 @@ import WeekDatePage from './everyweek';
 import WeekNewUserPage from './newWeekUser';
 import YearDatePage from './everyYear';
 import YearNewUserPage from './newYearUser';
+import http from '../../lib/http';
+import SelectRollPage from '../../components/box/selectRoll';
 module.exports = React.createClass({
 	getInitialState: function () {
 		return {
@@ -35,22 +37,25 @@ module.exports = React.createClass({
 		});
 	},
 	render: function () {
-		const {cycle,device} = this.state;
-		let accumalte = cycle =="days" ? <AccumaltePage onDevice={device} onCycle={cycle}/> : null;
+		const {cycle, device} = this.state;
+		const {gameConf} = this.props;
+		let accumalte = cycle == "days" ? <AccumaltePage onDevice={device} onCycle={cycle}/> : null;
 		let everyContent = <EverydayPage onDevice={device} onCycle={cycle}/>;
 		let newContent = <NewUserPage onDevice={device} onCycle={cycle}/>;
-		if(cycle == 'weeks') {
+		if (cycle == 'weeks') {
 			everyContent = <WeekDatePage onDevice={device} onCycle={cycle}/>;
 			newContent = <WeekNewUserPage onDevice={device} onCycle={cycle}/>;
-		} else if(cycle == 'months') {
+		} else if (cycle == 'months') {
 			everyContent = <YearDatePage onDevice={device} onCycle={cycle}/>;
 			newContent = <YearNewUserPage onDevice={device} onCycle={cycle}/>;
 		}
 		return (
 			<div className="bd-container">
 				<div className="box-view bd-game-fix">
-					诛仙
-
+					{gameConf && <SelectRollPage
+						onReceiveRollValue={this.handleReceiveRoll}
+						rollRange={gameConf.gameList}
+					/>}
 				</div>
 				<div className="box-view">
 					<div className="view-option">

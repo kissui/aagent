@@ -4,7 +4,7 @@ import React from 'react';
 import IsLoading from '../../components/is_loading.jsx';//正在加载
 import Auth from '../../lib/auth';
 import { browserHistory } from 'react-router';
-
+import http from '../../lib/http';
 module.exports = React.createClass({
     contextTypes: {
         router: React.PropTypes.object
@@ -16,9 +16,6 @@ module.exports = React.createClass({
     },
     componentDidMount: function() {
         let _this = this;
-        this.setState({
-            bills: true
-        });
         Auth.loggedIn(msg=>{
             if (msg != 0) {
                 this.context.router.push('/app/login')

@@ -762,7 +762,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
         line-height: 30px;
         border-radius: 15px;
         text-indent: 1em;
-        position: relative;
+        position: absolute;
         cursor: pointer;
         i {
             position: absolute;
@@ -916,5 +916,8 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
                 margin-left: 10px;
             }
         }
+    }
+    .datePicker-month-body{
+        width: 380px;
     }
 }

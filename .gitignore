@@ -2,6 +2,7 @@
 sdk/
 
 node_modules/
+/public/views/layout/header.jsx
 .build
 .idea
 .project
@@ -10,7 +11,7 @@ node_modules/
 .DS_Store
 coverage/
 dist/
-
+/public/lib/auth.js
 
 # public 中的这些 build 文件目前已移至 dist 目录
 # gitignore 中可以删了

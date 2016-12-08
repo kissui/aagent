@@ -4,6 +4,7 @@ import React from 'react';
 import SidebarPage from '../../components/sidebar/sidebar';
 import ContainerPage from './container';
 import http from '../../lib/http';
+import Auth from '../../lib/auth';
 import HeaderPage from '../layout/header';
 module.exports = React.createClass({
 	contextTypes: {
@@ -15,11 +16,27 @@ module.exports = React.createClass({
 		}
 	},
 	componentWillMount: function () {
-		// http.get('/api/?c=table.folder&ac=tree').then(data=>data.data).then(response=> {
-		// 	this.setState({
-		// 		data: response.data
-		// 	})
-		// })
+		Auth.loggedIn(msg=> {
+			if (msg != 0) {
+				this.context.router.push('/app/login')
+			} else {
+				http.get('/dudai/?c=analysis.report&ac=gamelist&token=mgame_afs23cgs23')
+					.then(res=>res.data)
+					.then(res=> {
+						console.log(res, '@gameNamesss');
+						if (res.error_code === 0 && res.data.length > 0) {
+							this.setState({
+								gameConf: {
+									gameList: res.data,
+									gameId: res.data[0].value
+								}
+							})
+						}
+
+					})
+			}
+		});
+
 	},
 	handleSidebarDetail: function (item) {
 		if (!item) return;
@@ -28,11 +45,11 @@ module.exports = React.createClass({
 		});
 	},
 	render: function () {
-		const{data,menu} = this.state;
+		const {data, menu, gameConf} = this.state;
 		let defaultConf = null;
-		if(menu) {
+		if (menu) {
 			let locationStates = this.props.location.state;
-			defaultConf={
+			defaultConf = {
 				one: 'game',
 				two: locationStates ? locationStates.two : 'analysis'
 			};
@@ -42,7 +59,6 @@ module.exports = React.createClass({
 			{className: 'fa fa-bar-chart'},
 		];
 		return (
-
 			<div>
 				<HeaderPage headerConf={null} active={defaultConf}/>
 				<div className="bd-body">
@@ -71,7 +87,7 @@ module.exports = React.createClass({
 						}}
 						onReceiveDefaultSidebarData={this.handleSidebarDetail}
 					/>
-					<ContainerPage onMenu={this.state.menu}/>
+					<ContainerPage onMenu={this.state.menu} gameConf={gameConf}/>
 				</div>
 			</div>
 		)
