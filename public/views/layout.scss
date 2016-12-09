@@ -945,8 +945,43 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
             font-size: 14px;
             cursor: pointer;
         }
-        .active{
+        .active {
             border-bottom: 2px solid #00c9a7;
         }
+    }
+}
+
+/******************* table setting sass ***************/
+
+.table-box {
+    margin-top: 10px;
+    table {
+        thead {
+            tr {
+                
+                border-radius: 5px 5px 0 0;
+                th {
+                    border: 0;
+                    line-height: 35px;
+                    background: #ebeff2;
+                    text-align: center;
+                }
+                th:first-child {
+                    border-radius: 5px 0 0 0;
+                }
+                th:last-child {
+                    border-radius: 0 5px 0 0;
+                }
+            }
+        }
+        tbody {
+            tr {
+                td {
+                    border: 0;
+                    text-align: center;
+                }
+            }
+        }
+        
     }
 }

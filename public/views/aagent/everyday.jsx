@@ -138,7 +138,7 @@ module.exports = React.createClass({
 					});
 					let response = Chart.dealChartData(res.theads, res.table);
 					this.handleAccountData(response, dimensionText);
-					Chart.handleShowChart('c1', response, ['登录' + dimensionText, '新增' + dimensionText], ['日期', '新增' + dimensionText + '次留']);
+					Chart.handleShowChart('c1', response, ['登录' + dimensionText, '新增' + dimensionText], ['日期']);
 					Chart.handleShowChart('c2', response, ['付费' + dimensionText, '充值收入',], ['日期', dimensionText + '日ARPPU', dimensionText + '日付费率']);
 					Chart.handleShowChart('c3', response, ['ACU', 'PCU',], ['日期', '新增' + dimensionText + '次留']);
 				}

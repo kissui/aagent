@@ -25,7 +25,7 @@ module.exports = React.createClass({
 		if (nextProps.gameConf && nextProps.gameConf.gameId) {
 			this.setState({
 				gameConf: nextProps.gameConf
-			})
+			});
 		}
 	},
 	handleReceiveRoll: function (value) {
@@ -37,7 +37,6 @@ module.exports = React.createClass({
 			}
 		})
 	},
-
 	render: function () {
 		const {gameConf, device} = this.state;
 		return (
@@ -54,7 +53,7 @@ module.exports = React.createClass({
 				</div>
 				<div className="box-view">
 					<div className="view-option">
-						<div className="selectDevice">
+						<div className="selectCycle">
 							<SelectBar
 								onSelectBarData={JSON.selectBarDevice}
 								onReceiveValue={this.handleReceiveSelectDevice}

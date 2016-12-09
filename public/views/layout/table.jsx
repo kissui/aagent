@@ -54,8 +54,24 @@ module.exports = React.createClass({
 			defaultBody: bodys.slice(10 * current, 10 * (current + 1))
 		})
 	},
+	handleActiveEle: function (args, index) {
+		let acArgs = [1];
+		if (args && args.length > 0) {
+			acArgs = args;
+		} else if (args && args.length === 0) {
+			return null
+		}
+		for (let i = 0; i < acArgs.length; i++) {
+			if (index == acArgs[i]) {
+				return 'active';
+			} else {
+				break;
+			}
+
+		}
+	},
 	render: function () {
-		const {heads} = this.props;
+		const {heads, onActive} = this.props;
 		const {defaultBody, pre, next, pages, current} = this.state;
 		let pageList = [];
 		for (let i = 0; i < pages; i++) {
@@ -67,9 +83,10 @@ module.exports = React.createClass({
 				</li>
 			);
 		}
+
 		return (
 			<div className='table-box'>
-				<table className="table ">
+				<table className="table table-striped">
 					<thead>
 					<tr className="text-center">
 						{heads ? heads.map((item, i)=> {
@@ -86,7 +103,7 @@ module.exports = React.createClass({
 								{items.map((item, si)=> {
 									return (
 										<td key={si}
-											className={si === 1 && 'active'}>{si === 0 ? item.split('%')[0] : item ? item : '-'}
+											className={this.handleActiveEle(onActive, si)}>{si === 0 ? item.split('%')[0] : item ? item : '-'}
 										</td>
 									)
 								})}

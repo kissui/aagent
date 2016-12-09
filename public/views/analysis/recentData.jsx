@@ -6,6 +6,9 @@ import DatePickerPage from '../../components/datePage';
 import http from '../../lib/http';
 import Chart from '../../components/chart';
 import moment from 'moment';
+import TablePage from '../layout/table'; // table
+import LoadingPage from '../../components/is_loading';
+import SelectRollPage from '../../components/box/selectRoll'; //选择角色
 const tabList = {
 	title: '付费情况',
 	subList: [
@@ -75,33 +78,38 @@ module.exports = React.createClass({
 		let endRange = +new Date() - oneDay;
 		let startRange = endRange - defaultRange;
 		let format = 'YYYY-MM-DD';
-		const {onGameConf,onMenu} = this.props;
+		const {onGameConf, onMenu} = this.props;
 		return {
 			dateRange: {
 				dateStart: moment(new Date(startRange)).format(format).toString(),
 				dateEnd: moment(new Date(endRange)).format(format).toString()
 			},
 			gameConf: onGameConf,
-			device: onMenu
+			device: onMenu,
+			isLoading: true
 		}
 	},
-	componentDidMount: function () {
-		const {dateRange,gameConf,device} = this.state;
+	handleInitAnalysisData: function (receiveParams) {
+		const {isLoading} = this.state;
+		if (!isLoading)
+			this.setState({
+				isLoading: true
+			});
+
+		let kpis = receiveParams.key ? tabList.subList[_.findIndex(tabList.subList, item=> {
+			return item.key == receiveParams.key
+		})].data : tabList.subList[0].data;
 		let data = {
 			"cycle": 'days',
-			"device": device,
+			"device": receiveParams.device,
 			"weidu": 'role',
-			"appid": gameConf.gameId,
+			"dimension": "multi", // role ? null : 'multi'
+			"appid": receiveParams.gameId,
 			"kpi_conf": {
 				"everyday": {
-					"start": dateRange.dateStart,
-					"end": dateRange.dateEnd,
-					"kpis": [
-						{
-							'meta_id': '2819',
-							'name': '充值收入 '
-						}
-					]
+					"start": receiveParams.dateStart,
+					"end": receiveParams.dateEnd,
+					"kpis": kpis
 				},
 
 			}
@@ -117,24 +125,56 @@ module.exports = React.createClass({
 						isLoading: false
 					});
 					let response = Chart.dealChartData(res.theads, res.table);
-					console.log(response,'response');
+					console.log(response, 'response');
 				}
 			})
 	},
+	componentDidMount: function () {
+		const {dateRange, gameConf, device} = this.state;
+		let params = _.extend({}, dateRange, gameConf, {device: device});
+		this.handleInitAnalysisData(params)
+	},
+	componentWillReceiveProps: function (nextProps) {
+		if (nextProps.onMenu && nextProps.onGameConf) {
+			const {dateRange, gameConf, device} = this.state;
+			let params;
+			if (gameConf.gameId != nextProps.onGameConf.gameId) {
+				params = _.extend({}, dateRange, nextProps.onGameConf, {device: device});
+			} else {
+				params = _.extend({}, dateRange, gameConf, {device: nextProps.onMenu});
+			}
+			this.handleInitAnalysisData(params);
+		}
+	},
 	handleReceiveKey: function (key) {
-		console.log(key)
+		const {dateRange, gameConf, device} = this.state;
+		let params = _.extend({}, dateRange, gameConf, {device: device}, {key: key});
+		this.handleInitAnalysisData(params);
+		this.setState({
+			key: key
+		})
 	},
 	handleReceiveDateRange: function (start, end) {
 		const format = 'YYYY-MM-DD';
+		let dateRange = {
+			dateStart: start.format(format).toString(),
+			dateEnd: end.format(format).toString()
+		};
+		const {gameConf, device, key} = this.state;
+		let params = _.extend({}, dateRange, gameConf, {device: device}, {key: key});
+		this.handleInitAnalysisData(params);
 		this.setState({
-			dateRange: {
-				start: start.format(format).toString(),
-				end: end.format(format).toString()
-			}
+			dateRange: dateRange
 		});
 	},
+	handleReceiveRoll: function (value) {
+
+	},
 	render: function () {
-		const {dateRange} = this.state;
+		const {dateRange, heads, bodys, isLoading} = this.state;
+		let content = <LoadingPage/>;
+		if (!isLoading)
+			content = heads && <TablePage heads={heads} bodys={bodys} onActive={[]}/>
 		return (
 			<div>
 				<h2 className="analysis-tit">
@@ -157,8 +197,17 @@ module.exports = React.createClass({
 						/>
 					</div>
 				</div>
+				<div className="analysis-second-bar">
+					<SelectRollPage
+						onReceiveRollValue={this.handleReceiveRoll}
+						onStyle={{
+							position: 'relative',
+							right: 0
+						}}
+					/>
+				</div>
 				<div className="analysis-show-box">
-
+					{content}
 				</div>
 			</div>
 		)
