@@ -28,7 +28,6 @@ module.exports = React.createClass({
 		}
 	},
 	handleReceiveRoll: function (value) {
-
 		const {gameConf} = this.state;
 		this.setState({
 			gameConf: {

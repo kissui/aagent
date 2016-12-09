@@ -72,4 +72,25 @@
             }
         }
     }
+    .analysis-tit{
+        font-size: 18px;
+        color: #2cbfbe;
+        font-weight: bold;
+        padding: 10px 0 5px 0;
+        margin-left: -15px;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 0px;
+        line-height: 0;
+        i{
+            font-size: 22px;
+        }
+    }
+    .analysis-header {
+        position: relative;
+        .analysis-date {
+            position: absolute;
+            top: 12px;
+            right:0;
+        }
+    }
 }

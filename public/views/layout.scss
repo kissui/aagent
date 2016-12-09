@@ -147,7 +147,7 @@ a {
     background: transparent; // 1
     text-decoration: none;
     color: nth($colorLink, 1);
-
+    
     &:active {
         outline: 0; // 2
     }
@@ -207,7 +207,7 @@ sub {
 img {
     border: 0; // 1
     vertical-align: middle;
-
+    
 }
 
 // Correct overflow not hidden in IE 9/10/11.
@@ -324,7 +324,7 @@ input[type="radio"] {
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
     height: auto;
-
+    
 }
 
 // 1. Address `appearance` set to `searchfield` in Safari and Chrome.
@@ -531,7 +531,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
     from {
         opacity: 0;
     }
-
+    
     to {
         opacity: 1;
     }
@@ -541,7 +541,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
     from {
         opacity: 0;
     }
-
+    
     to {
         opacity: 1;
     }
@@ -558,7 +558,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
         -webkit-transform: translate3d(0, -100%, 0);
         transform: translate3d(0, -100%, 0);
     }
-
+    
     to {
         opacity: 1;
         -webkit-transform: none;
@@ -572,7 +572,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
         -webkit-transform: translate3d(0, -100%, 0);
         transform: translate3d(0, -100%, 0);
     }
-
+    
     to {
         opacity: 1;
         -webkit-transform: none;
@@ -604,7 +604,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
         text-align: center;
         font-size: 30px;
         color: $positiveColor;
-
+        
     }
 }
 
@@ -622,7 +622,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
             line-height: 32px;
             display: inline-block;
             width: 160px;
-
+            
         }
         a:hover {
             color: white;
@@ -804,7 +804,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
     .week_border_right {
         border-right: 1px solid #ccc;
     }
-    .week_table,.year-table {
+    .week_table, .year-table {
         display: inline-block;;
         width: 245px;
         background: #fff;
@@ -819,13 +819,13 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
             }
             .left {
                 left: 20px;
-
+                
             }
             .right {
                 right: 20px;
             }
         }
-        .week_body,.year-body {
+        .week_body, .year-body {
             padding: 10px;
             span {
                 cursor: pointer;
@@ -890,7 +890,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
 }
 
 /****************** datePicker week calender *************/
-.datePicker-week-wrap{
+.datePicker-week-wrap {
     position: relative;
     .datePicker-week-input {
         width: 210px;
@@ -917,7 +917,36 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
             }
         }
     }
-    .datePicker-month-body{
+    .datePicker-month-body {
         width: 380px;
+    }
+}
+
+/************tabbed box scss**********/
+.tabbed-box {
+    height: 51px;
+    margin-left: 10px;
+    border-bottom: 1px solid #dcdcdc;
+    color: #6e7384;
+    h4 {
+        display: inline-block;
+        margin-right: 10px;
+        height: 43px;
+        line-height: 43px;
+        font-size: 20px;
+    }
+    ul {
+        display: inline-block;
+        height: 43px;
+        line-height: 43px;
+        li {
+            display: inline-block;
+            padding: 6px 10px 0;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .active{
+            border-bottom: 2px solid #00c9a7;
+        }
     }
 }

@@ -23,7 +23,6 @@ module.exports = React.createClass({
 				http.get('/dudai/?c=analysis.report&ac=gamelist&token=mgame_afs23cgs23')
 					.then(res=>res.data)
 					.then(res=> {
-						console.log(res, '@gameNamesss');
 						if (res.error_code === 0 && res.data.length > 0) {
 							this.setState({
 								gameConf: {

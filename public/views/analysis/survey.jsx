@@ -99,7 +99,7 @@ module.exports = React.createClass({
 			survey: surveys,
 			chartData: chart
 		});
-		this.handleShowChart(chart, surveys[0][0].chart_kpi)
+		// this.handleShowChart(chart, surveys[0][0].chart_kpi)
 	},
 	handleShowChart: function (data, conf) {
 		console.log(data, conf);
@@ -135,7 +135,7 @@ module.exports = React.createClass({
 		this.setState({
 			defaultSelect: index,
 		});
-		this.handleShowChart(this.state.chartData, conf)
+		// this.handleShowChart(this.state.chartData, conf)
 	},
 	render: function () {
 		const {defaultSelect, survey} = this.state;
@@ -169,6 +169,10 @@ module.exports = React.createClass({
 		}
 		return (
 			<div>
+				<h2 className="analysis-tit">
+					<i className="fa fa-bar-chart"></i>
+					概览
+				</h2>
 				<div className="survey row">
 					{content}
 				</div>

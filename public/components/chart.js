@@ -45,7 +45,9 @@ export default {
 		return chartData;
 	},
 	handleShowChart (id, data, indicators, dimensions) {
-		document.getElementById(id).innerHTML = null;
+		let chartDOM = document.getElementById(id);
+		if (chartDOM && chartDOM.length > 0)
+			chartDOM.innerHTML = null;
 		var chart = new G2.Chart({
 			id: id,
 			forceFit: true,
