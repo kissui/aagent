@@ -6,6 +6,7 @@
  * <SelectBar
  *     onSelectBarData={selectBarData}
  *     onReceiveValue={this.handleReceiveSelectCycle}
+ *     onSelectBarStyle={{color: 'red'}}
  *     onDefaultValue={'day'}
  * />
  * @props onSelectBarData type Array
@@ -27,7 +28,7 @@ module.exports = React.createClass({
 	},
 	componentDidMount: function () {
 		let value = this.props.onDefaultValue;
-		this.props.onReceiveValue(value)
+		// this.props.onReceiveValue(value)
 	},
 	handleSelect: function (value) {
 		this.setState({

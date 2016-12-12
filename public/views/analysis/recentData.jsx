@@ -9,6 +9,7 @@ import moment from 'moment';
 import TablePage from '../layout/table'; // table
 import LoadingPage from '../../components/is_loading';
 import SelectRollPage from '../../components/box/selectRoll'; //选择角色
+import SelectBarGraphicOrTable from '../../components/box/selectBar'; //选择图表或者表格
 const tabList = {
 	title: '付费情况',
 	subList: [
@@ -127,6 +128,16 @@ const tabList = {
 		}
 	]
 };
+const selectBarData = [
+	{
+		title: '图',
+		value: 'graphic'
+	},
+	{
+		title: '表',
+		value: 'table'
+	}
+];
 module.exports = React.createClass({
 	getInitialState: function () {
 		let defaultRange = 3600 * 24 * 6 * 1000;
@@ -143,7 +154,8 @@ module.exports = React.createClass({
 			gameConf: onGameConf,
 			device: onMenu,
 			dimension: 'role',
-			isLoading: true
+			isLoading: true,
+			showBoxType: 'graphic'
 		}
 	},
 	handleInitAnalysisData: function (receiveParams) {
@@ -196,7 +208,7 @@ module.exports = React.createClass({
 						isLoading: false
 					});
 					let response = Chart.dealChartData(res.theads, res.table);
-					console.log(response, 'response');
+					Chart.handleShowAnalysisChart('analysis1', response, res.theads.slice(1), ['日期']);
 				}
 			})
 	},
@@ -246,11 +258,30 @@ module.exports = React.createClass({
 			dimension: value
 		})
 	},
+	handleChangeGraphicOrTable: function (value) {
+		const {heads, bodys} = this.state;
+		this.setState({
+			showBoxType: value
+		});
+		if (value === 'graphic') {
+			let response = Chart.dealChartData(heads, bodys);
+			Chart.handleShowAnalysisChart('analysis1', response, heads.slice(1), ['日期'], 'reload');
+		} else {
+			let chartDOM = document.getElementById('analysis1');
+			if (chartDOM && chartDOM.innerHTML)
+				chartDOM.innerHTML = null;
+		}
+	},
 	render: function () {
-		const {dateRange, heads, bodys, isLoading,isShowRoleBox} = this.state;
+		const {dateRange, heads, bodys, isLoading, isShowRoleBox, showBoxType} = this.state;
 		let content = <LoadingPage/>;
-		if (!isLoading)
-			content = heads && <TablePage heads={heads} bodys={bodys} onActive={[]}/>
+		if (!isLoading) {
+			if (showBoxType != 'graphic') {
+				content = heads && <TablePage heads={heads} bodys={bodys} onActive={[]}/>;
+			} else {
+				content = null;
+			}
+		}
 		return (
 			<div>
 				<h2 className="analysis-tit">
@@ -274,15 +305,23 @@ module.exports = React.createClass({
 					</div>
 				</div>
 				<div className="analysis-second-bar">
-					{isShowRoleBox &&<SelectRollPage
+					<SelectBarGraphicOrTable
+						onSelectBarStyle={{float: 'right', width: '122px', marginLeft: '10px'}}
+						onDefaultValue="graphic"
+						onReceiveValue={this.handleChangeGraphicOrTable}
+						onSelectBarData={selectBarData}
+					/>
+					{isShowRoleBox && <SelectRollPage
 						onReceiveRollValue={this.handleReceiveRoll}
 						onStyle={{
+							float: 'right',
 							position: 'relative',
 							right: 0
 						}}
 					/>}
 				</div>
 				<div className="analysis-show-box">
+					<div id="analysis1"></div>
 					{content}
 				</div>
 			</div>

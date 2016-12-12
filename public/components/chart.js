@@ -90,5 +90,54 @@ export default {
 
 		}
 		chart.render();
+	},
+	handleShowAnalysisChart (id, data, indicators, dimensions) {
+		let chartDOM = document.getElementById(id);
+		if (chartDOM && chartDOM.innerHTML)
+			chartDOM.innerHTML = null;
+		var chart = new G2.Chart({
+			id: id,
+			forceFit: true,
+			height: 400,
+			plotCfg: {
+				margin: [35, 0, 50, 30]
+			}
+		});
+		var Frame = G2.Frame;
+		var frame = new Frame(data);
+		// console.log(frame);
+		chart.axis('日期', {
+			formatter: function (dimValue) {
+				return dimValue;
+			}
+		});
+		let colors = ['#45594e', '#8fbeac', '#5e9882', '#fbbe7b', '#fff6e5', '#e89ba5', '#f5de50', '#f6deda', '#fbbe7a'];
+		let stackColor = colors.slice(0, indicators.length);
+		frame = Frame.combinColumns(frame, indicators, 'population', 'kpi', dimensions, 'di');
+		chart.legend({
+			position: 'top', // 图例的显示位置，有 'top','left','right','bottom'四种位置，默认是'right'
+		});
+		chart.source(frame);
+		chart.interval(['dodge', 'stack']).position('日期*population').color('kpi', stackColor);// 使用图形语法绘制柱状图
+		if (dimensions.length > 0) {
+			let d = dimensions.slice(1).join('*');
+			let reverseColors = colors.reverse();
+			dimensions.map((item, i)=> {
+				if (i > 0 && i != 0) {
+					chart.line().position('日期*' + item).color(reverseColors[i]).size(2).shape('smooth');
+					chart.on('tooltipchange', function (ev) {
+						var items = ev.items; // 获取tooltip要显示的内容
+						items.map((sitem, i)=> {
+							if (sitem.name == item) {
+								sitem.value = sitem.value + '%';
+							}
+						})
+					});
+					chart.point().position('日期*' + item).color(reverseColors[i]); // 绘制点图
+				}
+			})
+
+		}
+		chart.render();
 	}
 }
