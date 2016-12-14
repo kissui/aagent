@@ -11,7 +11,7 @@ module.exports = React.createClass({
 		let defaultRange = 3600 * 24 * 7 * 1000;
 		let endRange = +new Date();
 		let startRange = endRange - defaultRange;
-		const {onDevice, onCycle,onGameId} = this.props;
+		const {onDevice, onCycle, onGameId} = this.props;
 		let format = 'YYYY-MM-DD';
 		return {
 			sum: {},
@@ -70,108 +70,106 @@ module.exports = React.createClass({
 		let data = {
 			"cycle": globalConf.cycle,
 			"device": globalConf.device,
-			"weidu": globalConf.dimension,
+			"user_dimension": globalConf.dimension,
 			"appid": globalConf.gameId,
 
 			"kpi_conf": {
-				"new": {
-					"start": dateConf.dateStart,
-					"end": dateConf.dateEnd,
-					"kpis": [
-						{
-							'meta_id': '2816',
-							'name': '新增' + dimensionText
-						},
-						{
-							'meta_id': '2833',
-							'name': '次日留存',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2834',
-							'name': '第3日留存',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2835',
-							'name': '第7日留存',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2836',
-							'name': '第15日留存',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2837',
-							'name': '第30日留存',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2857',
-							'name': 'LTV-1',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2858',
-							'name': 'LTV-3',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2859',
-							'name': 'LTV-7',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2860',
-							'name': 'LTV-15',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2861',
-							'name': 'LTV-30',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2862',
-							'name': 'LTV-45',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2863',
-							'name': 'LTV-60',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2864',
-							'name': 'LTV-90',
-							'num_type': 'fixed_2'
-						},
-					]
-				}
+				"start": dateConf.dateStart,
+				"end": dateConf.dateEnd,
+				"kpis": [
+					{
+						'meta_id': '2816',
+						'name': '新增' + dimensionText
+					},
+					{
+						'meta_id': '2833',
+						'name': '次日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2834',
+						'name': '第3日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2835',
+						'name': '第7日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2836',
+						'name': '第15日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2837',
+						'name': '第30日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2857',
+						'name': 'LTV-1',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2858',
+						'name': 'LTV-3',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2859',
+						'name': 'LTV-7',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2860',
+						'name': 'LTV-15',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2861',
+						'name': 'LTV-30',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2862',
+						'name': 'LTV-45',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2863',
+						'name': 'LTV-60',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2864',
+						'name': 'LTV-90',
+						'num_type': 'fixed_2'
+					},
+				]
 			}
 		};
 		http.get('/dudai/?c=analysis.report&ac=get&token=mgame_afs23cgs23', {params: data})
 			.then(data=>data.data)
 			.then((data)=> {
 				if (data.error_code === 0) {
-					let res = data.data.new;
+					let res = data.data;
 					this.setState({
 						heads: res.theads,
 						bodys: res.table,
 						isLoading: false
 					});
 					let response = Chart.dealChartData(res.theads, res.table);
-					this.handleAccountData(response,dimensionText);
+					this.handleAccountData(response, dimensionText);
 					Chart.handleShowChart('c4', response, ['新增' + dimensionText], ['日期', '次日留存', '第3日留存', '第7日留存', '第15日留存', '第30日留存']);
 					Chart.handleShowChart('c5', response, ['新增' + dimensionText], ['日期', 'LTV-1', 'LTV-3', 'LTV-7', 'LTV-15', 'LTV-30', 'LTV-45', 'LTV-60', 'LTV-90']);
 				}
 			})
 	},
-	handleAccountData: function (data,dimensionText) {
+	handleAccountData: function (data, dimensionText) {
 		let sum = {
 			ac_new: _.sumBy(data, (o)=> {
-				return o['新增'+dimensionText]
+				return o['新增' + dimensionText]
 			})
 		};
 		let mean = {
@@ -233,7 +231,7 @@ module.exports = React.createClass({
 		this.getInitialData(globalConf, dateRange);
 	},
 	render: function () {
-		const {heads, bodys, dateRange, sum, mean,globalConf, isLoading} = this.state;
+		const {heads, bodys, dateRange, sum, mean, globalConf, isLoading} = this.state;
 		let dimensionDetailText = this.handleDealDimensionText(globalConf.dimension);
 		let content = (
 			<div>
@@ -241,7 +239,7 @@ module.exports = React.createClass({
 					<div className="col user-view">
 						<p className="title">
 							<i className=" icon fa fa-user-plus"></i>
-							{'累计新增'+dimensionDetailText}
+							{'累计新增' + dimensionDetailText}
 						</p>
 						<p className="number">{parseFloat(sum.ac_new).flover(0)}</p>
 					</div>

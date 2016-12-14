@@ -70,7 +70,7 @@ module.exports = React.createClass({
 		let data = {
 			"cycle": globalConf.cycle,
 			"device": globalConf.device,
-			"weidu": globalConf.dimension,
+			"user_dimension": globalConf.dimension,
 			"appid": globalConf.gameId,
 
 			"kpi_conf": {
@@ -155,7 +155,7 @@ module.exports = React.createClass({
 			.then(data=>data.data)
 			.then((data)=> {
 				if (data.error_code === 0) {
-					let res = data.data.new;
+					let res = data.data;
 					this.setState({
 						heads: res.theads,
 						bodys: res.table,

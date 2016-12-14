@@ -175,12 +175,10 @@ module.exports = React.createClass({
 			"device": receiveParams.device,
 			"appid": receiveParams.gameId,
 			"kpi_conf": {
-				"everyday": {
-					"start": receiveParams.dateStart,
-					"end": receiveParams.dateEnd,
-					"kpis": kpis
-				},
-
+				'dimension_name':dimensionName,
+				"start": receiveParams.dateStart,
+				"end": receiveParams.dateEnd,
+				"kpis": kpis
 			}
 		};
 		if (role) {
@@ -193,15 +191,15 @@ module.exports = React.createClass({
 			})
 		}
 		if (dimensionName) {
-			data = _.extend(data, {dimension: 'multi'}, {dimensionName: dimensionName});
+			data = _.extend(data, {data_dimension: 'multi'});
 		} else {
-			data = _.extend(data, {weidu: receiveParams.dimension});
+			data = _.extend(data, {user_dimension: receiveParams.dimension});
 		}
 		http.get('/dudai/?c=analysis.report&ac=get&token=mgame_afs23cgs23', {params: data})
 			.then(data=>data.data)
 			.then((data)=> {
 				if (data.error_code === 0) {
-					let res = data.data.everyday;
+					let res = data.data;
 					this.setState({
 						heads: res.theads,
 						bodys: res.table,
@@ -214,7 +212,7 @@ module.exports = React.createClass({
 	},
 	componentDidMount: function () {
 		const {dateRange, gameConf, device, dimension} = this.state;
-		let params = _.extend({}, dateRange, gameConf, {device: device}, {dimension: dimension});
+		let params = _.extend({}, dateRange, gameConf, {device: device}, {user_dimension: dimension});
 		this.handleInitAnalysisData(params)
 	},
 	componentWillReceiveProps: function (nextProps) {
@@ -222,16 +220,16 @@ module.exports = React.createClass({
 			const {dateRange, gameConf, device, dimension} = this.state;
 			let params;
 			if (gameConf.gameId != nextProps.onGameConf.gameId) {
-				params = _.extend({}, dateRange, nextProps.onGameConf, {device: device}, {dimension: dimension});
+				params = _.extend({}, dateRange, nextProps.onGameConf, {device: device}, {user_dimension: dimension});
 			} else {
-				params = _.extend({}, dateRange, gameConf, {device: nextProps.onMenu}, {dimension: dimension});
+				params = _.extend({}, dateRange, gameConf, {device: nextProps.onMenu}, {user_dimension: dimension});
 			}
 			this.handleInitAnalysisData(params);
 		}
 	},
 	handleReceiveKey: function (key) {
 		const {dateRange, gameConf, device, dimension} = this.state;
-		let params = _.extend({}, dateRange, gameConf, {device: device}, {key: key}, {dimension: dimension});
+		let params = _.extend({}, dateRange, gameConf, {device: device}, {key: key}, {user_dimension: dimension});
 		this.handleInitAnalysisData(params);
 		this.setState({
 			key: key
@@ -244,7 +242,7 @@ module.exports = React.createClass({
 			dateEnd: end.format(format).toString()
 		};
 		const {gameConf, device, key, dimension} = this.state;
-		let params = _.extend({}, dateRange, gameConf, {device: device}, {key: key}, {dimension: dimension});
+		let params = _.extend({}, dateRange, gameConf, {device: device}, {key: key}, {user_dimension: dimension});
 		this.handleInitAnalysisData(params);
 		this.setState({
 			dateRange: dateRange
@@ -252,7 +250,7 @@ module.exports = React.createClass({
 	},
 	handleReceiveRoll: function (value) {
 		const {gameConf, dateRange, device, key}= this.state;
-		let params = _.extend({}, dateRange, gameConf, {device: device}, {key: key}, {dimension: value});
+		let params = _.extend({}, dateRange, gameConf, {device: device}, {key: key}, {user_dimension: value});
 		this.handleInitAnalysisData(params);
 		this.setState({
 			dimension: value

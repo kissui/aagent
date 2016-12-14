@@ -71,92 +71,90 @@ module.exports = React.createClass({
 		let data = {
 			"cycle": globalConf.cycle,
 			"device": globalConf.device,
-			"weidu": globalConf.dimension,
+			"user_dimension": globalConf.dimension,
 			"appid": globalConf.gameId,
 
 			"kpi_conf": {
-				"new": {
-					"start": dateConf.dateStart,
-					"end": dateConf.dateEnd,
-					"kpis": [
-						{
-							'meta_id': '2816',
-							'name': '新增' + dimensionText
-						},
-						{
-							'meta_id': '2833',
-							'name': '次日留存',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2834',
-							'name': '第3日留存',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2835',
-							'name': '第7日留存',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2836',
-							'name': '第15日留存',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2837',
-							'name': '第30日留存',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2857',
-							'name': 'LTV-1',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2858',
-							'name': 'LTV-3',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2859',
-							'name': 'LTV-7',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2860',
-							'name': 'LTV-15',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2861',
-							'name': 'LTV-30',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2862',
-							'name': 'LTV-45',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2863',
-							'name': 'LTV-60',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2864',
-							'name': 'LTV-90',
-							'num_type': 'fixed_2'
-						},
-					]
-				}
+				"start": dateConf.dateStart,
+				"end": dateConf.dateEnd,
+				"kpis": [
+					{
+						'meta_id': '2816',
+						'name': '新增' + dimensionText
+					},
+					{
+						'meta_id': '2833',
+						'name': '次日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2834',
+						'name': '第3日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2835',
+						'name': '第7日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2836',
+						'name': '第15日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2837',
+						'name': '第30日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2857',
+						'name': 'LTV-1',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2858',
+						'name': 'LTV-3',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2859',
+						'name': 'LTV-7',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2860',
+						'name': 'LTV-15',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2861',
+						'name': 'LTV-30',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2862',
+						'name': 'LTV-45',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2863',
+						'name': 'LTV-60',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2864',
+						'name': 'LTV-90',
+						'num_type': 'fixed_2'
+					},
+				]
 			}
 		};
 		http.get('/dudai/?c=analysis.report&ac=get&token=mgame_afs23cgs23', {params: data})
 			.then(data=>data.data)
 			.then((data)=> {
 				if (data.error_code === 0) {
-					let res = data.data.new;
+					let res = data.data;
 					this.setState({
 						heads: res.theads,
 						bodys: res.table,

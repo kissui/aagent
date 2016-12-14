@@ -46,24 +46,22 @@ module.exports = React.createClass({
 		let data = {
 			"cycle": globalConf.cycle,
 			"device": globalConf.device,
-			"weidu": "role",
+			"user_dimension": "role",
 			"appid": globalConf.gameId,
 
 			"kpi_conf": {
-				"accumulate": {
-					"start": dateConf.dateStart,
-					"end": dateConf.dateEnd,
-					"kpis": [
-						{
-							'meta_id': '2816',
-							'name': '新增账号数'
-						},
-						{
-							'meta_id': '2819',
-							'name': '充值收入(元)'
-						}
-					]
-				}
+				"start": dateConf.dateStart,
+				"end": dateConf.dateEnd,
+				"kpis": [
+					{
+						'meta_id': '2816',
+						'name': '新增账号数'
+					},
+					{
+						'meta_id': '2819',
+						'name': '充值收入(元)'
+					}
+				]
 			}
 		};
 		http.get('/dudai/?c=analysis.report&ac=get&token=mgame_afs23cgs23', {params: data})
@@ -71,7 +69,7 @@ module.exports = React.createClass({
 			.then(res=> {
 				if (res.error_code === 0) {
 					this.setState({
-						accumulate: Chart.dealChartData(res.data.accumulate.theads, res.data.accumulate.table),
+						accumulate: Chart.dealChartData(res.data.theads, res.data.table),
 						isLoading: false
 					})
 				}
@@ -79,7 +77,6 @@ module.exports = React.createClass({
 			})
 	},
 	handleGetDateRange: function (start, end, title) {
-		console.log(start, end, title);
 		const {globalConf} = this.state;
 		let dateConf = {
 			dateStart: start,

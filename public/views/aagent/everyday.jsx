@@ -72,57 +72,54 @@ module.exports = React.createClass({
 		let data = {
 			"cycle": globalConf.cycle,
 			"device": globalConf.device,
-			"weidu": globalConf.dimension,
+			"user_dimension": globalConf.dimension,
 			"appid": globalConf.gameId,
-
 			"kpi_conf": {
-				"everyday": {
-					"start": dateConf.dateStart,
-					"end": dateConf.dateEnd,
-					"kpis": [
-						{
-							'meta_id': '2817',
-							'name': '登录' + dimensionText
-						},
-						{
-							'meta_id': '2816',
-							'name': '新增' + dimensionText
-						},
-						{
-							'meta_id': '2818',
-							'name': '付费' + dimensionText
-						},
-						{
-							'meta_id': '2853',
-							'name': dimensionText + '日付费率',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2819',
-							'name': '充值收入 '
-						},
-						{
-							'meta_id': '2854',
-							'name': dimensionText + '日ARPPU',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2833',
-							'name': '新增' + dimensionText + '次留',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2844',
-							'name': 'ACU',
-							'self_weidu': 'acu'
-						},
-						{
-							'meta_id': '2844',
-							'name': 'PCU',
-							'self_weidu': 'pcu'
-						}
-					]
-				},
+				"start": dateConf.dateStart,
+				"end": dateConf.dateEnd,
+				"kpis": [
+					{
+						'meta_id': '2817',
+						'name': '登录' + dimensionText
+					},
+					{
+						'meta_id': '2816',
+						'name': '新增' + dimensionText
+					},
+					{
+						'meta_id': '2818',
+						'name': '付费' + dimensionText
+					},
+					{
+						'meta_id': '2853',
+						'name': dimensionText + '日付费率',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2819',
+						'name': '充值收入 '
+					},
+					{
+						'meta_id': '2854',
+						'name': dimensionText + '日ARPPU',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2833',
+						'name': '新增' + dimensionText + '次留',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2844',
+						'name': 'ACU',
+						'self_weidu': 'acu'
+					},
+					{
+						'meta_id': '2844',
+						'name': 'PCU',
+						'self_weidu': 'pcu'
+					}
+				]
 
 			}
 		};
@@ -130,7 +127,7 @@ module.exports = React.createClass({
 			.then(data=>data.data)
 			.then((data)=> {
 				if (data.error_code === 0) {
-					let res = data.data.everyday;
+					let res = data.data;
 					this.setState({
 						heads: res.theads,
 						bodys: res.table,

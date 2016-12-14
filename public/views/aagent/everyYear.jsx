@@ -13,7 +13,7 @@ module.exports = React.createClass({
 		let defaultRange = 3600 * 24 * 7 * 1000;
 		let endRange = +new Date();
 		let startRange = endRange - defaultRange;
-		const {onDevice, onCycle,onGameId} = this.props;
+		const {onDevice, onCycle, onGameId} = this.props;
 		let format = 'YYYY-MM-DD';
 		return {
 			sum: {},
@@ -72,56 +72,54 @@ module.exports = React.createClass({
 		let data = {
 			"cycle": globalConf.cycle,
 			"device": globalConf.device,
-			"weidu": globalConf.dimension,
+			"user_dimension": globalConf.dimension,
 			"appid": globalConf.gameId,
 			"kpi_conf": {
-				"everyday": {
-					"start": dateConf.dateStart,
-					"end": dateConf.dateEnd,
-					"kpis": [
-						{
-							'meta_id': '2820',
-							'name': '登录' + dimensionText
-						},
-						{
-							'meta_id': '2816',
-							'name': '新增' + dimensionText
-						},
-						{
-							'meta_id': '2821',
-							'name': '付费' + dimensionText
-						},
-						{
-							'meta_id': '2874',
-							'name': dimensionText + '月付费率',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2819',
-							'name': '充值收入 '
-						},
-						{
-							'meta_id': '2875',
-							'name': dimensionText + '月ARPPU',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2833',
-							'name': '新增' + dimensionText + '次留',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2844',
-							'name': 'ACU',
-							'self_weidu': 'acu'
-						},
-						{
-							'meta_id': '2844',
-							'name': 'PCU',
-							'self_weidu': 'pcu'
-						}
-					]
-				},
+				"start": dateConf.dateStart,
+				"end": dateConf.dateEnd,
+				"kpis": [
+					{
+						'meta_id': '2820',
+						'name': '登录' + dimensionText
+					},
+					{
+						'meta_id': '2816',
+						'name': '新增' + dimensionText
+					},
+					{
+						'meta_id': '2821',
+						'name': '付费' + dimensionText
+					},
+					{
+						'meta_id': '2874',
+						'name': dimensionText + '月付费率',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2819',
+						'name': '充值收入 '
+					},
+					{
+						'meta_id': '2875',
+						'name': dimensionText + '月ARPPU',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2833',
+						'name': '新增' + dimensionText + '次留',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2844',
+						'name': 'ACU',
+						'self_weidu': 'acu'
+					},
+					{
+						'meta_id': '2844',
+						'name': 'PCU',
+						'self_weidu': 'pcu'
+					}
+				]
 
 			}
 		};

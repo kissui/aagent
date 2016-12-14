@@ -63,7 +63,7 @@ module.exports = React.createClass({
 					</div>
 				</div>
 				<div className="box-view">
-					<SurveyPage surveyData={testData}/>
+					{gameConf && <SurveyPage surveyData={testData} onMenu={device} onGameConf={gameConf}/>}
 				</div>
 				<div className="box-view">
 					{gameConf && <RecentDataPage onMenu={device} onGameConf={gameConf}/>}
