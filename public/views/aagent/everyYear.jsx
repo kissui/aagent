@@ -127,7 +127,7 @@ module.exports = React.createClass({
 			.then(data=>data.data)
 			.then((data)=> {
 				if (data.error_code === 0) {
-					let res = data.data.everyday;
+					let res = data.data;
 					this.setState({
 						heads: res.theads,
 						bodys: res.table,

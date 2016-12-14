@@ -675,7 +675,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
     }
 }
 
-.datePicker-container {
+.datePicker-container, .calendar-body {
     .datePicker-view-input {
         width: 340px;
         border: 1px solid #ddd;
@@ -983,5 +983,22 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
             }
         }
         
+    }
+}
+
+.calendar-body {
+    position: relative;
+    
+    .calendar-box {
+        position: absolute;
+        right: 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 8px 16px;
+        background: #fff;
+        z-index: 1111;
+        button {
+            margin-left: 10px;
+        }
     }
 }

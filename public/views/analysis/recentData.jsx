@@ -10,124 +10,7 @@ import TablePage from '../layout/table'; // table
 import LoadingPage from '../../components/is_loading';
 import SelectRollPage from '../../components/box/selectRoll'; //选择角色
 import SelectBarGraphicOrTable from '../../components/box/selectBar'; //选择图表或者表格
-const tabList = {
-	title: '付费情况',
-	subList: [
-		{
-			title: '充值收入',
-			key: 'count',
-			data: [
-				{
-					'meta_id': '2819',
-					'name': '充值收入 '
-				}
-			]
-		},
-		{
-			title: '付费角色',
-			key: 'cash',
-			data: [
-				{
-					'meta_id': '2818',
-					'name': '付费角色 '
-				},
-				{
-					'meta_id': '2914',
-					'name': '首次付费角色数 '
-				}
-			]
-		},
-		{
-			title: '付费率',
-			key: 'cash_percent',
-			role: 'true',
-			data: [
-				{
-					'meta_id': '2874',
-					'name': '角色付费率 ',
-					'num_type': 'percent'
-				},
-				{
-					'meta_id': '2816',
-					'name': '登录角色'
-				},
-			]
-		},
-		{
-			title: 'ARRPU',
-			key: 'arrpu',
-			role: 'true',
-			data: [
-				{
-					'meta_id': '2816',
-					'name': '角色ARPU',
-					'num_type': 'fixed_2'
-				},
-				{
-					'meta_id': '2875',
-					'name': '角色ARPPU',
-					'num_type': 'fixed_2'
-				},
-			]
-		},
-		{
-			title: 'VIP等级分布',
-			key: 'vip',
-			dimensionName: 'VIP等级',
-			data: [
-				{
-					'meta_id': '2916',
-					'name': '收入'
-				},
-				{
-					'meta_id': '2917',
-					'name': 'VIP人数'
-				},
-			]
-		},
-		{
-			title: '充值额度分布',
-			key: 'cash_limit',
-			dimensionName: '充值项目',
-			data: [
-				{
-					'meta_id': '2918',
-					'name': '现金'
-				},
-				{
-					'meta_id': '2919',
-					'name': '角色数'
-				},
-				{
-					'meta_id': '2920',
-					'name': '元宝'
-				},
-				{
-					'meta_id': '2921',
-					'name': '充值次数'
-				},
-			]
-		},
-		{
-			title: '单位时间价格',
-			key: 'price_date',
-			data: [
-				{
-					'meta_id': '2922',
-					'name': '单位时间（价格/小时）'
-				},
-				{
-					'meta_id': '2923',
-					'name': '7日平均'
-				},
-				{
-					'meta_id': '2924',
-					'name': '30日平均'
-				},
-			]
-		}
-	]
-};
+import CalendarPage from '../../components/calenderPage'; //时间插件，单天
 const selectBarData = [
 	{
 		title: '图',
@@ -155,32 +38,24 @@ module.exports = React.createClass({
 			device: onMenu,
 			dimension: 'role',
 			isLoading: true,
-			showBoxType: 'graphic'
+			showBoxType: 'graphic',
+			showDatePickerType: 'range'
 		}
 	},
 	handleInitAnalysisData: function (receiveParams) {
 		const {isLoading} = this.state;
-		if (!isLoading)
-			this.setState({
-				isLoading: true
-			});
-		let index = receiveParams.key ? _.findIndex(tabList.subList, item=> {
+		const {chartId,tabData} = this.props;
+		this.setState({
+			isLoading: true
+		});
+		let _this = this;
+		let index = receiveParams.key ? _.findIndex(tabData.subList, item=> {
 			return item.key == receiveParams.key
 		}) : 0;
-		let kpis = tabList.subList[index].data;
-		let dimensionName = _.get(tabList.subList[index], 'dimensionName');
-		let role = _.get(tabList.subList[index], 'role');
-		let data = {
-			"cycle": 'days',
-			"device": receiveParams.device,
-			"appid": receiveParams.gameId,
-			"kpi_conf": {
-				'dimension_name':dimensionName,
-				"start": receiveParams.dateStart,
-				"end": receiveParams.dateEnd,
-				"kpis": kpis
-			}
-		};
+		let kpis = tabData.subList[index].data;
+		let dimensionName = _.get(tabData.subList[index], 'dimensionName');
+		let role = _.get(tabData.subList[index], 'role');
+
 		if (role) {
 			this.setState({
 				isShowRoleBox: true,
@@ -190,23 +65,46 @@ module.exports = React.createClass({
 				isShowRoleBox: false,
 			})
 		}
+		let data = {
+			"cycle": 'days',
+			"device": receiveParams.device,
+			"appid": receiveParams.gameId,
+			"kpi_conf": {
+				'dimension_name': dimensionName,
+				"start": receiveParams.dateStart,
+				"end": receiveParams.dateEnd,
+				"kpis": kpis
+			}
+		};
 		if (dimensionName) {
+			this.setState({
+				showDatePickerType: false
+			});
+			data.kpi_conf.start = receiveParams.dateEnd;
 			data = _.extend(data, {data_dimension: 'multi'});
 		} else {
-			data = _.extend(data, {user_dimension: receiveParams.dimension});
+			this.setState({
+				showDatePickerType: 'range'
+			});
+			data = _.extend(data, {user_dimension: receiveParams.user_dimension});
 		}
 		http.get('/dudai/?c=analysis.report&ac=get&token=mgame_afs23cgs23', {params: data})
 			.then(data=>data.data)
 			.then((data)=> {
 				if (data.error_code === 0) {
 					let res = data.data;
-					this.setState({
+					_this.setState({
 						heads: res.theads,
 						bodys: res.table,
 						isLoading: false
 					});
 					let response = Chart.dealChartData(res.theads, res.table);
-					Chart.handleShowAnalysisChart('analysis1', response, res.theads.slice(1), ['日期']);
+					if (res.table && res.table.length > 0) {
+						Chart.handleShowAnalysisChart(chartId, response, res.theads.slice(1), ['日期']);
+					} else {
+						document.getElementById(chartId).innerHTML = '暂无数据';
+					}
+
 				}
 			})
 	},
@@ -236,6 +134,7 @@ module.exports = React.createClass({
 		})
 	},
 	handleReceiveDateRange: function (start, end) {
+		console.log(start, end, '@the date is init');
 		const format = 'YYYY-MM-DD';
 		let dateRange = {
 			dateStart: start.format(format).toString(),
@@ -258,12 +157,13 @@ module.exports = React.createClass({
 	},
 	handleChangeGraphicOrTable: function (value) {
 		const {heads, bodys} = this.state;
+		const {chartId} = this.props;
 		this.setState({
 			showBoxType: value
 		});
 		if (value === 'graphic') {
 			let response = Chart.dealChartData(heads, bodys);
-			Chart.handleShowAnalysisChart('analysis1', response, heads.slice(1), ['日期'], 'reload');
+			Chart.handleShowAnalysisChart(chartId, response, heads.slice(1), ['日期'], 'reload');
 		} else {
 			let chartDOM = document.getElementById('analysis1');
 			if (chartDOM && chartDOM.innerHTML)
@@ -271,7 +171,8 @@ module.exports = React.createClass({
 		}
 	},
 	render: function () {
-		const {dateRange, heads, bodys, isLoading, isShowRoleBox, showBoxType} = this.state;
+		const {dateRange, heads, bodys, isLoading, isShowRoleBox, showBoxType, showDatePickerType} = this.state;
+		const {chartId,tabData} = this.props;
 		let content = <LoadingPage/>;
 		if (!isLoading) {
 			if (showBoxType != 'graphic') {
@@ -287,9 +188,9 @@ module.exports = React.createClass({
 					近期数据
 				</h2>
 				<div className="analysis-header">
-					<TabbedPage tabList={tabList} onReceiveKey={this.handleReceiveKey}/>
+					<TabbedPage tabList={tabData} onReceiveKey={this.handleReceiveKey}/>
 					<div className="analysis-date">
-						<DatePickerPage
+						{showDatePickerType ? <DatePickerPage
 							onReceiveData={this.handleReceiveDateRange}
 							isShowRange={false}
 							onDefaultDateRange={dateRange}
@@ -299,16 +200,19 @@ module.exports = React.createClass({
 							dateInputStyle={{
 								width: '230px'
 							}}
-						/>
+						/> :
+							<CalendarPage
+								onReceiveData={this.handleReceiveDateRange}
+							/>}
 					</div>
 				</div>
 				<div className="analysis-second-bar">
-					<SelectBarGraphicOrTable
+					{bodys && bodys.length > 0 && <SelectBarGraphicOrTable
 						onSelectBarStyle={{float: 'right', width: '122px', marginLeft: '10px'}}
 						onDefaultValue="graphic"
 						onReceiveValue={this.handleChangeGraphicOrTable}
 						onSelectBarData={selectBarData}
-					/>
+					/>}
 					{isShowRoleBox && <SelectRollPage
 						onReceiveRollValue={this.handleReceiveRoll}
 						onStyle={{
@@ -319,8 +223,8 @@ module.exports = React.createClass({
 					/>}
 				</div>
 				<div className="analysis-show-box">
-					<div id="analysis1"></div>
 					{content}
+					<div id={chartId} style={{textAlign: 'center'}}></div>
 				</div>
 			</div>
 		)

@@ -5,7 +5,9 @@ import JSON from '../../components/json/conf_json';
 import SurveyPage from './survey'; // 概览
 import RecentDataPage from './recentData'; //近期数据模块
 import SelectRollPage from '../../components/box/selectRoll' //选择角色的下拉菜单
+import analysis_conf from '../../components/json/analysisParams'; //数据参数配置文件
 const testData = JSON.testData;
+
 module.exports = React.createClass({
 	getInitialState: function () {
 		return {
@@ -66,7 +68,10 @@ module.exports = React.createClass({
 					{gameConf && <SurveyPage surveyData={testData} onMenu={device} onGameConf={gameConf}/>}
 				</div>
 				<div className="box-view">
-					{gameConf && <RecentDataPage onMenu={device} onGameConf={gameConf}/>}
+					{gameConf && <RecentDataPage onMenu={device} onGameConf={gameConf} chartId="analysis1" tabData={analysis_conf.tabList}/>}
+				</div>
+				<div className="box-view">
+					{gameConf && <RecentDataPage onMenu={device} onGameConf={gameConf} chartId="analysis2" tabData={analysis_conf.playUser}/>}
 				</div>
 			</div>
 		)
