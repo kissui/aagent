@@ -67,11 +67,21 @@ module.exports = React.createClass({
 				<div className="box-view">
 					{gameConf && <SurveyPage surveyData={testData} onMenu={device} onGameConf={gameConf}/>}
 				</div>
-				<div className="box-view">
+				<div className="box-view analysis-show-box">
+					<h2 className="analysis-tit">
+						<i className="fa fa-bar-chart"></i>
+						近期数据
+					</h2>
 					{gameConf && <RecentDataPage onMenu={device} onGameConf={gameConf} chartId="analysis1" tabData={analysis_conf.tabList}/>}
-				</div>
-				<div className="box-view">
+				{/*</div>*/}
+				{/*<div className="box-view">*/}
 					{gameConf && <RecentDataPage onMenu={device} onGameConf={gameConf} chartId="analysis2" tabData={analysis_conf.playUser}/>}
+				{/*</div>*/}
+				{/*<div className="box-view">*/}
+					{gameConf && <RecentDataPage onMenu={device} onGameConf={gameConf} chartId="analysis3" tabData={analysis_conf.channelAnalysis}/>}
+				{/*</div>*/}
+				{/*<div className="box-view">*/}
+					{gameConf && <RecentDataPage onMenu={device} onGameConf={gameConf} chartId="analysis4" tabData={analysis_conf.economy}/>}
 				</div>
 			</div>
 		)

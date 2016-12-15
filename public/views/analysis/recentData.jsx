@@ -165,7 +165,7 @@ module.exports = React.createClass({
 			let response = Chart.dealChartData(heads, bodys);
 			Chart.handleShowAnalysisChart(chartId, response, heads.slice(1), ['日期'], 'reload');
 		} else {
-			let chartDOM = document.getElementById('analysis1');
+			let chartDOM = document.getElementById(chartId);
 			if (chartDOM && chartDOM.innerHTML)
 				chartDOM.innerHTML = null;
 		}
@@ -183,10 +183,6 @@ module.exports = React.createClass({
 		}
 		return (
 			<div>
-				<h2 className="analysis-tit">
-					<i className="fa fa-bar-chart"></i>
-					近期数据
-				</h2>
 				<div className="analysis-header">
 					<TabbedPage tabList={tabData} onReceiveKey={this.handleReceiveKey}/>
 					<div className="analysis-date">
@@ -222,7 +218,7 @@ module.exports = React.createClass({
 						}}
 					/>}
 				</div>
-				<div className="analysis-show-box">
+				<div className="content">
 					{content}
 					<div id={chartId} style={{textAlign: 'center'}}></div>
 				</div>

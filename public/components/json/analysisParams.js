@@ -105,15 +105,18 @@ module.exports = {
 				data: [
 					{
 						'meta_id': '2922',
-						'name': '单位时间（价格/小时）'
+						'name': '单位时间（价格/小时）',
+						'num_type': 'fixed_2'
 					},
 					{
 						'meta_id': '2923',
-						'name': '7日平均'
+						'name': '7日平均',
+						'num_type': 'fixed_2'
 					},
 					{
 						'meta_id': '2924',
-						'name': '30日平均'
+						'name': '30日平均',
+						'num_type': 'fixed_2'
 					},
 				]
 			}
@@ -125,6 +128,7 @@ module.exports = {
 			{
 				title: '各服务器玩家分布',
 				key: 'play_map',
+				dimensionName:'服务器',
 				data: [
 					{
 						'meta_id': '2925',
@@ -142,18 +146,318 @@ module.exports = {
 				data: [
 					{
 						'meta_id': '2927',
-						'name': '平均启动次数'
+						'name': '平均启动次数',
+						'num_type': 'fixed_2'
 					}
 				]
 			},
 			{
 				title: '等级分布',
 				key: 'level',
+				dimensionName:'等级',
 				data: [
 					{
 						'meta_id': '2928',
 						'name': '等级分布',
-						'num_type': 'fixed_2'
+
+					}
+				]
+			}
+		]
+	},
+	channelAnalysis: {
+		title: '渠道分析',
+		subList: [
+			{
+				title: '登录',
+				key: 'play_login',
+				dimensionName:'渠道',
+				data: [
+					{
+						'meta_id': '2929',
+						'name': '登录角色'
+					},
+					{
+						'meta_id': '2930',
+						'name': '新增角色数'
+					},
+					{
+						'meta_id': '2931',
+						'name': '付费率',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2932',
+						'name': '渠道充值占比',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2933',
+						'name': '充值总金额'
+					},
+					{
+						'meta_id': '2934',
+						'name': 'ARPU',
+						'num_type': 'fix_2'
+					},
+					{
+						'meta_id': '2935',
+						'name': 'ARPPU',
+						'num_type': 'fix_2'
+					},
+					{
+						'meta_id': '2930',
+						'name': '新增角色数'
+					},
+					{
+						'meta_id': '2936',
+						'name': '次日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2937',
+						'name': '第3日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2938',
+						'name': '第7日留存',
+						'num_type': 'percent'
+					}
+				]
+			},
+			{
+				title: '付费',
+				key: 'play_cash',
+				dimensionName:'渠道',
+				data: [
+					{
+						'meta_id': '2929',
+						'name': '登录角色'
+					},
+					{
+						'meta_id': '2930',
+						'name': '新增角色数'
+					},
+					{
+						'meta_id': '2931',
+						'name': '付费率',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2932',
+						'name': '渠道充值占比',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2933',
+						'name': '充值总金额'
+					},
+					{
+						'meta_id': '2934',
+						'name': 'ARPU',
+						'num_type': 'fix_2'
+					},
+					{
+						'meta_id': '2935',
+						'name': 'ARPPU',
+						'num_type': 'fix_2'
+					},
+					{
+						'meta_id': '2930',
+						'name': '新增角色数'
+					},
+					{
+						'meta_id': '2936',
+						'name': '次日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2937',
+						'name': '第3日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2938',
+						'name': '第7日留存',
+						'num_type': 'percent'
+					}
+				]
+			},
+			{
+				title: 'ARPU',
+				key: 'play_arpu',
+				dimensionName:'渠道',
+				data: [
+					{
+						'meta_id': '2929',
+						'name': '登录角色'
+					},
+					{
+						'meta_id': '2930',
+						'name': '新增角色数'
+					},
+					{
+						'meta_id': '2931',
+						'name': '付费率',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2932',
+						'name': '渠道充值占比',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2933',
+						'name': '充值总金额'
+					},
+					{
+						'meta_id': '2934',
+						'name': 'ARPU',
+						'num_type': 'fix_2'
+					},
+					{
+						'meta_id': '2935',
+						'name': 'ARPPU',
+						'num_type': 'fix_2'
+					},
+					{
+						'meta_id': '2930',
+						'name': '新增角色数'
+					},
+					{
+						'meta_id': '2936',
+						'name': '次日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2937',
+						'name': '第3日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2938',
+						'name': '第7日留存',
+						'num_type': 'percent'
+					}
+				]
+			},
+			{
+				title: '留存',
+				key: 'play_save',
+				dimensionName:'渠道',
+				data: [
+					{
+						'meta_id': '2929',
+						'name': '登录角色'
+					},
+					{
+						'meta_id': '2930',
+						'name': '新增角色数'
+					},
+					{
+						'meta_id': '2931',
+						'name': '付费率',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2932',
+						'name': '渠道充值占比',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2933',
+						'name': '充值总金额'
+					},
+					{
+						'meta_id': '2934',
+						'name': 'ARPU',
+						'num_type': 'fix_2'
+					},
+					{
+						'meta_id': '2935',
+						'name': 'ARPPU',
+						'num_type': 'fix_2'
+					},
+					{
+						'meta_id': '2930',
+						'name': '新增角色数'
+					},
+					{
+						'meta_id': '2936',
+						'name': '次日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2937',
+						'name': '第3日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2938',
+						'name': '第7日留存',
+						'num_type': 'percent'
+					}
+				]
+			}
+		]
+	},
+	economy:{
+		title:'经济情况',
+		subList:[
+			{
+				title: '元宝回收产出比',
+				key: 'gold_back',
+				data: [
+					{
+						'meta_id': '2939',
+						'name': '元宝回收量',
+					},
+					{
+						'meta_id': '2940',
+						'name': '元宝产出量',
+					},
+					{
+						'meta_id': '2941',
+						'name': '元宝回收产出比',
+					}
+				]
+			},
+			{
+				title: '元宝产出途径',
+				key: 'gold_product',
+				dimensionName:'途径',
+				data: [
+					{
+						'meta_id': '2942',
+						'name': '产出元宝数量',
+					},
+					{
+						'meta_id': '2943',
+						'name': '产出元宝次数',
+					},
+					{
+						'meta_id': '2944',
+						'name': '产出元宝角色数',
+					}
+				]
+			},
+			{
+				title: '元宝回收途径',
+				key: 'gold_back_approach',
+				dimensionName:'途径',
+				data: [
+					{
+						'meta_id': '2945',
+						'name': '回收元宝数量',
+					},
+					{
+						'meta_id': '2946',
+						'name': '回收元宝次数',
+					},
+					{
+						'meta_id': '2947',
+						'name': '回收元宝角色数',
 					}
 				]
 			}
