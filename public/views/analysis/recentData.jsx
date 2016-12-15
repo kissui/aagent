@@ -44,7 +44,7 @@ module.exports = React.createClass({
 	},
 	handleInitAnalysisData: function (receiveParams) {
 		const {isLoading} = this.state;
-		const {chartId,tabData} = this.props;
+		const {chartId, tabData} = this.props;
 		this.setState({
 			isLoading: true
 		});
@@ -134,7 +134,6 @@ module.exports = React.createClass({
 		})
 	},
 	handleReceiveDateRange: function (start, end) {
-		console.log(start, end, '@the date is init');
 		const format = 'YYYY-MM-DD';
 		let dateRange = {
 			dateStart: start.format(format).toString(),
@@ -172,7 +171,7 @@ module.exports = React.createClass({
 	},
 	render: function () {
 		const {dateRange, heads, bodys, isLoading, isShowRoleBox, showBoxType, showDatePickerType} = this.state;
-		const {chartId,tabData} = this.props;
+		const {chartId, tabData} = this.props;
 		let content = <LoadingPage/>;
 		if (!isLoading) {
 			if (showBoxType != 'graphic') {

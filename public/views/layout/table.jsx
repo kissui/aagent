@@ -64,8 +64,6 @@ module.exports = React.createClass({
 		for (let i = 0; i < acArgs.length; i++) {
 			if (index == acArgs[i]) {
 				return 'active';
-			} else {
-				break;
 			}
 
 		}
@@ -103,7 +101,8 @@ module.exports = React.createClass({
 								{items.map((item, si)=> {
 									return (
 										<td key={si}
-											className={this.handleActiveEle(onActive, si)}>{si === 0 ? item.split('%')[0] : item ? item : '-'}
+											className={this.handleActiveEle(onActive, si)}>
+											{si === 0 ? item.split('%')[0] : item ? item : '-'}
 										</td>
 									)
 								})}

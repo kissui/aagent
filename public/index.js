@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 });
 
 const ROOT = document.getElementById('root');
-console.log(ROOT)
 
 if(ROOT) {
     ReactDOM.render(Routes,ROOT);

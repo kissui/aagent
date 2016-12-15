@@ -68,7 +68,6 @@ export default {
 			.then(r =>r.data)
 			.then(r=> {
 				if (r.error_code === 0)
-					console.log(r,233);
 					USER = r.data.username;
 					sessionStorage.setItem('user',r.data.username) ;
 				cb(r.error_code);
@@ -93,6 +92,5 @@ function pretendRequest(email, pass, cb) {
 
 
 function isServer() {
-	console.log('@typeof window', typeof window, window.document, !(typeof window != 'undefined' && window.document));
 	return !(typeof window != 'undefined' && window.document);
 }

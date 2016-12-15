@@ -35,11 +35,10 @@ export default {
 		let surveyName = names;
 		fields.map((item, i)=> {
 			const obj = {};
-
 			item.map((superItem, k)=> {
 				obj[surveyName[k]] = surveyName[k] == '日期' ? superItem.split('%')[1] : (superItem === '' ? 0 : this.reg(superItem))
 			});
-			chartData.push(obj)
+			chartData.unshift(obj)
 		});
 		// console.log(chartData,'chartData')
 		return chartData;

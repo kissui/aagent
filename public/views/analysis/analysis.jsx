@@ -38,7 +38,6 @@ module.exports = React.createClass({
 	},
 	handleSidebarDetail: function (item, flag) {
 		if (!item) return;
-		console.log(item);
 		this.setState({
 			'menu': item
 		});
