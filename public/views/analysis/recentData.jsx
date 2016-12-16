@@ -117,7 +117,6 @@ module.exports = React.createClass({
 		if (nextProps.onMenu && nextProps.onGameConf) {
 			const {dateRange, gameConf, device, dimension} = this.state;
 			let params;
-			console.log(nextProps.onGameConf, gameConf)
 			if (gameConf.gameId != nextProps.onGameConf.gameId) {
 				params = _.extend({}, dateRange, nextProps.onGameConf, {device: device}, {user_dimension: dimension});
 				this.setState({
@@ -158,7 +157,7 @@ module.exports = React.createClass({
 		let params = _.extend({}, dateRange, gameConf, {device: device}, {key: key}, {user_dimension: value});
 		this.handleInitAnalysisData(params);
 		this.setState({
-			user_dimension: value
+			dimension: value
 		})
 	},
 	handleChangeGraphicOrTable: function (value) {
