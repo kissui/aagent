@@ -117,9 +117,16 @@ module.exports = React.createClass({
 		if (nextProps.onMenu && nextProps.onGameConf) {
 			const {dateRange, gameConf, device, dimension} = this.state;
 			let params;
+			console.log(nextProps.onGameConf, gameConf)
 			if (gameConf.gameId != nextProps.onGameConf.gameId) {
 				params = _.extend({}, dateRange, nextProps.onGameConf, {device: device}, {user_dimension: dimension});
+				this.setState({
+					gameConf: nextProps.onGameConf
+				});
 			} else {
+				this.setState({
+					device: nextProps.onMenu
+				});
 				params = _.extend({}, dateRange, gameConf, {device: nextProps.onMenu}, {user_dimension: dimension});
 			}
 			this.handleInitAnalysisData(params);

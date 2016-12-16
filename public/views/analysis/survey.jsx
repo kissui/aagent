@@ -85,7 +85,6 @@ module.exports = React.createClass({
 			return item.value == gameConf.gameId
 		});
 		let startDate = _.get(gameConf.gameList[index], 'online_time');
-		console.log(startDate, '@state', gameConf.gameList, index);
 		let data = {
 			"cycle": 'days',
 			"device": device,
@@ -147,7 +146,7 @@ module.exports = React.createClass({
 						selectChartTrackItems: chartItems
 					});
 					let response = Chart.dealChartData(res.theads, res.table, true);
-					Chart.handleShowAnalysisLine('analysisHead', response, chartItems, res.heads.slice(0, 1), 'link');
+					Chart.handleShowAnalysisLine('analysisHead', response, chartItems, res.theads.slice(0, 1), 'link');
 				}
 			})
 	},
