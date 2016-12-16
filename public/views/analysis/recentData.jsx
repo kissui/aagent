@@ -151,7 +151,7 @@ module.exports = React.createClass({
 		let params = _.extend({}, dateRange, gameConf, {device: device}, {key: key}, {user_dimension: value});
 		this.handleInitAnalysisData(params);
 		this.setState({
-			dimension: value
+			user_dimension: value
 		})
 	},
 	handleChangeGraphicOrTable: function (value) {

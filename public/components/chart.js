@@ -40,7 +40,6 @@ export default {
 			});
 			chartData.unshift(obj)
 		});
-		// console.log(chartData,'chartData')
 		return chartData;
 	},
 	handleShowChart (id, data, indicators, dimensions) {
@@ -57,7 +56,6 @@ export default {
 		});
 		var Frame = G2.Frame;
 		var frame = new Frame(data);
-		// console.log(frame);
 		chart.axis('日期', {
 			formatter: function (dimValue) {
 				return dimValue;
@@ -126,7 +124,7 @@ export default {
 			let reverseColors = colors.reverse();
 			dimensions.map((item, i)=> {
 				if (i > 0 && i != 0) {
-					chart.line().position('日期*' + item).color(reverseColors[i]).size(2).shape('smooth');
+					chart.line().position(dimensions+'*' + item).color(reverseColors[i]).size(2).shape('smooth');
 					chart.on('tooltipchange', function (ev) {
 						var items = ev.items; // 获取tooltip要显示的内容
 						items.map((sitem, i)=> {
@@ -135,7 +133,7 @@ export default {
 							}
 						})
 					});
-					chart.point().position('日期*' + item).color(reverseColors[i]); // 绘制点图
+					chart.point().position(dimensions+'*' + item).color(reverseColors[i]); // 绘制点图
 				}
 			})
 
@@ -180,7 +178,9 @@ export default {
 
 		var Frame = G2.Frame;
 		var frame = new Frame(data);
-
+		frame.addCol('range', function(obj) { // 添加列
+			return [obj.start, obj.end];
+		});
 		chart.axis('日期', {
 			formatter: function (dimValue) {
 				return dimValue;
@@ -200,6 +200,15 @@ export default {
 				alias: '时间',
 				tickCount: 10
 			}
+		});
+		chart.on('tooltipchange', function (ev) {
+			var items = ev.items; // 获取tooltip要显示的内容
+			items.map((sitem, i)=> {
+				console.log(sitem,i);
+				if (sitem.name == item) {
+					sitem.value = sitem.value + '%';
+				}
+			})
 		});
 		chart.line().position('日期*population').color('kpi', stackColor);// 使用图形语法绘制柱状图
 		if (showRange === 'link') {

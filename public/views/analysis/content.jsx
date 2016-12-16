@@ -12,7 +12,7 @@ module.exports = React.createClass({
 	getInitialState: function () {
 		return {
 			chart_conf: null,
-			device: 'Android',
+			device: 'All',
 			gameConf: this.props.gameConf
 		}
 	},

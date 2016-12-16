@@ -10,6 +10,7 @@ import SurveyHead from './surveyHead';
 import SelectRollPage from '../../components/box/selectRoll'; //选择角色
 import SelectBarGraphicOrTable from '../../components/box/selectBar'; //选择图表或者表格
 import LoadingPage from '../../components/is_loading';
+
 const selectBarData = [
 	{
 		title: '图',
@@ -146,7 +147,7 @@ module.exports = React.createClass({
 						selectChartTrackItems: chartItems
 					});
 					let response = Chart.dealChartData(res.theads, res.table, true);
-					Chart.handleShowAnalysisLine('analysisHead', response, chartItems, ['日期'], 'link');
+					Chart.handleShowAnalysisLine('analysisHead', response, chartItems, res.heads.slice(0, 1), 'link');
 				}
 			})
 	},
@@ -162,8 +163,8 @@ module.exports = React.createClass({
 			selectTableItems: [(index + 1) * 2 - 1, (index + 1) * 2],
 			selectChartTrackItems: heads.slice((index + 1) * 2 - 1, (index + 1) * 2 + 1)
 		});
-		let response = Chart.dealChartData(heads, bodys,true);
-		Chart.handleShowAnalysisLine('analysisHead', response, heads.slice((index + 1) * 2 - 1, (index + 1) * 2 + 1), ['日期'], 'link');
+		let response = Chart.dealChartData(heads, bodys, true);
+		Chart.handleShowAnalysisLine('analysisHead', response, heads.slice((index + 1) * 2 - 1, (index + 1) * 2 + 1), heads.slice(0,1), 'link');
 	},
 	handleReceiveRoll: function (value) {
 		const {device, gameConf} = this.state;
@@ -179,7 +180,7 @@ module.exports = React.createClass({
 		});
 		if (value === 'graphic') {
 			let response = Chart.dealChartData(heads, bodys, true);
-			Chart.handleShowAnalysisLine('analysisHead', response, selectChartTrackItems, ['日期'], 'link');
+			Chart.handleShowAnalysisLine('analysisHead', response, selectChartTrackItems, heads.slice(0,1), 'link');
 		} else {
 			let chartDOM = document.getElementById('analysisHead');
 			let chartRange = document.getElementById('range');
