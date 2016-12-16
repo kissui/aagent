@@ -30,13 +30,13 @@ export default {
 			}
 		})
 	},
-	dealChartData (names, fields) {
+	dealChartData (names, fields, real) {
 		const chartData = [];
 		let surveyName = names;
 		fields.map((item, i)=> {
 			const obj = {};
 			item.map((superItem, k)=> {
-				obj[surveyName[k]] = surveyName[k] == '日期' ? superItem.split('%')[1] : (superItem === '' ? 0 : this.reg(superItem))
+				obj[surveyName[k]] = surveyName[k] == '日期' ? (real ? superItem.split('%')[0] : superItem.split('%')[1]) : (superItem === '' ? 0 : this.reg(superItem))
 			});
 			chartData.unshift(obj)
 		});
@@ -90,8 +90,11 @@ export default {
 		}
 		chart.render();
 	},
-	handleShowAnalysisChart (id, data, indicators, dimensions) {
+	handleShowAnalysisChart (id, data, indicators, dimensions, showRange) {
 		let chartDOM = document.getElementById(id);
+		let chartRange = document.getElementById('range');
+		if (chartRange && chartRange.innerHTML)
+			chartRange.innerHTML = null;
 		if (chartDOM && chartDOM.innerHTML)
 			chartDOM.innerHTML = null;
 		var chart = new G2.Chart({
@@ -99,7 +102,7 @@ export default {
 			forceFit: true,
 			height: 400,
 			plotCfg: {
-				margin: [35, 0, 50, 30]
+				margin: [35, 0, 50, 80]
 			}
 		});
 		var Frame = G2.Frame;
@@ -137,6 +140,82 @@ export default {
 			})
 
 		}
-		chart.render();
+
+		if (showRange === 'link') {
+			var range = new G2.Plugin.range({
+				id: "range", // DOM id
+				forceFit: true, // 插件的宽度
+				height: 30, // 插件的高度
+				dim: '日期', // 指定筛选的数据维度
+				start: new Date((+new Date() - 3600 * 24 * 13)).getTime(), // 起始原始数据
+				end: +new Date(), // 结束原始数据
+			});
+			range.source(frame); // 载入数据源
+			range.link(chart); // 关联 G2 图表对象，支持一个或者多个 chart 对象
+			range.render(); // 渲染，将 chart 和 range 插件一起渲染
+		} else {
+			chart.render();
+		}
+	},
+	handleShowAnalysisLine (id, data, indicators, dimensions, showRange) {
+		let chartDOM = document.getElementById(id);
+		let chartRange = document.getElementById('range');
+		if (chartRange && chartRange.innerHTML)
+			chartRange.innerHTML = null;
+		if (chartDOM && chartDOM.innerHTML)
+			chartDOM.innerHTML = null;
+		var chart = new G2.Chart({
+			id: id,
+			forceFit: true,
+			height: 400,
+			plotCfg: {
+				margin: [35, 0, 50, 30]
+			}
+		});
+		for (var i = 0; i < data.length; i++) {
+			var item = data[i];
+			var time = item['日期'];
+			item.time = new Date(time).getTime();
+		}
+
+		var Frame = G2.Frame;
+		var frame = new Frame(data);
+
+		chart.axis('日期', {
+			formatter: function (dimValue) {
+				return dimValue;
+			}
+		});
+		let colors = ['#45594e', '#8fbeac', '#5e9882', '#fbbe7b', '#fff6e5', '#e89ba5', '#f5de50', '#f6deda', '#fbbe7a'];
+		let stackColor = colors.slice(0, indicators.length);
+		frame = Frame.combinColumns(frame, indicators, 'population', 'kpi', dimensions, 'di');
+		chart.legend({
+			position: 'top', // 图例的显示位置，有 'top','left','right','bottom'四种位置，默认是'right'
+		});
+		chart.source(frame, {
+			'日期': {
+				type: 'timeCat',
+				nice: false,
+				mask: 'mm-dd',
+				alias: '时间',
+				tickCount: 10
+			}
+		});
+		chart.line().position('日期*population').color('kpi', stackColor);// 使用图形语法绘制柱状图
+		if (showRange === 'link') {
+			var range = new G2.Plugin.range({
+				id: "range", // DOM id
+				forceFit: true, // 插件的宽度
+				height: 30, // 插件的高度
+				dim: '日期', // 指定筛选的数据维度
+				start: 9293819091, // 起始原始数据
+				end: 8293819091, // 结束原始数据
+			});
+			range.source(frame); // 载入数据源
+			range.link(chart); // 关联 G2 图表对象，支持一个或者多个 chart 对象
+			range.render(); // 渲染，将 chart 和 range 插件一起渲染
+		} else {
+			chart.render();
+		}
 	}
 }

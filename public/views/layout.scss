@@ -870,8 +870,13 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
         border-radius: 5px;
         margin: 0 5px;
     }
+    i{
+        line-height: 30px;
+        font-size: 14px;
+    }
     .pre-page {
         display: inline-block;
+       
     }
     .next-page {
         display: inline-block;

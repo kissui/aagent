@@ -10,7 +10,8 @@ module.exports = {
 				data: [
 					{
 						'meta_id': '2819',
-						'name': '充值收入 '
+						'name': '充值收入 ',
+						'self_weidu': 'ALL'
 					}
 				]
 			},

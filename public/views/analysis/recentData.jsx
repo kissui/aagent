@@ -23,7 +23,7 @@ const selectBarData = [
 ];
 module.exports = React.createClass({
 	getInitialState: function () {
-		let defaultRange = 3600 * 24 * 6 * 1000;
+		let defaultRange = 3600 * 24 * 13 * 1000;
 		let oneDay = 3600 * 24 * 1000;
 		let endRange = +new Date() - oneDay;
 		let startRange = endRange - defaultRange;

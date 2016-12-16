@@ -35,34 +35,63 @@ module.exports = React.createClass({
 			},
 			defaultSelect: 0,
 			isShowRoleBox: true,
+			selectTableItems: [1, 2],
 			showBoxType: 'graphic',
 			isLoading: true,
+			user_dimension: 'account',
 			device: onMenu,
-			gameConf: onGameConf
+			gameConf: onGameConf,
+			selectChartTrackItems: null
 		}
 	},
 	componentDidMount: function () {
-		this.handleDealSurreyData();
+		const {device, gameConf, user_dimension} = this.state;
+		this.handleDealSurreyData(device, gameConf, user_dimension);
 	},
 	componentWillReceiveProps: function (nextProps) {
-		const {device, gameConf} = this.state;
+		const {device, gameConf, user_dimension} = this.state;
 		if (nextProps.onMenu != device || gameConf.gameId != nextProps.onGameConf.gameId) {
 			this.setState({
 				device: nextProps.onMenu,
-				gameConf: nextProps.onGameConf
-			})
+				gameConf: nextProps.onGameConf,
+
+			});
+			this.handleDealSurreyData(nextProps.onMenu, nextProps.onGameConf, user_dimension);
 		}
 	},
-	handleDealSurreyData: function () {
+	handleDealDimensionText: function (dimension) {
 		let dimensionText = '账号';
-		const {device, gameConf, dateRange} = this.state;
+		switch (dimension) {
+			case 'account':
+				dimensionText = '账号';
+				break;
+			case 'role':
+				dimensionText = '角色';
+				break;
+			case 'device':
+				dimensionText = '设备';
+				break;
+			default:
+				dimensionText = '用户';
+				break;
+		}
+		return dimensionText
+	},
+	handleDealSurreyData: function (device, gameConf, user_dimension) {
+		const {dateRange, selectChartTrackItems} = this.state;
+		let dimensionText = this.handleDealDimensionText(user_dimension);
+		let index = _.findIndex(gameConf.gameList, (item)=> {
+			return item.value == gameConf.gameId
+		});
+		let startDate = _.get(gameConf.gameList[index], 'online_time');
+		console.log(startDate, '@state', gameConf.gameList, index);
 		let data = {
 			"cycle": 'days',
 			"device": device,
-			"user_dimension": 'role',
+			"user_dimension": user_dimension,
 			"appid": gameConf.gameId,
 			"kpi_conf": {
-				"start": dateRange.dateStart,
+				"start": startDate,
 				"end": dateRange.dateEnd,
 				"kpis": [
 					{
@@ -75,7 +104,8 @@ module.exports = React.createClass({
 					},
 					{
 						'meta_id': '2819',
-						'name': '充值收入 '
+						'name': '充值收入 ',
+						'self_weidu': 'ALL'
 					},
 					{
 						'meta_id': '2818',
@@ -108,35 +138,38 @@ module.exports = React.createClass({
 			.then((data)=> {
 				if (data.error_code === 0) {
 					let res = data.data;
+					let chartItems = selectChartTrackItems ? selectChartTrackItems : res.theads.slice(1, 3);
 					this.setState({
 						heads: res.theads,
 						bodys: res.table,
 						isLoading: false,
-						selectTableItems: [1, 2],
-						selectChartTrackItems: res.theads.slice(1, 3)
+						selectChartTrackItems: chartItems
 					});
-					let response = Chart.dealChartData(res.theads, res.table);
-					Chart.handleShowAnalysisChart('analysisHead', response, res.theads.slice(1, 3), ['日期'], 'reload');
+					let response = Chart.dealChartData(res.theads, res.table, true);
+					Chart.handleShowAnalysisLine('analysisHead', response, chartItems, ['日期'], 'link');
 				}
 			})
 	},
 	handleChangeChart: function (index, isShowRoll) {
+		let chartRange = document.getElementById('range');
+		if (chartRange && chartRange.innerHTML)
+			chartRange.innerHTML = null;
 		const {bodys, heads}= this.state;
 		this.setState({
 			defaultSelect: index,
 			isShowRoleBox: isShowRoll,
+			user_dimension: 'All',
 			selectTableItems: [(index + 1) * 2 - 1, (index + 1) * 2],
 			selectChartTrackItems: heads.slice((index + 1) * 2 - 1, (index + 1) * 2 + 1)
 		});
-		let response = Chart.dealChartData(heads, bodys);
-		Chart.handleShowAnalysisChart('analysisHead', response, heads.slice((index + 1) * 2 - 1, (index + 1) * 2 + 1), ['日期'], 'reload');
+		let response = Chart.dealChartData(heads, bodys,true);
+		Chart.handleShowAnalysisLine('analysisHead', response, heads.slice((index + 1) * 2 - 1, (index + 1) * 2 + 1), ['日期'], 'link');
 	},
 	handleReceiveRoll: function (value) {
-		const {bodys, heads, selectChartTrackItems}= this.state;
-		let response = Chart.dealChartData(heads, bodys);
-		Chart.handleShowAnalysisChart('analysisHead', response, selectChartTrackItems, ['日期'], 'reload');
+		const {device, gameConf} = this.state;
+		this.handleDealSurreyData(device, gameConf, value);
 		this.setState({
-			dimension: value
+			user_dimension: value
 		})
 	},
 	handleChangeGraphicOrTable: function (value) {
@@ -145,10 +178,13 @@ module.exports = React.createClass({
 			showBoxType: value
 		});
 		if (value === 'graphic') {
-			let response = Chart.dealChartData(heads, bodys);
-			Chart.handleShowAnalysisChart('analysisHead', response, selectChartTrackItems, ['日期'], 'reload');
+			let response = Chart.dealChartData(heads, bodys, true);
+			Chart.handleShowAnalysisLine('analysisHead', response, selectChartTrackItems, ['日期'], 'link');
 		} else {
 			let chartDOM = document.getElementById('analysisHead');
+			let chartRange = document.getElementById('range');
+			if (chartRange && chartRange.innerHTML)
+				chartRange.innerHTML = null;
 			if (chartDOM && chartDOM.innerHTML)
 				chartDOM.innerHTML = null;
 		}
@@ -162,8 +198,6 @@ module.exports = React.createClass({
 			} else {
 				content = null;
 			}
-		} else {
-			content = '暂无数据'
 		}
 		return (
 			<div>
@@ -196,6 +230,7 @@ module.exports = React.createClass({
 				<div className="content">
 					{content}
 					<div id='analysisHead' style={{textAlign: 'center'}}></div>
+					<div id="range"></div>
 				</div>
 
 			</div>

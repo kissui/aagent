@@ -58,7 +58,8 @@ export default class SurveyHead extends React.Component {
 					},
 					{
 						'meta_id': '2819',
-						'name': '昨日收入 '
+						'name': '昨日收入 ',
+						'self_weidu': 'ALL'
 					},
 					{
 						'meta_id': '2818',

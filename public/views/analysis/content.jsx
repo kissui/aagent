@@ -59,7 +59,7 @@ module.exports = React.createClass({
 							<SelectBar
 								onSelectBarData={JSON.selectBarDevice}
 								onReceiveValue={this.handleReceiveSelectDevice}
-								onDefaultValue={'All'}
+								onDefaultValue={device}
 							/>
 						</div>
 					</div>
