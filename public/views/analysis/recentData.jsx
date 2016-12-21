@@ -145,7 +145,7 @@ module.exports = React.createClass({
 		let dateRange = {
 				dateStart: start.format(format).toString(),
 				dateEnd: type ? this.state.dateRange.dateEnd : end.format(format).toString()
-			}
+			};
 		const {gameConf, device, key, dimension} = this.state;
 		let params = _.extend({}, dateRange, gameConf, {device: device}, {key: key}, {user_dimension: dimension});
 		this.handleInitAnalysisData(params);
@@ -169,7 +169,7 @@ module.exports = React.createClass({
 		});
 		if (value === 'graphic') {
 			let response = Chart.dealChartData(heads, bodys);
-			Chart.handleShowAnalysisChart(chartId, response, heads.slice(1), heads.slice(1), 'reload');
+			Chart.handleShowAnalysisChart(chartId, response, heads.slice(1), heads.slice(0,1), 'reload');
 		} else {
 			let chartDOM = document.getElementById(chartId);
 			if (chartDOM && chartDOM.innerHTML)

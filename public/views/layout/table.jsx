@@ -102,7 +102,7 @@ module.exports = React.createClass({
 									return (
 										<td key={si}
 											className={this.handleActiveEle(onActive, si)}>
-											{si === 0 ? item.split('%')[0] : item ? item : '-'}
+											{si === 0 && /\%/.test(item) ? item.split('%')[0] : item ? item : '-'}
 										</td>
 									)
 								})}

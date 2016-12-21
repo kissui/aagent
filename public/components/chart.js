@@ -13,13 +13,15 @@ Number.prototype.flover = function (c, d, t) {
 };
 export default {
 	reg (item, type) {
+
 		let reg = /^(\d*\.)+\d+$/;
 		let percent = /^(\d*\,)+\d+%$/;
 		let china = /^[\u4e00-\u9fa5]/;
 		let regDate = /^(\d*\-)+\d+$/;
 		let contentReg = /^(\d*\,)+\d+(\.?)+\d+$/;
-		if (type) return china.test(item) ? item : reg.test(item) ? ((item * 100).toFixed(1) + '%') : (regDate.test(item) ? item : parseFloat(item));
-		return contentReg.test(item) ? parseFloat(item.split(',').join('')) : reg.test(item) ? parseFloat(item) : item;
+		console.log(type, item, '@ssss',  typeof item == 'string' , reg.test(item))
+		if (typeof type != 'number' && type > 1) return china.test(item) ? item : reg.test(item) ? ((item * 100).toFixed(1) + '%') : (regDate.test(item) ? item : parseFloat(item));
+		return contentReg.test(item) ? parseFloat(item.split(',').join('')) : typeof item == 'string'  ? parseFloat(item) : item + '';
 	},
 	filterKey (key, col, type) {
 		_.forEach(collection, (item)=> {
@@ -36,10 +38,11 @@ export default {
 		fields.map((item, i)=> {
 			const obj = {};
 			item.map((superItem, k)=> {
-				obj[surveyName[k]] = surveyName[k] == '日期' ? (real ? superItem.split('%')[0] : superItem.split('%')[1]) : (superItem === '' ? 0 : this.reg(superItem))
+				obj[surveyName[k]] = surveyName[k] == '日期' ? (real ? superItem.split('%')[0] : superItem.split('%')[1]) : (superItem === '' ? 0 : this.reg(superItem, k))
 			});
 			chartData.unshift(obj)
 		});
+		console.log(chartData, '@chartData')
 		return chartData;
 	},
 	handleShowChart (id, data, indicators, dimensions) {
