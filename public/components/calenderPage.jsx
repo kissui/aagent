@@ -8,9 +8,11 @@ moment.locale('zh-cn');
 export default class CalendarPage extends React.Component {
 	constructor(props, context) {
 		super(props, context);
+		const {onDefaultDateRange} = this.props;
 		this.state = {
 			'datePickerShow': null,
-			'show': false
+			'show': false,
+			'date': onDefaultDateRange.dateEnd
 		}
 	}
 
@@ -18,7 +20,6 @@ export default class CalendarPage extends React.Component {
 		this.setState({
 			[which]: payload
 		});
-		// this.props.onReceiveData(payload, payload);
 	}
 
 	handleChange(which, payload) {
@@ -28,13 +29,14 @@ export default class CalendarPage extends React.Component {
 	}
 
 	handleSubmit() {
-		const {datePickerChange, show} = this.state;
-		this.props.onReceiveData(datePickerChange, datePickerChange);
+		const {datePickerChange, show, date} = this.state;
+		this.props.onReceiveData(datePickerChange, datePickerChange,'calendar');
 		this.setState({
 			datePickerShow: datePickerChange,
 			show: !show
 		})
 	}
+
 	handleToggle() {
 		const {show} = this.state;
 		this.setState({
@@ -43,7 +45,8 @@ export default class CalendarPage extends React.Component {
 	}
 
 	render() {
-		const {datePickerShow, show} = this.state;
+
+		const {datePickerShow, show, date} = this.state;
 		const format = 'YYYY-MM-DD';
 		return (
 			<div className="calendar-body">
@@ -61,7 +64,7 @@ export default class CalendarPage extends React.Component {
 				<div className={show ? "calendar-box" : 'hide'}>
 					<Calendar
 						date={ now => {
-							return now.add(-1, 'days')
+							return date.split("-").reverse().join("/");
 						} }
 						onInit={ this.handleInit.bind(this, 'datePickerShow') }
 						onChange={ this.handleChange.bind(this, 'datePickerChange') }

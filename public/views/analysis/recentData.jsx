@@ -100,7 +100,7 @@ module.exports = React.createClass({
 					});
 					let response = Chart.dealChartData(res.theads, res.table);
 					if (res.table && res.table.length > 0) {
-						Chart.handleShowAnalysisChart(chartId, response, res.theads.slice(1), ['日期']);
+						Chart.handleShowAnalysisChart(chartId, response, res.theads.slice(1), res.theads.slice(0, 1));
 					} else {
 						document.getElementById(chartId).innerHTML = '暂无数据';
 					}
@@ -139,12 +139,13 @@ module.exports = React.createClass({
 			key: key
 		})
 	},
-	handleReceiveDateRange: function (start, end) {
+	handleReceiveDateRange: function (start, end, type) {
+		console.log(type, '@type', this.state.dateRange.dateEnd);
 		const format = 'YYYY-MM-DD';
 		let dateRange = {
-			dateStart: start.format(format).toString(),
-			dateEnd: end.format(format).toString()
-		};
+				dateStart: start.format(format).toString(),
+				dateEnd: type ? this.state.dateRange.dateEnd : end.format(format).toString()
+			}
 		const {gameConf, device, key, dimension} = this.state;
 		let params = _.extend({}, dateRange, gameConf, {device: device}, {key: key}, {user_dimension: dimension});
 		this.handleInitAnalysisData(params);
@@ -168,7 +169,7 @@ module.exports = React.createClass({
 		});
 		if (value === 'graphic') {
 			let response = Chart.dealChartData(heads, bodys);
-			Chart.handleShowAnalysisChart(chartId, response, heads.slice(1), ['日期'], 'reload');
+			Chart.handleShowAnalysisChart(chartId, response, heads.slice(1), heads.slice(1), 'reload');
 		} else {
 			let chartDOM = document.getElementById(chartId);
 			if (chartDOM && chartDOM.innerHTML)
@@ -176,7 +177,7 @@ module.exports = React.createClass({
 		}
 	},
 	render: function () {
-		const {dateRange, heads, bodys, isLoading, isShowRoleBox, showBoxType, showDatePickerType} = this.state;
+		const {dateRange, heads, bodys, isLoading, isShowRoleBox, showBoxType, showDatePickerType, gameConf} = this.state;
 		const {chartId, tabData} = this.props;
 		let content = <LoadingPage/>;
 		if (!isLoading) {
@@ -189,7 +190,7 @@ module.exports = React.createClass({
 		return (
 			<div>
 				<div className="analysis-header">
-					<TabbedPage tabList={tabData} onReceiveKey={this.handleReceiveKey}/>
+					<TabbedPage tabList={tabData} onGameConf={gameConf} onReceiveKey={this.handleReceiveKey}/>
 					<div className="analysis-date">
 						{showDatePickerType ? <DatePickerPage
 							onReceiveData={this.handleReceiveDateRange}
@@ -204,6 +205,7 @@ module.exports = React.createClass({
 						/> :
 							<CalendarPage
 								onReceiveData={this.handleReceiveDateRange}
+								onDefaultDateRange={dateRange}
 							/>}
 					</div>
 				</div>

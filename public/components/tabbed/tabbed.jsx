@@ -3,12 +3,22 @@ import React from 'react';
 class Tabbed extends React.Component {
 	constructor(props) {
 		super(props);
-		const {tabList} = this.props;
+		const {tabList, onGameConf} = this.props;
 		this.state = {
 			tabList: tabList,
+			gameId: onGameConf && onGameConf.gameId,
 			selected: tabList.subList[0].key
 		};
 	};
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.onGameConf && nextProps.onGameConf.gameId != this.state.gameId) {
+			this.setState({
+				gameId: nextProps.onGameConf.gameId,
+				selected: nextProps.tabList.subList[0].key
+			})
+		}
+	}
 
 	handleChangeDimension(selectIndex) {
 		this.setState({

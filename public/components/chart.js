@@ -19,7 +19,7 @@ export default {
 		let regDate = /^(\d*\-)+\d+$/;
 		let contentReg = /^(\d*\,)+\d+(\.?)+\d+$/;
 		if (type) return china.test(item) ? item : reg.test(item) ? ((item * 100).toFixed(1) + '%') : (regDate.test(item) ? item : parseFloat(item));
-		return contentReg.test(item) ? parseFloat(item.split(',').join('')) : parseFloat(item);
+		return contentReg.test(item) ? parseFloat(item.split(',').join('')) : reg.test(item) ? parseFloat(item) : item;
 	},
 	filterKey (key, col, type) {
 		_.forEach(collection, (item)=> {
@@ -113,18 +113,20 @@ export default {
 		});
 		let colors = ['#45594e', '#8fbeac', '#5e9882', '#fbbe7b', '#fff6e5', '#e89ba5', '#f5de50', '#f6deda', '#fbbe7a'];
 		let stackColor = colors.slice(0, indicators.length);
+		let dimensionsDodge = dimensions.slice(0, 1);
 		frame = Frame.combinColumns(frame, indicators, 'population', 'kpi', dimensions, 'di');
 		chart.legend({
 			position: 'top', // 图例的显示位置，有 'top','left','right','bottom'四种位置，默认是'right'
 		});
 		chart.source(frame);
-		chart.interval(['dodge', 'stack']).position('日期*population').color('kpi', stackColor);// 使用图形语法绘制柱状图
+		console.log(frame);
+		chart.interval(['dodge', 'stack']).position(dimensionsDodge + '*population').color('kpi', stackColor);// 使用图形语法绘制柱状图
 		if (dimensions.length > 0) {
 			let d = dimensions.slice(1).join('*');
 			let reverseColors = colors.reverse();
 			dimensions.map((item, i)=> {
 				if (i > 0 && i != 0) {
-					chart.line().position(dimensions+'*' + item).color(reverseColors[i]).size(2).shape('smooth');
+					chart.line().position(dimensions + '*' + item).color(reverseColors[i]).size(2).shape('smooth');
 					chart.on('tooltipchange', function (ev) {
 						var items = ev.items; // 获取tooltip要显示的内容
 						items.map((sitem, i)=> {
@@ -133,7 +135,7 @@ export default {
 							}
 						})
 					});
-					chart.point().position(dimensions+'*' + item).color(reverseColors[i]); // 绘制点图
+					chart.point().position(dimensions + '*' + item).color(reverseColors[i]); // 绘制点图
 				}
 			})
 
@@ -178,7 +180,7 @@ export default {
 
 		var Frame = G2.Frame;
 		var frame = new Frame(data);
-		frame.addCol('range', function(obj) { // 添加列
+		frame.addCol('range', function (obj) { // 添加列
 			return [obj.start, obj.end];
 		});
 		chart.axis('日期', {
