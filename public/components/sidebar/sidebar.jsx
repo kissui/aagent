@@ -9,11 +9,11 @@ const defaultSidebarData = [
 		'title': '概况',
 		'id': 1,
 		'tables': [
-			{
-				'title': '实时数据',
-				'ev': 'realTime',
-				'link': '/app/game/analysis/survey/realTime'
-			},
+			// {
+			// 	'title': '实时数据',
+			// 	'ev': 'realTime',
+			// 	'link': '/app/game/analysis/survey/realTime'
+			// },
 			{
 				'title': '运营报表',
 				'ev': 'report',
@@ -27,18 +27,18 @@ const defaultSidebarData = [
 
 		]
 	},
-	{
-		'title': '留存分析',
-		'id': 2,
-		tables: [
-			{
-				'title': '留存分析',
-				'ev': 'keeper',
-				'link': '/app/game/analysis/keeper'
-			}
-		]
-
-	}
+	// {
+	// 	'title': '留存分析',
+	// 	'id': 2,
+	// 	tables: [
+	// 		{
+	// 			'title': '留存分析',
+	// 			'ev': 'keeper',
+	// 			'link': '/app/game/analysis/keeper'
+	// 		}
+	// 	]
+	//
+	// }
 ];
 module.exports = React.createClass({
 	getInitialState: function () {

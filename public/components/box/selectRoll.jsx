@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import _ from 'lodash';
 const defaultRoll = [
 	{
 		title: '账号',
@@ -17,9 +18,13 @@ const defaultRoll = [
 ];
 module.exports = React.createClass({
 	getInitialState: function () {
-		const {rollRange} = this.props;
+		const {rollRange,gameId} = this.props;
+
+		let index = gameId && _.findIndex(rollRange,(item)=>{
+			return item.value == gameId;
+		});
 		return {
-			defaultSelect: rollRange ? rollRange[0] : {
+			defaultSelect: rollRange ? rollRange[index] : {
 				title: '账号',
 				value: 'account'
 			},

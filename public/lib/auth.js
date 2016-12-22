@@ -55,7 +55,26 @@ export default {
 		if (cb) cb();
 		this.onChange(false)
 	},
-
+	initGameCof (cb) {
+		let gameConf = sessionStorage.getItem('gameConf');
+		if(gameConf) return cb( JSON.parse(gameConf));
+		http.get('/dudai/?c=analysis.report&ac=gamelist&token=mgame_afs23cgs23')
+			.then(res=>res.data)
+			.then(res=> {
+				let conf;
+				if (res.error_code === 0 && res.data.length > 0) {
+					conf = {
+						gameId: res.data[0].value,
+						gameList: res.data
+					}
+				}
+				sessionStorage.setItem('gameConf',JSON.stringify(conf));
+				cb(conf);
+			})
+	},
+	sessionStorageFn(conf) {
+		sessionStorage.setItem('gameConf',JSON.stringify(conf));
+	},
 	loggedIn(cb) {
 		if (isServer()) {
 			// @TODO

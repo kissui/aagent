@@ -6,9 +6,13 @@ import SurveyPage from './survey'; // 概览
 import RecentDataPage from './recentData'; //近期数据模块
 import SelectRollPage from '../../components/box/selectRoll' //选择角色的下拉菜单
 import analysis_conf from '../../components/json/analysisParams'; //数据参数配置文件
+import Auth from '../../lib/auth';
 const testData = JSON.testData;
 
 module.exports = React.createClass({
+	contextTypes: {
+		router: React.PropTypes.object.isRequired
+	},
 	getInitialState: function () {
 		return {
 			chart_conf: null,
@@ -22,6 +26,7 @@ module.exports = React.createClass({
 		this.setState({
 			device: value
 		});
+
 	},
 	componentWillReceiveProps: function (nextProps) {
 		if (nextProps.gameConf && nextProps.gameConf.gameId) {
@@ -32,12 +37,14 @@ module.exports = React.createClass({
 	},
 	handleReceiveRoll: function (value) {
 		const {gameConf} = this.state;
+		let conf = {
+			gameId: value,
+			gameList: gameConf.gameList
+		};
 		this.setState({
-			gameConf: {
-				gameId: value,
-				gameList: gameConf.gameList
-			}
-		})
+			gameConf: conf
+		});
+		Auth.sessionStorageFn(conf)
 	},
 	render: function () {
 		const {gameConf, device} = this.state;
@@ -50,6 +57,7 @@ module.exports = React.createClass({
 							position: 'relative',
 							right: 0
 						}}
+						gameId={gameConf.gameId}
 						rollRange={gameConf.gameList}
 					/>}
 				</div>

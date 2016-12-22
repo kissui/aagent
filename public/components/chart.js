@@ -19,7 +19,6 @@ export default {
 		let china = /^[\u4e00-\u9fa5]/;
 		let regDate = /^(\d*\-)+\d+$/;
 		let contentReg = /^(\d*\,)+\d+(\.?)+\d+$/;
-		console.log(type, item, '@ssss',  typeof item == 'string' , reg.test(item))
 		if (typeof type != 'number' && type > 1) return china.test(item) ? item : reg.test(item) ? ((item * 100).toFixed(1) + '%') : (regDate.test(item) ? item : parseFloat(item));
 		return contentReg.test(item) ? parseFloat(item.split(',').join('')) : typeof item == 'string'  ? parseFloat(item) : item + '';
 	},
@@ -42,7 +41,6 @@ export default {
 			});
 			chartData.unshift(obj)
 		});
-		console.log(chartData, '@chartData')
 		return chartData;
 	},
 	handleShowChart (id, data, indicators, dimensions) {

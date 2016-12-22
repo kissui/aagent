@@ -11,6 +11,7 @@ import WeekNewUserPage from './newWeekUser';
 import YearDatePage from './everyYear';
 import YearNewUserPage from './newYearUser';
 import http from '../../lib/http';
+import Auth from '../../lib/auth';
 import SelectRollPage from '../../components/box/selectRoll';
 module.exports = React.createClass({
 	getInitialState: function () {
@@ -29,12 +30,14 @@ module.exports = React.createClass({
 	},
 	handleReceiveRoll: function (value) {
 		const {gameConf} = this.state;
+		let conf = {
+			gameId: value,
+			gameList: gameConf.gameList
+		};
 		this.setState({
-			gameConf: {
-				gameId: value,
-				gameList: gameConf.gameList
-			}
-		})
+			gameConf: conf
+		});
+		Auth.sessionStorageFn(conf)
 	},
 	handleReceiveSelectCycle: function (value) {
 		let cycle = this.state.cycle;
@@ -72,6 +75,7 @@ module.exports = React.createClass({
 							position: 'relative',
 							right: 0
 						}}
+						gameId={gameConf.gameId}
 						rollRange={gameConf.gameList}
 					/>}
 				</div>

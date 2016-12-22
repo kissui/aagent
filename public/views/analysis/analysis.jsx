@@ -20,19 +20,11 @@ module.exports = React.createClass({
 			if (msg != 0) {
 				this.context.router.push('/app/login')
 			} else {
-				http.get('/dudai/?c=analysis.report&ac=gamelist&token=mgame_afs23cgs23')
-					.then(res=>res.data)
-					.then(res=> {
-						if (res.error_code === 0 && res.data.length > 0) {
-							this.setState({
-								gameConf: {
-									gameList: res.data,
-									gameId: res.data[0].value
-								}
-							})
-						}
-
+				Auth.initGameCof(res=> {
+					this.setState({
+						gameConf: res
 					})
+				})
 			}
 		});
 	},
