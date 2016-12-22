@@ -106,7 +106,6 @@ export default {
 		});
 		var Frame = G2.Frame;
 		var frame = new Frame(data);
-		// console.log(frame);
 		chart.axis('日期', {
 			formatter: function (dimValue) {
 				return dimValue;
@@ -120,7 +119,6 @@ export default {
 			position: 'top', // 图例的显示位置，有 'top','left','right','bottom'四种位置，默认是'right'
 		});
 		chart.source(frame);
-		console.log(frame);
 		chart.interval(['dodge', 'stack']).position(dimensionsDodge + '*population').color('kpi', stackColor);// 使用图形语法绘制柱状图
 		if (dimensions.length > 0) {
 			let d = dimensions.slice(1).join('*');

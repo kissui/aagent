@@ -51,7 +51,9 @@ module.exports = React.createClass({
 	},
 	componentWillReceiveProps: function (nextProps) {
 		const {device, gameConf, user_dimension} = this.state;
+		console.log(nextProps.onGameConf,gameConf,1)
 		if (nextProps.onMenu != device || gameConf.gameId != nextProps.onGameConf.gameId) {
+			console.log(2)
 			this.setState({
 				device: nextProps.onMenu,
 				gameConf: nextProps.onGameConf,

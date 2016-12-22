@@ -2,6 +2,7 @@
 
 import React from 'react';
 import http from '../../lib/http';
+import LoadingPage from '../../components/is_loading';
 export default class SurveyHead extends React.Component {
 	constructor(props, context) {
 		super(props, context);
@@ -11,7 +12,8 @@ export default class SurveyHead extends React.Component {
 			defaultSelect: 0,
 			device: onDevice,
 			gameConf: onGameConf,
-			dateRange: onDateRange
+			dateRange: onDateRange,
+			isLoading: true
 		}
 	}
 
@@ -26,8 +28,14 @@ export default class SurveyHead extends React.Component {
 		const {device, gameConf} = this.state;
 		if (nextProps.onDevice != device || nextProps.onGameConf.gameId != gameConf.gameId) {
 			let data = {
-				'device': nextProps.onDevice, gameConf: nextProps.onGameConf, dateRange: nextProps.onDateRange
+				'device': nextProps.onDevice,
+				gameConf: nextProps.onGameConf,
+				dateRange: nextProps.onDateRange
 			};
+			this.setState({
+				'device': nextProps.onDevice,
+				gameConf: nextProps.onGameConf,
+			});
 			this.handleDealSurreyData(data);
 		}
 	}
@@ -93,41 +101,43 @@ export default class SurveyHead extends React.Component {
 				if (data.error_code === 0) {
 					let res = data.data;
 					this.setState({
-						surveyHead: res
+						surveyHead: res,
+						isLoading: false
 					})
 				}
 			})
 	}
 
 	render() {
-		const {surveyHead, defaultSelect} = this.state;
+		const {surveyHead, defaultSelect,isLoading} = this.state;
+		let content = isLoading ? <LoadingPage/> : surveyHead && surveyHead.map((item, i) => {
+			return (
+				<div className={defaultSelect == i ? "survey-col active" : 'survey-col' }
+					 key={i}
+					 onClick={this.handleChangeChart.bind(this, i, item[0].chart_kpi)}>
+					<div className="default-content">
+						<p className="title">{item[0].title}</p>
+						<p className="value">{item[0].value ? item[0].value : 0}</p>
+						<p className="percent">{item[0].percent}</p>
+					</div>
+					<div className="survey-col-hover row">
+						<div className="col-md-6">
+							<p className="title">{item[0].title}</p>
+							<p className="value">{item[0].value ? item[0].value : 0}</p>
+							<p className="percent">{item[0].percent}</p>
+						</div>
+						<div className="col-md-6">
+							<p className="title">{item[1].title}</p>
+							<p className="value">{item[1].value ? item[1].value : 0}</p>
+							<p className="percent">{item[1].percent}</p>
+						</div>
+					</div>
+				</div>
+			)
+		});
 		return (
 			<div className="survey row">
-				{surveyHead && surveyHead.map((item, i) => {
-					return (
-						<div className={defaultSelect == i ? "survey-col active" : 'survey-col' }
-							 key={i}
-							 onClick={this.handleChangeChart.bind(this, i, item[0].chart_kpi)}>
-							<div className="default-content">
-								<p className="title">{item[0].title}</p>
-								<p className="value">{item[0].value ? item[0].value : 0}</p>
-								<p className="percent">{item[0].percent}</p>
-							</div>
-							<div className="survey-col-hover row">
-								<div className="col-md-6">
-									<p className="title">{item[0].title}</p>
-									<p className="value">{item[0].value ? item[0].value : 0}</p>
-									<p className="percent">{item[0].percent}</p>
-								</div>
-								<div className="col-md-6">
-									<p className="title">{item[1].title}</p>
-									<p className="value">{item[1].value ? item[1].value : 0}</p>
-									<p className="percent">{item[1].percent}</p>
-								</div>
-							</div>
-						</div>
-					)
-				})}
+				{content}
 			</div>
 		)
 	}

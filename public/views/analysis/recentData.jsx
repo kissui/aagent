@@ -42,8 +42,8 @@ module.exports = React.createClass({
 			showDatePickerType: 'range'
 		}
 	},
-	handleInitAnalysisData: function (receiveParams) {
-		const {isLoading} = this.state;
+	handleInitAnalysisData: function (receiveParams,isShowChart) {
+		const {showBoxType} = this.state;
 		const {chartId, tabData} = this.props;
 		this.setState({
 			isLoading: true
@@ -99,6 +99,7 @@ module.exports = React.createClass({
 						isLoading: false
 					});
 					let response = Chart.dealChartData(res.theads, res.table);
+					if (isShowChart) return;
 					if (res.table && res.table.length > 0) {
 						Chart.handleShowAnalysisChart(chartId, response, res.theads.slice(1), res.theads.slice(0, 1));
 					} else {
@@ -120,11 +121,13 @@ module.exports = React.createClass({
 			if (gameConf.gameId != nextProps.onGameConf.gameId) {
 				params = _.extend({}, dateRange, nextProps.onGameConf, {device: device}, {user_dimension: dimension});
 				this.setState({
-					gameConf: nextProps.onGameConf
+					gameConf: nextProps.onGameConf,
+					showBoxType: 'graphic',
 				});
 			} else {
 				this.setState({
-					device: nextProps.onMenu
+					device: nextProps.onMenu,
+					showBoxType: 'graphic',
 				});
 				params = _.extend({}, dateRange, gameConf, {device: nextProps.onMenu}, {user_dimension: dimension});
 			}
@@ -132,15 +135,14 @@ module.exports = React.createClass({
 		}
 	},
 	handleReceiveKey: function (key) {
-		const {dateRange, gameConf, device, dimension} = this.state;
+		const {dateRange, gameConf, device, dimension,showBoxType} = this.state;
 		let params = _.extend({}, dateRange, gameConf, {device: device}, {key: key}, {user_dimension: dimension});
-		this.handleInitAnalysisData(params);
+		this.handleInitAnalysisData(params,showBoxType != 'graphic' && 'notShowChart');
 		this.setState({
 			key: key
 		})
 	},
 	handleReceiveDateRange: function (start, end, type) {
-		console.log(type, '@type', this.state.dateRange.dateEnd);
 		const format = 'YYYY-MM-DD';
 		let dateRange = {
 				dateStart: start.format(format).toString(),

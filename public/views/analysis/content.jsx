@@ -7,7 +7,6 @@ import RecentDataPage from './recentData'; //近期数据模块
 import SelectRollPage from '../../components/box/selectRoll' //选择角色的下拉菜单
 import analysis_conf from '../../components/json/analysisParams'; //数据参数配置文件
 import Auth from '../../lib/auth';
-const testData = JSON.testData;
 
 module.exports = React.createClass({
 	contextTypes: {
@@ -73,7 +72,7 @@ module.exports = React.createClass({
 					</div>
 				</div>
 				<div className="box-view">
-					{gameConf && <SurveyPage surveyData={testData} onMenu={device} onGameConf={gameConf}/>}
+					{gameConf && <SurveyPage onMenu={device} onGameConf={gameConf}/>}
 				</div>
 				<div className="box-view analysis-show-box">
 					<h2 className="analysis-tit">
