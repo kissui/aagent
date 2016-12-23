@@ -19,8 +19,9 @@ export default {
 		let china = /^[\u4e00-\u9fa5]/;
 		let regDate = /^(\d*\-)+\d+$/;
 		let contentReg = /^(\d*\,)+\d+(\.?)+\d+$/;
+
 		if (typeof type != 'number' && type > 1) return china.test(item) ? item : reg.test(item) ? ((item * 100).toFixed(1) + '%') : (regDate.test(item) ? item : parseFloat(item));
-		return contentReg.test(item) ? parseFloat(item.split(',').join('')) : typeof item == 'string' ? (china.test(item) ? item : parseFloat(item)) : item + '';
+		return contentReg.test(item) ? parseFloat(item.split(',').join('')) : typeof item == 'string' ? (!reg.test(item) ? item : parseFloat(item)) : item + '';
 	},
 	filterKey (key, col, type) {
 		_.forEach(collection, (item)=> {
@@ -212,7 +213,6 @@ export default {
 		});
 		chart.line().position('日期*population').color('kpi', stackColor).size(2).shape('smooth');// 使用图形语法绘制柱状图
 		if (showRange === 'link') {
-			console.log(1111)
 			var range = new G2.Plugin.range({
 				id: "range", // DOM id
 				forceFit: true, // 插件的宽度

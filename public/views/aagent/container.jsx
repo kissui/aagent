@@ -17,7 +17,7 @@ module.exports = React.createClass({
 	getInitialState: function () {
 		return {
 			cycle: 'days',
-			device: 'Android',
+			device: 'All',
 			gameConf: null
 		}
 	},
@@ -85,14 +85,14 @@ module.exports = React.createClass({
 							<SelectBar
 								onSelectBarData={JSON.selectBarData}
 								onReceiveValue={this.handleReceiveSelectCycle}
-								onDefaultValue={'days'}
+								onDefaultValue={cycle}
 							/>
 						</div>
 						<div className="selectDevice">
 							<SelectBar
 								onSelectBarData={JSON.selectBarDevice}
 								onReceiveValue={this.handleReceiveSelectDevice}
-								onDefaultValue={'Android'}
+								onDefaultValue={device}
 							/>
 						</div>
 					</div>
