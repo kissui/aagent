@@ -125,7 +125,6 @@ export default {
 			position: 'top', // 图例的显示位置，有 'top','left','right','bottom'四种位置，默认是'right'
 		});
 		chart.source(frame);
-		console.log(frame)
 		if (indicators && indicators.length > 0) {
 			let stackColor = colors.slice(0, indicators.length);
 			let dimensionsDodge = dimensions.slice(0, 1);
@@ -155,6 +154,7 @@ export default {
 			let reverseColors = colors.reverse();
 			let lineColors = reverseColors.slice(0, len - 1);
 			chart.line().position(linePosition).color(lineColors).size(2).shape('smooth');
+			chart.point().position(linePosition).color(lineColors); // 绘制点图
 		}
 		chart.render();
 	},

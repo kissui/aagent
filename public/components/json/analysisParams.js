@@ -160,6 +160,7 @@ module.exports = {
 				key: 'level',
 				dimensionName: '等级',
 				lineItem: ['等级分布'],
+				stockItem: ['等级分布'],
 				data: [
 					{
 						'meta_id': '2928',

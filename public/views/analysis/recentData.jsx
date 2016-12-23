@@ -183,7 +183,6 @@ module.exports = React.createClass({
 				dimensionsLine = _.concat(dimensionsLine, lineItems)
 			}
 			let response = Chart.dealChartData(heads, bodys);
-			console.log(lineItems,stocks,'@changeTable');
 			Chart.handleShowAnalysisChart(chartId, response, stocks, dimensionsLine);
 		} else {
 			let chartDOM = document.getElementById(chartId);
