@@ -20,7 +20,7 @@ export default {
 		let regDate = /^(\d*\-)+\d+$/;
 		let contentReg = /^(\d*\,)+\d+(\.?)+\d+$/;
 		if (typeof type != 'number' && type > 1) return china.test(item) ? item : reg.test(item) ? ((item * 100).toFixed(1) + '%') : (regDate.test(item) ? item : parseFloat(item));
-		return contentReg.test(item) ? parseFloat(item.split(',').join('')) : typeof item == 'string'  ? parseFloat(item) : item + '';
+		return contentReg.test(item) ? parseFloat(item.split(',').join('')) : typeof item == 'string' ? (china.test(item) ? item : parseFloat(item)) : item + '';
 	},
 	filterKey (key, col, type) {
 		_.forEach(collection, (item)=> {
@@ -89,7 +89,8 @@ export default {
 		}
 		chart.render();
 	},
-	handleShowAnalysisChart (id, data, indicators, dimensions, showRange) {
+	handleShowAnalysisChart (id, data, indicators, dimensions) {
+		console.log(indicators, dimensions, '@dimensions')
 		let chartDOM = document.getElementById(id);
 		let chartRange = document.getElementById('range');
 		if (chartRange && chartRange.innerHTML)
@@ -109,52 +110,56 @@ export default {
 		chart.axis('日期', {
 			formatter: function (dimValue) {
 				return dimValue;
-			}
+			},
+			title: null
+		});
+		chart.axis('population', {
+			formatter: function (dimValue) {
+				return dimValue;
+			},
+			title: null
 		});
 		let colors = ['#45594e', '#8fbeac', '#5e9882', '#fbbe7b', '#fff6e5', '#e89ba5', '#f5de50', '#f6deda', '#fbbe7a'];
-		let stackColor = colors.slice(0, indicators.length);
-		let dimensionsDodge = dimensions.slice(0, 1);
 		frame = Frame.combinColumns(frame, indicators, 'population', 'kpi', dimensions, 'di');
 		chart.legend({
 			position: 'top', // 图例的显示位置，有 'top','left','right','bottom'四种位置，默认是'right'
 		});
 		chart.source(frame);
-		chart.interval(['dodge', 'stack']).position(dimensionsDodge + '*population').color('kpi', stackColor);// 使用图形语法绘制柱状图
-		if (dimensions.length > 0) {
-			let d = dimensions.slice(1).join('*');
+		console.log(frame)
+		if (indicators && indicators.length > 0) {
+			let stackColor = colors.slice(0, indicators.length);
+			let dimensionsDodge = dimensions.slice(0, 1);
+			chart.interval(['dodge', 'stack']).position(dimensionsDodge + '*population').color('kpi', stackColor);// 使用图形语法绘制柱状图
+		}
+		// if (dimensions.length > 1) {
+		// 	let d = dimensions.slice(1).join('*');
+		// 	let reverseColors = colors.reverse();
+		// 	dimensions.map((item, i)=> {
+		// 		if (i > 0 && i != 0) {
+		// 			chart.line().position(dimensions + '*' + item).color(reverseColors[i]).size(2).shape('smooth');
+		// 			chart.on('tooltipchange', function (ev) {
+		// 				var items = ev.items; // 获取tooltip要显示的内容
+		// 				items.map((sitem, i)=> {
+		// 					if (sitem.name == item) {
+		// 						sitem.value = sitem.value + '%';
+		// 					}
+		// 				})
+		// 			});
+		// 			chart.point().position(dimensions + '*' + item).color(reverseColors[i]); // 绘制点图
+		// 		}
+		// 	})
+		// }
+		console.log(dimensions, 1111)
+		if (dimensions && dimensions.length > 1) {
+			console.log(22);
+			let linePosition = dimensions.join('*');
+			let len = dimensions.length;
 			let reverseColors = colors.reverse();
-			dimensions.map((item, i)=> {
-				if (i > 0 && i != 0) {
-					chart.line().position(dimensions + '*' + item).color(reverseColors[i]).size(2).shape('smooth');
-					chart.on('tooltipchange', function (ev) {
-						var items = ev.items; // 获取tooltip要显示的内容
-						items.map((sitem, i)=> {
-							if (sitem.name == item) {
-								sitem.value = sitem.value + '%';
-							}
-						})
-					});
-					chart.point().position(dimensions + '*' + item).color(reverseColors[i]); // 绘制点图
-				}
-			})
-
+			let lineColors = reverseColors.slice(0, len - 1);
+			console.log(linePosition, len, lineColors);
+			chart.line().position(linePosition).color(lineColors).size(2).shape('smooth');
 		}
-
-		if (showRange === 'link') {
-			var range = new G2.Plugin.range({
-				id: "range", // DOM id
-				forceFit: true, // 插件的宽度
-				height: 30, // 插件的高度
-				dim: '日期', // 指定筛选的数据维度
-				start: new Date((+new Date() - 3600 * 24 * 13)).getTime(), // 起始原始数据
-				end: +new Date(), // 结束原始数据
-			});
-			range.source(frame); // 载入数据源
-			range.link(chart); // 关联 G2 图表对象，支持一个或者多个 chart 对象
-			range.render(); // 渲染，将 chart 和 range 插件一起渲染
-		} else {
-			chart.render();
-		}
+		chart.render();
 	},
 	handleShowAnalysisLine (id, data, indicators, dimensions, showRange) {
 		let chartDOM = document.getElementById(id);

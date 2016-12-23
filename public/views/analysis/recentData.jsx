@@ -42,7 +42,7 @@ module.exports = React.createClass({
 			showDatePickerType: 'range'
 		}
 	},
-	handleInitAnalysisData: function (receiveParams,isShowChart) {
+	handleInitAnalysisData: function (receiveParams, isShowChart) {
 		const {showBoxType} = this.state;
 		const {chartId, tabData} = this.props;
 		this.setState({
@@ -54,6 +54,8 @@ module.exports = React.createClass({
 		}) : 0;
 		let kpis = tabData.subList[index].data;
 		let dimensionName = _.get(tabData.subList[index], 'dimensionName');
+		let stocks = _.get(tabData.subList[index], 'stockItem');
+		let lineItems = _.get(tabData.subList[index], 'lineItem');
 		let role = _.get(tabData.subList[index], 'role');
 
 		if (role) {
@@ -96,12 +98,18 @@ module.exports = React.createClass({
 					_this.setState({
 						heads: res.theads,
 						bodys: res.table,
+						stocks: stocks ? stocks : null,
+						lineItems: lineItems ? lineItems : null,
 						isLoading: false
 					});
 					let response = Chart.dealChartData(res.theads, res.table);
 					if (isShowChart) return;
 					if (res.table && res.table.length > 0) {
-						Chart.handleShowAnalysisChart(chartId, response, res.theads.slice(1), res.theads.slice(0, 1));
+						let dimensionsLine = res.theads.slice(0, 1);
+						if (lineItems) {
+							dimensionsLine = _.concat(dimensionsLine, lineItems)
+						}
+						Chart.handleShowAnalysisChart(chartId, response, stocks, dimensionsLine);
 					} else {
 						document.getElementById(chartId).innerHTML = '暂无数据';
 					}
@@ -135,9 +143,9 @@ module.exports = React.createClass({
 		}
 	},
 	handleReceiveKey: function (key) {
-		const {dateRange, gameConf, device, dimension,showBoxType} = this.state;
+		const {dateRange, gameConf, device, dimension, showBoxType} = this.state;
 		let params = _.extend({}, dateRange, gameConf, {device: device}, {key: key}, {user_dimension: dimension});
-		this.handleInitAnalysisData(params,showBoxType != 'graphic' && 'notShowChart');
+		this.handleInitAnalysisData(params, showBoxType != 'graphic' && 'notShowChart');
 		this.setState({
 			key: key
 		})
@@ -145,9 +153,9 @@ module.exports = React.createClass({
 	handleReceiveDateRange: function (start, end, type) {
 		const format = 'YYYY-MM-DD';
 		let dateRange = {
-				dateStart: start.format(format).toString(),
-				dateEnd: type ? this.state.dateRange.dateEnd : end.format(format).toString()
-			};
+			dateStart: start.format(format).toString(),
+			dateEnd: type ? this.state.dateRange.dateEnd : end.format(format).toString()
+		};
 		const {gameConf, device, key, dimension} = this.state;
 		let params = _.extend({}, dateRange, gameConf, {device: device}, {key: key}, {user_dimension: dimension});
 		this.handleInitAnalysisData(params);
@@ -164,14 +172,19 @@ module.exports = React.createClass({
 		})
 	},
 	handleChangeGraphicOrTable: function (value) {
-		const {heads, bodys} = this.state;
-		const {chartId} = this.props;
+		const {heads, bodys,lineItems,stocks} = this.state;
+		const {chartId, tabData} = this.props;
 		this.setState({
 			showBoxType: value
 		});
 		if (value === 'graphic') {
+			let dimensionsLine = heads.slice(0, 1);
+			if (lineItems) {
+				dimensionsLine = _.concat(dimensionsLine, lineItems)
+			}
 			let response = Chart.dealChartData(heads, bodys);
-			Chart.handleShowAnalysisChart(chartId, response, heads.slice(1), heads.slice(0,1), 'reload');
+			console.log(lineItems,stocks,'@changeTable');
+			Chart.handleShowAnalysisChart(chartId, response, stocks, dimensionsLine);
 		} else {
 			let chartDOM = document.getElementById(chartId);
 			if (chartDOM && chartDOM.innerHTML)

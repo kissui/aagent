@@ -130,6 +130,7 @@ module.exports = {
 				title: '各服务器玩家分布',
 				key: 'play_map',
 				dimensionName:'服务器',
+				stockItem:['登录角色数','新增角色数'],
 				data: [
 					{
 						'meta_id': '2925',
@@ -144,6 +145,8 @@ module.exports = {
 			{
 				title: '平均启动次数',
 				key: 'start_num',
+				lineItem:['平均启动次数'],
+				stockItem:['平均启动次数'],
 				data: [
 					{
 						'meta_id': '2927',
@@ -156,6 +159,7 @@ module.exports = {
 				title: '等级分布',
 				key: 'level',
 				dimensionName:'等级',
+				lineItem:['等级分布'],
 				data: [
 					{
 						'meta_id': '2928',
@@ -173,6 +177,8 @@ module.exports = {
 				title: '登录',
 				key: 'play_login',
 				dimensionName:'渠道',
+				showRange:['登录角色','新增角色数'],
+				stockItem:['登录角色','新增角色数'],
 				data: [
 					{
 						'meta_id': '2929',
@@ -231,6 +237,8 @@ module.exports = {
 				title: '付费',
 				key: 'play_cash',
 				dimensionName:'渠道',
+				stockItem:['充值总金额'],
+				lineItem: ['付费率','渠道充值占比'],
 				data: [
 					{
 						'meta_id': '2929',
@@ -289,6 +297,7 @@ module.exports = {
 				title: 'ARPU',
 				key: 'play_arpu',
 				dimensionName:'渠道',
+				stockItem:['ARPU','ARPPU'],
 				data: [
 					{
 						'meta_id': '2929',
@@ -347,6 +356,8 @@ module.exports = {
 				title: '留存',
 				key: 'play_save',
 				dimensionName:'渠道',
+				stockItem:['新增角色数'],
+				lineItem: ['次日留存','第3日留存','第7日留存'],
 				data: [
 					{
 						'meta_id': '2929',
@@ -409,6 +420,9 @@ module.exports = {
 			{
 				title: '元宝回收产出比',
 				key: 'gold_back',
+				stockItem:['元宝回收量','元宝产出量'],
+				lineItem: ['元宝回收产出比'],
+				percent: true,
 				data: [
 					{
 						'meta_id': '2939',
@@ -428,6 +442,8 @@ module.exports = {
 				title: '元宝产出途径',
 				key: 'gold_product',
 				dimensionName:'途径',
+				stockItem:['产出元宝数量','产出元宝次数'],
+				lineItem: ['产出元宝次数'],
 				data: [
 					{
 						'meta_id': '2942',
@@ -447,6 +463,8 @@ module.exports = {
 				title: '元宝回收途径',
 				key: 'gold_back_approach',
 				dimensionName:'途径',
+				stockItem:['回收元宝数量'],
+				lineItem: ['回收元宝次数','回收元宝角色数'],
 				data: [
 					{
 						'meta_id': '2945',

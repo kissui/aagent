@@ -20,7 +20,7 @@ const defaultSidebarData = [
 				'link': '/app/game/analysis/survey/report'
 			},
 			{
-				'title': '近期概况分析',
+				'title': '近期概况',
 				'ev': 'recentAnalysis',
 				'link': '/app/game/analysis/survey/analysis'
 			}
