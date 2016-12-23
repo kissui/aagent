@@ -11,7 +11,7 @@ module.exports = React.createClass({
 		let defaultRange = 3600 * 24 * 7 * 1000;
 		let endRange = +new Date();
 		let startRange = endRange - defaultRange;
-		const {onDevice, onCycle,onGameId} = this.props;
+		const {onDevice, onCycle, onGameId} = this.props;
 		let format = 'YYYY-MM-DD';
 		return {
 			sum: {},
@@ -74,81 +74,79 @@ module.exports = React.createClass({
 			"appid": globalConf.gameId,
 
 			"kpi_conf": {
-				"new": {
-					"start": dateConf.dateStart,
-					"end": dateConf.dateEnd,
-					"kpis": [
-						{
-							'meta_id': '2816',
-							'name': '新增' + dimensionText
-						},
-						{
-							'meta_id': '2833',
-							'name': '次日留存',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2834',
-							'name': '第3日留存',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2835',
-							'name': '第7日留存',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2836',
-							'name': '第15日留存',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2837',
-							'name': '第30日留存',
-							'num_type': 'percent'
-						},
-						{
-							'meta_id': '2857',
-							'name': 'LTV-1',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2858',
-							'name': 'LTV-3',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2859',
-							'name': 'LTV-7',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2860',
-							'name': 'LTV-15',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2861',
-							'name': 'LTV-30',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2862',
-							'name': 'LTV-45',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2863',
-							'name': 'LTV-60',
-							'num_type': 'fixed_2'
-						},
-						{
-							'meta_id': '2864',
-							'name': 'LTV-90',
-							'num_type': 'fixed_2'
-						},
-					]
-				}
+				"start": dateConf.dateStart,
+				"end": dateConf.dateEnd,
+				"kpis": [
+					{
+						'meta_id': '2816',
+						'name': '新增' + dimensionText
+					},
+					{
+						'meta_id': '2833',
+						'name': '次日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2834',
+						'name': '第3日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2835',
+						'name': '第7日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2836',
+						'name': '第15日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2837',
+						'name': '第30日留存',
+						'num_type': 'percent'
+					},
+					{
+						'meta_id': '2857',
+						'name': 'LTV-1',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2858',
+						'name': 'LTV-3',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2859',
+						'name': 'LTV-7',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2860',
+						'name': 'LTV-15',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2861',
+						'name': 'LTV-30',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2862',
+						'name': 'LTV-45',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2863',
+						'name': 'LTV-60',
+						'num_type': 'fixed_2'
+					},
+					{
+						'meta_id': '2864',
+						'name': 'LTV-90',
+						'num_type': 'fixed_2'
+					},
+				]
 			}
 		};
 		http.get('/dudai/?c=analysis.report&ac=get&token=mgame_afs23cgs23', {params: data})
@@ -163,8 +161,11 @@ module.exports = React.createClass({
 					});
 					let response = Chart.dealChartData(res.theads, res.table);
 					this.handleAccountData(response, dimensionText);
-					Chart.handleShowChart('c4', response, ['新增' + dimensionText], ['日期', '次日留存', '第3日留存', '第7日留存', '第15日留存', '第30日留存']);
-					Chart.handleShowChart('c5', response, ['新增' + dimensionText], ['日期', 'LTV-1', 'LTV-3', 'LTV-7', 'LTV-15', 'LTV-30', 'LTV-45', 'LTV-60', 'LTV-90']);
+					if (res.table && res.table.length > 0) {
+						Chart.handleShowChart('c4', response, ['新增' + dimensionText], ['日期', '次日留存', '第3日留存', '第7日留存', '第15日留存', '第30日留存']);
+						Chart.handleShowChart('c5', response, ['新增' + dimensionText], ['日期', 'LTV-1', 'LTV-3', 'LTV-7', 'LTV-15', 'LTV-30', 'LTV-45', 'LTV-60', 'LTV-90']);
+					}
+
 				}
 			})
 	},
@@ -236,7 +237,7 @@ module.exports = React.createClass({
 		let dimensionDetailText = this.handleDealDimensionText(globalConf.dimension);
 		let content = (
 			<div>
-				<div className="new-user row">
+				{bodys && bodys.length > 0 ? <div className="new-user row">
 					<div className="col user-view">
 						<p className="title">
 							<i className=" icon fa fa-user-plus"></i>
@@ -269,7 +270,7 @@ module.exports = React.createClass({
 						</div>
 					</div>
 					<TablePage heads={heads} bodys={bodys}/>
-				</div>
+				</div> : '暂无数据'}
 			</div>
 		);
 		return (

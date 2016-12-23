@@ -90,7 +90,6 @@ export default {
 		chart.render();
 	},
 	handleShowAnalysisChart (id, data, indicators, dimensions) {
-		console.log(indicators, dimensions, '@dimensions')
 		let chartDOM = document.getElementById(id);
 		let chartRange = document.getElementById('range');
 		if (chartRange && chartRange.innerHTML)
@@ -125,7 +124,6 @@ export default {
 			position: 'top', // 图例的显示位置，有 'top','left','right','bottom'四种位置，默认是'right'
 		});
 		chart.source(frame);
-		console.log(frame)
 		if (indicators && indicators.length > 0) {
 			let stackColor = colors.slice(0, indicators.length);
 			let dimensionsDodge = dimensions.slice(0, 1);
@@ -149,14 +147,11 @@ export default {
 		// 		}
 		// 	})
 		// }
-		console.log(dimensions, 1111)
 		if (dimensions && dimensions.length > 1) {
-			console.log(22);
 			let linePosition = dimensions.join('*');
 			let len = dimensions.length;
 			let reverseColors = colors.reverse();
 			let lineColors = reverseColors.slice(0, len - 1);
-			console.log(linePosition, len, lineColors);
 			chart.line().position(linePosition).color(lineColors).size(2).shape('smooth');
 		}
 		chart.render();
@@ -215,8 +210,9 @@ export default {
 				}
 			})
 		});
-		chart.line().position('日期*population').color('kpi', stackColor);// 使用图形语法绘制柱状图
+		chart.line().position('日期*population').color('kpi', stackColor).size(2).shape('smooth');// 使用图形语法绘制柱状图
 		if (showRange === 'link') {
+			console.log(1111)
 			var range = new G2.Plugin.range({
 				id: "range", // DOM id
 				forceFit: true, // 插件的宽度

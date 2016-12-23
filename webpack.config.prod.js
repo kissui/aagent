@@ -139,7 +139,6 @@ module.exports = {
 
 function cdnReplace() {
   var layoutTemplate = "public/views/layout.jsx";
-  // var cdn = 'http://cdn3.yunzhanghu.com';
   var cdn = '';
 
   var cssLine = 'link.*styles.*link';
