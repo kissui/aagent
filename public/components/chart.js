@@ -19,9 +19,9 @@ export default {
 		let china = /^[\u4e00-\u9fa5]/;
 		let regDate = /^(\d*\-)+\d+$/;
 		let contentReg = /^(\d*\,)+\d+(\.?)+\d+$/;
-
+		let letterStart = /^[a-zA-Z]+/;
 		if (typeof type != 'number' && type > 1) return china.test(item) ? item : reg.test(item) ? ((item * 100).toFixed(1) + '%') : (regDate.test(item) ? item : parseFloat(item));
-		return contentReg.test(item) ? parseFloat(item.split(',').join('')) : typeof item == 'string' ? (!reg.test(item) ? item : parseFloat(item)) : item + '';
+		return contentReg.test(item) ? parseFloat(item.split(',').join('')) : typeof item == 'string' ? ((china.test(item) || letterStart.test(item)) ? item : parseFloat(item)) : item + '';
 	},
 	filterKey (key, col, type) {
 		_.forEach(collection, (item)=> {
@@ -125,6 +125,7 @@ export default {
 			position: 'top', // 图例的显示位置，有 'top','left','right','bottom'四种位置，默认是'right'
 		});
 		chart.source(frame);
+		console.log(frame)
 		if (indicators && indicators.length > 0) {
 			let stackColor = colors.slice(0, indicators.length);
 			let dimensionsDodge = dimensions.slice(0, 1);
