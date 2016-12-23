@@ -130,31 +130,15 @@ export default {
 			let dimensionsDodge = dimensions.slice(0, 1);
 			chart.interval(['dodge', 'stack']).position(dimensionsDodge + '*population').color('kpi', stackColor);// 使用图形语法绘制柱状图
 		}
-		// if (dimensions.length > 1) {
-		// 	let d = dimensions.slice(1).join('*');
-		// 	let reverseColors = colors.reverse();
-		// 	dimensions.map((item, i)=> {
-		// 		if (i > 0 && i != 0) {
-		// 			chart.line().position(dimensions + '*' + item).color(reverseColors[i]).size(2).shape('smooth');
-		// 			chart.on('tooltipchange', function (ev) {
-		// 				var items = ev.items; // 获取tooltip要显示的内容
-		// 				items.map((sitem, i)=> {
-		// 					if (sitem.name == item) {
-		// 						sitem.value = sitem.value + '%';
-		// 					}
-		// 				})
-		// 			});
-		// 			chart.point().position(dimensions + '*' + item).color(reverseColors[i]); // 绘制点图
-		// 		}
-		// 	})
-		// }
 		if (dimensions && dimensions.length > 1) {
-			let linePosition = dimensions.join('*');
-			let len = dimensions.length;
+			let lineXPosition = dimensions.slice(0,1);
+			let linePosition = dimensions.slice(1);
 			let reverseColors = colors.reverse();
-			let lineColors = reverseColors.slice(0, len - 1);
-			chart.line().position(linePosition).color(lineColors).size(2).shape('smooth');
-			chart.point().position(linePosition).color(lineColors); // 绘制点图
+			linePosition.map((item,i)=>{
+				chart.line().position(lineXPosition+"*"+item).color(reverseColors[i]).size(2).shape('smooth');
+				chart.point().position(lineXPosition+"*"+item).color(reverseColors[i]); // 绘制点图
+			});
+
 		}
 		chart.render();
 	},

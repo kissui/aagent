@@ -106,7 +106,7 @@ module.exports = React.createClass({
 					if (isShowChart) return;
 					if (res.table && res.table.length > 0) {
 						let dimensionsLine = res.theads.slice(0, 1);
-						if (lineItems) {
+						if (lineItems&&lineItems.length>0) {
 							dimensionsLine = _.concat(dimensionsLine, lineItems)
 						}
 						Chart.handleShowAnalysisChart(chartId, response, stocks, dimensionsLine);
@@ -183,6 +183,7 @@ module.exports = React.createClass({
 				dimensionsLine = _.concat(dimensionsLine, lineItems)
 			}
 			let response = Chart.dealChartData(heads, bodys);
+
 			Chart.handleShowAnalysisChart(chartId, response, stocks, dimensionsLine);
 		} else {
 			let chartDOM = document.getElementById(chartId);

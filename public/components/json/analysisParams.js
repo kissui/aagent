@@ -444,8 +444,8 @@ module.exports = {
 				title: '元宝产出途径',
 				key: 'gold_product',
 				dimensionName: '途径',
-				stockItem: ['产出元宝数量', '产出元宝次数'],
-				lineItem: ['产出元宝次数'],
+				stockItem: ['产出元宝数量'],
+				lineItem: ['产出元宝角色数', '产出元宝次数'],
 				data: [
 					{
 						'meta_id': '2942',
