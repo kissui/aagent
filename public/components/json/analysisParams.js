@@ -147,6 +147,7 @@ module.exports = {
 				key: 'start_num',
 				lineItem: ['平均启动次数'],
 				stockItem: ['平均启动次数'],
+				chartShow: 'single',
 				data: [
 					{
 						'meta_id': '2927',
@@ -161,6 +162,7 @@ module.exports = {
 				dimensionName: '等级',
 				lineItem: ['等级分布'],
 				stockItem: ['等级分布'],
+				chartShow: 'single',
 				data: [
 					{
 						'meta_id': '2928',
@@ -360,6 +362,7 @@ module.exports = {
 				dimensionName: '渠道',
 				stockItem: ['新增角色数'],
 				lineItem: ['次日留存', '第3日留存', '第7日留存'],
+				chartShow:'line',
 				percent: true,
 				data: [
 					{
@@ -447,6 +450,7 @@ module.exports = {
 				dimensionName: '途径',
 				stockItem: ['产出元宝数量'],
 				lineItem: ['产出元宝角色数', '产出元宝次数'],
+				chartShow:'line',
 				data: [
 					{
 						'meta_id': '2942',
@@ -468,6 +472,7 @@ module.exports = {
 				dimensionName: '途径',
 				stockItem: ['回收元宝数量'],
 				lineItem: ['回收元宝次数', '回收元宝角色数'],
+				chartShow:'line',
 				data: [
 					{
 						'meta_id': '2945',

@@ -21,7 +21,8 @@ export default {
 		let contentReg = /^(\d*\,)+\d+(\.?)+\d+$/;
 		let letterStart = /^[a-zA-Z]+/;
 		if (typeof type != 'number' && type > 1) return china.test(item) ? item : reg.test(item) ? ((item * 100).toFixed(1) + '%') : (regDate.test(item) ? item : parseFloat(item));
-		return contentReg.test(item) ? parseFloat(item.split(',').join('')) : typeof item == 'string' ? ((china.test(item) || letterStart.test(item)) ? item : parseFloat(item)) : item + '';
+		return type === 0 ? item :contentReg.test(item) ? parseFloat(item.split(',').join('')) :
+			typeof item == 'string' ? ((china.test(item) || letterStart.test(item)) ? item : parseFloat(item)) : item + '';
 	},
 	filterKey (key, col, type) {
 		_.forEach(collection, (item)=> {
@@ -38,7 +39,8 @@ export default {
 		fields.map((item, i)=> {
 			const obj = {};
 			item.map((superItem, k)=> {
-				obj[surveyName[k]] = surveyName[k] == '日期' ? (real ? superItem.split('%')[0] : superItem.split('%')[1]) : (superItem === '' ? 0 : this.reg(superItem, k))
+				obj[surveyName[k]] = surveyName[k] == '日期' ? (real ? superItem.split('%')[0] : superItem.split('%')[1]) :
+					((superItem === '' || superItem === 0) ? 0 : this.reg(superItem, k))
 			});
 			chartData.unshift(obj)
 		});
@@ -90,7 +92,7 @@ export default {
 		}
 		chart.render();
 	},
-	handleShowAnalysisChart (id, data, indicators, dimensions) {
+	handleShowAnalysisChart (id, data, indicators, dimensions, doubleYLine) {
 		let chartDOM = document.getElementById(id);
 		let chartRange = document.getElementById('range');
 		if (chartRange && chartRange.innerHTML)
@@ -102,7 +104,7 @@ export default {
 			forceFit: true,
 			height: 400,
 			plotCfg: {
-				margin: [35, 0, 50, 80]
+				margin: [35, 80, 50, 80]
 			}
 		});
 		var Frame = G2.Frame;
@@ -120,26 +122,47 @@ export default {
 			title: null
 		});
 		let colors = ['#45594e', '#8fbeac', '#5e9882', '#fbbe7b', '#fff6e5', '#e89ba5', '#f5de50', '#f6deda', '#fbbe7a'];
-		frame = Frame.combinColumns(frame, indicators, 'population', 'kpi', dimensions, 'di');
+
 		chart.legend({
 			position: 'top', // 图例的显示位置，有 'top','left','right','bottom'四种位置，默认是'right'
 		});
-		chart.source(frame);
-		if (indicators && indicators.length > 0) {
-			let stackColor = colors.slice(0, indicators.length);
-			let dimensionsDodge = dimensions.slice(0, 1);
-			chart.interval(['dodge', 'stack']).position(dimensionsDodge + '*population').color('kpi', stackColor);// 使用图形语法绘制柱状图
-		}
-		if (dimensions && dimensions.length > 1) {
-			let lineXPosition = dimensions.slice(0, 1);
-			let linePosition = dimensions.slice(1);
-			let reverseColors = colors.reverse();
-			linePosition.map((item, i)=> {
-				chart.line().position(lineXPosition + "*" + item).color(reverseColors[i]).size(2).shape('smooth');
-				chart.point().position(lineXPosition + "*" + item).color(reverseColors[i]); // 绘制点图
+		let dimensionsDodge = dimensions.slice(0, 1);
+		let stackColor = colors.slice(0, indicators.length);
+		if (doubleYLine === 'line') {
+			let lineDimensions = dimensions.slice(0, 1);
+			let lineKpis = dimensions.slice(1);
+			let stockDimension = _.concat(lineDimensions, indicators);
+			frame = Frame.combinColumns(frame, lineKpis, 'population', 'kpi', stockDimension, 'di');
+			chart.source(frame, {
+				'population': {min: 0},
+				[indicators.join('')]: {min: 0}
 			});
+			chart.interval().position(dimensionsDodge + '*' + indicators.join('')).color(colors.slice(colors.length - 1));
+			chart.line().position(dimensionsDodge + "*population").color('kpi', colors).size(2).shape('smooth');
+			chart.point().position(dimensionsDodge + "*population").color('kpi', colors); // 绘制点图
+		} else if (doubleYLine === 'single') {
+			frame = Frame.combinColumns(frame, indicators, 'population', 'kpi', dimensions, 'di');
+			chart.source(frame);
+			chart.line().position(dimensionsDodge + "*population").color(colors.slice(colors.length - 1)).size(2).shape('smooth');
+			chart.point().position(dimensionsDodge + "*population").color(colors.slice(colors.length - 1)); // 绘制点图
+		} else {
+			frame = Frame.combinColumns(frame, indicators, 'population', 'kpi', dimensions, 'di');
+			chart.source(frame);
+			if (indicators && indicators.length > 0) {
+				chart.interval(['dodge', 'stack']).position(dimensionsDodge + '*population').color('kpi', stackColor);// 使用图形语法绘制柱状图
+			}
+			if (dimensions && dimensions.length > 1) {
+				let lineXPosition = dimensions.slice(0, 1);
+				let linePosition = dimensions.slice(1);
+				let reverseColors = colors.reverse();
+				linePosition.map((item, i)=> {
+					chart.line().position(lineXPosition + "*" + item).color(reverseColors[i]).size(2).shape('smooth');
+					chart.point().position(lineXPosition + "*" + item).color(reverseColors[i]); // 绘制点图
+				});
 
+			}
 		}
+
 		chart.render();
 	},
 	handleShowAnalysisLine (id, data, indicators, dimensions, showRange) {

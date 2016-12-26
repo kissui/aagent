@@ -57,7 +57,7 @@ module.exports = React.createClass({
 		let stocks = _.get(tabData.subList[index], 'stockItem');
 		let lineItems = _.get(tabData.subList[index], 'lineItem');
 		let role = _.get(tabData.subList[index], 'role');
-
+		let doubleYLine = _.get(tabData.subList[index], 'chartShow');
 		if (role) {
 			this.setState({
 				isShowRoleBox: true,
@@ -67,7 +67,6 @@ module.exports = React.createClass({
 				isShowRoleBox: false,
 			})
 		}
-		console.log(receiveParams);
 		let data = {
 			"cycle": 'days',
 			"device": receiveParams.device,
@@ -101,6 +100,7 @@ module.exports = React.createClass({
 						bodys: res.table,
 						stocks: stocks ? stocks : null,
 						lineItems: lineItems ? lineItems : null,
+						doubleYLine: doubleYLine,
 						isLoading: false
 					});
 					let response = Chart.dealChartData(res.theads, res.table);
@@ -111,7 +111,7 @@ module.exports = React.createClass({
 							dimensionsLine = _.concat(dimensionsLine, lineItems)
 						}
 						if (showBoxType == 'graphic') {
-							Chart.handleShowAnalysisChart(chartId, response, stocks, dimensionsLine);
+							Chart.handleShowAnalysisChart(chartId, response, stocks, dimensionsLine, doubleYLine);
 						}
 
 					} else {
@@ -178,7 +178,7 @@ module.exports = React.createClass({
 		})
 	},
 	handleChangeGraphicOrTable: function (value) {
-		const {heads, bodys, lineItems, stocks} = this.state;
+		const {heads, bodys, lineItems, stocks,doubleYLine} = this.state;
 		const {chartId, tabData} = this.props;
 		this.setState({
 			showBoxType: value
@@ -190,7 +190,7 @@ module.exports = React.createClass({
 			}
 			let response = Chart.dealChartData(heads, bodys);
 
-			Chart.handleShowAnalysisChart(chartId, response, stocks, dimensionsLine);
+			Chart.handleShowAnalysisChart(chartId, response, stocks, dimensionsLine,doubleYLine);
 		} else {
 			let chartDOM = document.getElementById(chartId);
 			if (chartDOM && chartDOM.innerHTML)
