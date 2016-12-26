@@ -51,9 +51,7 @@ module.exports = React.createClass({
 	},
 	componentWillReceiveProps: function (nextProps) {
 		const {device, gameConf, user_dimension} = this.state;
-		console.log(nextProps.onGameConf,gameConf,1)
 		if (nextProps.onMenu != device || gameConf.gameId != nextProps.onGameConf.gameId) {
-			console.log(2)
 			this.setState({
 				device: nextProps.onMenu,
 				gameConf: nextProps.onGameConf,
@@ -153,9 +151,6 @@ module.exports = React.createClass({
 			})
 	},
 	handleChangeChart: function (index, isShowRoll) {
-		let chartRange = document.getElementById('range');
-		if (chartRange && chartRange.innerHTML)
-			chartRange.innerHTML = null;
 		const {bodys, heads}= this.state;
 		this.setState({
 			defaultSelect: index,

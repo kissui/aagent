@@ -131,12 +131,12 @@ export default {
 			chart.interval(['dodge', 'stack']).position(dimensionsDodge + '*population').color('kpi', stackColor);// 使用图形语法绘制柱状图
 		}
 		if (dimensions && dimensions.length > 1) {
-			let lineXPosition = dimensions.slice(0,1);
+			let lineXPosition = dimensions.slice(0, 1);
 			let linePosition = dimensions.slice(1);
 			let reverseColors = colors.reverse();
-			linePosition.map((item,i)=>{
-				chart.line().position(lineXPosition+"*"+item).color(reverseColors[i]).size(2).shape('smooth');
-				chart.point().position(lineXPosition+"*"+item).color(reverseColors[i]); // 绘制点图
+			linePosition.map((item, i)=> {
+				chart.line().position(lineXPosition + "*" + item).color(reverseColors[i]).size(2).shape('smooth');
+				chart.point().position(lineXPosition + "*" + item).color(reverseColors[i]); // 绘制点图
 			});
 
 		}
@@ -154,7 +154,7 @@ export default {
 			forceFit: true,
 			height: 400,
 			plotCfg: {
-				margin: [35, 0, 50, 30]
+				margin: [35, 80, 50, 80]
 			}
 		});
 		for (var i = 0; i < data.length; i++) {
@@ -168,10 +168,17 @@ export default {
 		frame.addCol('range', function (obj) { // 添加列
 			return [obj.start, obj.end];
 		});
+		chart.axis('population', {
+			formatter: function (dimValue) {
+				return dimValue;
+			},
+			title: null
+		});
 		chart.axis('日期', {
 			formatter: function (dimValue) {
 				return dimValue;
-			}
+			},
+			title: null
 		});
 		let colors = ['#45594e', '#8fbeac', '#5e9882', '#fbbe7b', '#fff6e5', '#e89ba5', '#f5de50', '#f6deda', '#fbbe7a'];
 		let stackColor = colors.slice(0, indicators.length);
@@ -185,7 +192,7 @@ export default {
 				nice: false,
 				mask: 'mm-dd',
 				alias: '时间',
-				tickCount: 10
+				tickCount: 7
 			}
 		});
 		chart.on('tooltipchange', function (ev) {
@@ -203,14 +210,13 @@ export default {
 				forceFit: true, // 插件的宽度
 				height: 30, // 插件的高度
 				dim: '日期', // 指定筛选的数据维度
-				start: 9293819091, // 起始原始数据
-				end: 8293819091, // 结束原始数据
+				start: '2016-12-22', // 起始原始数据
+				end: '2016-12-26', // 结束原始数据
 			});
 			range.source(frame); // 载入数据源
 			range.link(chart); // 关联 G2 图表对象，支持一个或者多个 chart 对象
 			range.render(); // 渲染，将 chart 和 range 插件一起渲染
-		} else {
-			chart.render();
 		}
+		chart.render();
 	}
 }
