@@ -65,6 +65,7 @@ export default {
 				return dimValue;
 			}
 		});
+
 		let colors = ['#45594e', '#8fbeac', '#5e9882', '#fbbe7b', '#fff6e5', '#e89ba5', '#f5de50', '#f6deda', '#fbbe7a'];
 		let stackColor = colors.slice(0, indicators.length);
 		frame = Frame.combinColumns(frame, indicators, 'population', 'kpi', dimensions, 'di');
