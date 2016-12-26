@@ -67,6 +67,7 @@ module.exports = React.createClass({
 				isShowRoleBox: false,
 			})
 		}
+		console.log(receiveParams);
 		let data = {
 			"cycle": 'days',
 			"device": receiveParams.device,
@@ -106,10 +107,13 @@ module.exports = React.createClass({
 					if (isShowChart) return;
 					if (res.table && res.table.length > 0) {
 						let dimensionsLine = res.theads.slice(0, 1);
-						if (lineItems&&lineItems.length>0) {
+						if (lineItems && lineItems.length > 0) {
 							dimensionsLine = _.concat(dimensionsLine, lineItems)
 						}
-						Chart.handleShowAnalysisChart(chartId, response, stocks, dimensionsLine);
+						if (showBoxType == 'graphic') {
+							Chart.handleShowAnalysisChart(chartId, response, stocks, dimensionsLine);
+						}
+
 					} else {
 						document.getElementById(chartId).innerHTML = '暂无数据';
 					}
@@ -151,16 +155,18 @@ module.exports = React.createClass({
 		})
 	},
 	handleReceiveDateRange: function (start, end, type) {
+
 		const format = 'YYYY-MM-DD';
-		let dateRange = {
+		let dateRangeChange = {
 			dateStart: start.format(format).toString(),
-			dateEnd: type ? this.state.dateRange.dateEnd : end.format(format).toString()
+			dateEnd: end.format(format).toString()
 		};
+		console.log(start, end, type, dateRangeChange);
 		const {gameConf, device, key, dimension} = this.state;
-		let params = _.extend({}, dateRange, gameConf, {device: device}, {key: key}, {user_dimension: dimension});
+		let params = _.extend({}, dateRangeChange, gameConf, {device: device}, {key: key}, {user_dimension: dimension});
 		this.handleInitAnalysisData(params);
 		this.setState({
-			dateRange: dateRange
+			dateRange: dateRangeChange
 		});
 	},
 	handleReceiveRoll: function (value) {
@@ -172,7 +178,7 @@ module.exports = React.createClass({
 		})
 	},
 	handleChangeGraphicOrTable: function (value) {
-		const {heads, bodys,lineItems,stocks} = this.state;
+		const {heads, bodys, lineItems, stocks} = this.state;
 		const {chartId, tabData} = this.props;
 		this.setState({
 			showBoxType: value

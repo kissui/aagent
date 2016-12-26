@@ -12,7 +12,7 @@ export default class CalendarPage extends React.Component {
 		this.state = {
 			'datePickerShow': null,
 			'show': false,
-			'date': onDefaultDateRange.dateEnd
+			'datePickerSelected': onDefaultDateRange.dateEnd
 		}
 	}
 
@@ -29,10 +29,10 @@ export default class CalendarPage extends React.Component {
 	}
 
 	handleSubmit() {
-		const {datePickerChange, show, date} = this.state;
-		this.props.onReceiveData(datePickerChange, datePickerChange,'calendar');
+		const {datePickerSelected, show, date} = this.state;
+		this.props.onReceiveData(datePickerSelected, datePickerSelected,'calendar');
 		this.setState({
-			datePickerShow: datePickerChange,
+			datePickerShow: datePickerSelected,
 			show: !show
 		})
 	}
@@ -46,7 +46,7 @@ export default class CalendarPage extends React.Component {
 
 	render() {
 
-		const {datePickerShow, show, date} = this.state;
+		const {datePickerShow, show, datePickerSelected} = this.state;
 		const format = 'YYYY-MM-DD';
 		return (
 			<div className="calendar-body">
@@ -64,10 +64,10 @@ export default class CalendarPage extends React.Component {
 				<div className={show ? "calendar-box" : 'hide'}>
 					<Calendar
 						date={ now => {
-							return date.split("-").reverse().join("/");
+							return now.add(-1, 'days');
 						} }
 						onInit={ this.handleInit.bind(this, 'datePickerShow') }
-						onChange={ this.handleChange.bind(this, 'datePickerChange') }
+						onChange={ this.handleChange.bind(this, 'datePickerSelected') }
 					/>
 					<div className="text-right">
 						<button className="btn btn-primary" onClick={this.handleSubmit.bind(this)}>确定</button>
