@@ -63,13 +63,17 @@ export default {
 			.then(res=> {
 				let conf;
 				if (res.error_code === 0 && res.data.length > 0) {
+
 					conf = {
 						gameId: res.data[0].value,
 						gameList: res.data
-					}
+					};
+					sessionStorage.setItem('gameConf',JSON.stringify(conf));
+					cb(conf);
+				} else {
+					cb(res);
 				}
-				sessionStorage.setItem('gameConf',JSON.stringify(conf));
-				cb(conf);
+
 			})
 	},
 	sessionStorageFn(conf) {

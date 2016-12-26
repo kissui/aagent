@@ -1007,3 +1007,26 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
         }
     }
 }
+/************* authorized **************/
+.authorized {
+    width: 400px;
+    height: 200px;
+    border: 1px solid;
+    border-radius: 10px;
+    position: fixed;
+    left: 50%;
+    margin-left: -200px;
+    top: 30%;
+    background: #fff;
+    padding: 20px;
+    .head{
+        text-align: center;
+        color: red;
+        font-size: 16px;
+        padding-bottom: 20px;
+    }
+    .row {
+        margin: 0;
+        padding: 0;
+    }
+}

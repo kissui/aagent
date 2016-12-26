@@ -19,7 +19,14 @@ const Login = React.createClass({
 		Auth.login(email, pass, (loggedIn) => {
 			if (!loggedIn)
 				return this.setState({error: true});
-			this.props.router.replace('/app/game')
+			Auth.initGameCof(res=>{
+				if(res.data && res.data.length===0) {
+					this.props.router.replace('/app/401')
+				} else {
+					this.props.router.replace('/app/game')
+				}
+			});
+
 		})
 	},
 
@@ -51,12 +58,4 @@ const Login = React.createClass({
 
 });
 
-
-// 本项目用了 react-engine 未实际支持的 react-router 2.*（具体为 ^2.4.0），
-// 但 react-router 说过是平滑升级的，所以用了后除了 deprecated 的信息，
-// 暂也没发现 BUG：
-// https://github.com/reactjs/react-router/blob/master/upgrade-guides/v2.0.0.md
-//
-// withRouter 就是 2.4.0 中新加的方法（使用时还未发布），如果路由出问题，可以细查：
-// https://github.com/reactjs/react-router/blob/master/upgrade-guides/v2.4.0.md
 export default withRouter(Login)

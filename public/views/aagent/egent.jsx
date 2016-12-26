@@ -21,9 +21,17 @@ module.exports = React.createClass({
 				this.context.router.push('/app/login')
 			} else {
 				Auth.initGameCof(res=> {
-					this.setState({
-						gameConf: res
-					})
+					if(res) {
+						if(res.data && res.data.length===0) {
+							this.context.router.push('/app/401')
+						} else {
+							this.setState({
+								gameConf: res
+							})
+						}
+
+					}
+
 				})
 			}
 		});
