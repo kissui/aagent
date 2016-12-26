@@ -436,6 +436,7 @@ module.exports = {
 					},
 					{
 						'meta_id': '2941',
+						'num_type':'fixed_2',
 						'name': '元宝回收产出比',
 					}
 				]
