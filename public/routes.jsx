@@ -11,7 +11,7 @@ import analysisPage from './views/analysis/analysis.jsx';
 import MockPage from './views/mock/mock.jsx';
 import LoginPage from './views/login.jsx';
 import LogoutPage from './views/logout.jsx';
-
+import realTimePage from './views/realtime/realtime.jsx';
 import UnauthorizedPage from './views/401.jsx';
 import errorPage from './views/error/error.jsx';
 // @todo 现在有缺少 browserHistory 的报错，但在这儿加了没用，好像是后端 render 的
@@ -22,6 +22,7 @@ export default (
             <Route path="/app/game" component={indexPage}/>
             <Route path="/app/game/analysis/survey/report" component={indexPage}/>
             <Route path="/app/game/analysis/survey/analysis" component={analysisPage}/>
+            <Route path="/app/game/analysis/survey/realTime" component={realTimePage}/>
             <Route path="/app/mock" component={MockPage}/>
             <Route path="/app/login" component={LoginPage}/>
             <Route path="/app/logout" component={LogoutPage}/>
