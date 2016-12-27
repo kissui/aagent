@@ -28,9 +28,7 @@ module.exports = React.createClass({
 								gameConf: res
 							})
 						}
-
 					}
-
 				})
 			}
 		});
@@ -44,6 +42,7 @@ module.exports = React.createClass({
 	},
 	render: function () {
 		const {data, menu, gameConf} = this.state;
+		console.log(this.props.location,'@location')
 		let defaultConf = null;
 		if (menu) {
 			let locationStates = this.props.location.state;
@@ -58,7 +57,7 @@ module.exports = React.createClass({
 		];
 		return (
 			<div>
-				<HeaderPage headerConf={null} active={defaultConf}/>
+				<HeaderPage headerConf={null} active={defaultConf} onGameConf={gameConf}/>
 				<div className="bd-body">
 					<SidebarPage
 						icon={icon}

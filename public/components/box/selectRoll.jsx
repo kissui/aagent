@@ -49,6 +49,11 @@ module.exports = React.createClass({
 			isShow: !this.state.isShow
 		})
 	},
+	handleToggleDisplayNone: function () {
+		this.setState({
+			isShow: false
+		})
+	},
 	render: function () {
 		const {defaultSelect, isShow, defaultRollList} = this.state;
 		const {onStyle} = this.props;
@@ -63,12 +68,12 @@ module.exports = React.createClass({
 			)
 		});
 		return (
-			<div className="select_roll" style={onStyle}>
+			<div className="select_roll" style={onStyle} onMouseLeave={this.handleToggleDisplayNone}>
 				<div className="roll_block" onClick={this.handleToggleDisplay}>
 					{defaultSelect.title}
-					<i className="fa fa-caret-down"></i>
+					<i className={isShow ? "fa fa-caret-up" :"fa fa-caret-down"}></i>
 				</div>
-				<ul className={isShow ? "roll_box" : "hide"}>
+				<ul className={isShow ? "roll_box" : "hide"} >
 					{content}
 				</ul>
 			</div>

@@ -2,6 +2,7 @@
 import React from 'react';
 import {router, Link} from 'react-router';
 import _ from 'lodash';
+import SelectRollPage from '../../components/box/selectRoll' //选择角色的下拉菜单
 import Auth from '../../lib/auth';
 let data = [
 	{
@@ -30,11 +31,22 @@ let data = [
 	// }
 ];
 module.exports = React.createClass({
+	getInitialState: function () {
+		return {
+			gameConf: this.props.onGameConf
+		}
+	},
+	handleReceiveRoll: function (value) {
+		console.log(value);
+	},
 	render: function () {
-		const {headerConf, active} = this.props;
+		const {headerConf, active, onGameConf} = this.props;
+		console.log(active,onGameConf,'@active');
 		let firstTpl = null, secondTpl = null;
-		if(active) {
-			let index = _.findIndex(data, (attr=>{return attr.id == active.one}))
+		if (active) {
+			let index = _.findIndex(data, (attr=> {
+				return attr.id == active.one
+			}));
 			let secondData = data[index].superItem;
 			firstTpl = data.map((item, i)=> {
 				return (
@@ -65,6 +77,16 @@ module.exports = React.createClass({
 						<div className="col-md-6">
 							<div className="logo">
 								<img src="/img/logo.png" alt="logo"/>
+								{onGameConf && <SelectRollPage
+									onReceiveRollValue={this.handleReceiveRoll}
+									onStyle={{
+										position: 'relative',
+										right: '-20px',
+										display: 'inline-block'
+									}}
+									gameId={onGameConf.gameId}
+									rollRange={onGameConf.gameList}
+								/>}
 							</div>
 							<ul className="navigation">
 								{firstTpl}
@@ -85,4 +107,4 @@ module.exports = React.createClass({
 			</div>
 		)
 	}
-})
+});
