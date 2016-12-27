@@ -46,7 +46,7 @@ export default {
 		});
 		return chartData;
 	},
-	handleShowChart (id, data, indicators, dimensions) {
+	handleShowChart (id, data, indicators, dimensions, chartConf) {
 		let chartDOM = document.getElementById(id);
 		if (chartDOM && chartDOM.length > 0)
 			chartDOM.innerHTML = null;
@@ -60,37 +60,60 @@ export default {
 		});
 		var Frame = G2.Frame;
 		var frame = new Frame(data);
+		var Stat = G2.Stat;
 		chart.axis('日期', {
 			formatter: function (dimValue) {
 				return dimValue;
 			}
 		});
-
+		chart.legend(false);
 		let colors = ['#45594e', '#8fbeac', '#5e9882', '#fbbe7b', '#fff6e5', '#e89ba5', '#f5de50', '#f6deda', '#fbbe7a'];
 		let stackColor = colors.slice(0, indicators.length);
-		frame = Frame.combinColumns(frame, indicators, 'population', 'kpi', dimensions, 'di');
-		chart.legend(false);
-		chart.source(frame);
-		chart.interval(['dodge', 'stack']).position('日期*population').color('kpi', stackColor);// 使用图形语法绘制柱状图
-		if (dimensions.length > 0) {
-			let d = dimensions.slice(1).join('*');
-			let reverseColors = colors.reverse();
-			dimensions.map((item, i)=> {
-				if (i > 0 && i != 0) {
-					chart.line().position('日期*' + item).color(reverseColors[i]).size(2).shape('smooth');
-					chart.on('tooltipchange', function (ev) {
-						var items = ev.items; // 获取tooltip要显示的内容
-						items.map((sitem, i)=> {
-							if (sitem.name == item) {
-								sitem.value = sitem.value + '%';
-							}
-						})
-					});
-					chart.point().position('日期*' + item).color(reverseColors[i]); // 绘制点图
-				}
-			})
+		if (_.isObject(chartConf) && chartConf.showType === 'line') {
+			let lineIndicators = dimensions.slice(1);
+			let lineDimensions = _.concat(dimensions.slice(0, 1), indicators);
+			frame = Frame.combinColumns(frame, lineIndicators, 'population', 'kpi', lineDimensions, 'di');
+			chart.source(frame);
+			console.log(frame, 'frame');
+			chart.interval().position(lineDimensions.join('*')).color(colors.slice(0, 1));// 使用图形语法绘制柱状图
+			chart.line().position('日期*population').color('kpi', colors.slice(1)).size(2).shape('smooth');
+			chart.point().position('日期*population').color('kpi', colors.slice(1)); // 绘制点图
+			if (chartConf.percent) {
+				chart.on('tooltipchange', function (ev) {
+					var items = ev.items; // 获取tooltip要显示的内容
+					items.map((sitem, i)=> {
+						if (i > 0 && sitem.value != 0) {
 
+							sitem.value = sitem.value + '%';
+						}
+					})
+				});
+			}
+		} else {
+			frame = Frame.combinColumns(frame, indicators, 'population', 'kpi', dimensions, 'di');
+			chart.source(frame);
+			chart.interval(['dodge', 'stack']).position('日期*population').color('kpi', stackColor);// 使用图形语法绘制柱状图
+			if (dimensions.length > 0) {
+				let d = dimensions.slice(1).join('*');
+				let reverseColors = colors.reverse();
+				dimensions.map((item, i)=> {
+					if (i > 0 && i != 0) {
+						chart.line().position('日期*' + item).color(reverseColors[i]).size(2).shape('smooth');
+						chart.on('tooltipchange', function (ev) {
+							var items = ev.items; // 获取tooltip要显示的内容
+							items.map((sitem, i)=> {
+								if (sitem.name == item) {
+									sitem.value = sitem.value + '%';
+								}
+							})
+						});
+						chart.point().position('日期*' + item).color(reverseColors[i]); // 绘制点图
+					}
+				})
+
+			}
 		}
+
 		chart.render();
 	},
 	handleShowAnalysisChart (id, data, indicators, dimensions, doubleYLine) {

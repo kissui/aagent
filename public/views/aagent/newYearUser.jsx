@@ -162,8 +162,13 @@ module.exports = React.createClass({
 					});
 					let response = Chart.dealChartData(res.theads, res.table);
 					this.handleAccountData(response, dimensionText);
-					Chart.handleShowChart('c4', response, ['新增' + dimensionText], ['日期', '次日留存', '第3日留存', '第7日留存', '第15日留存', '第30日留存']);
-					Chart.handleShowChart('c5', response, ['新增' + dimensionText], ['日期', 'LTV-1', 'LTV-3', 'LTV-7', 'LTV-15', 'LTV-30', 'LTV-45', 'LTV-60', 'LTV-90']);
+					Chart.handleShowChart('c4', response, ['新增' + dimensionText],
+						['日期', '次日留存', '第3日留存', '第7日留存', '第15日留存', '第30日留存'], {percent: true, showType: 'line'});
+					Chart.handleShowChart('c5', response, ['新增' + dimensionText],
+						['日期', 'LTV-1', 'LTV-3', 'LTV-7', 'LTV-15', 'LTV-30', 'LTV-45', 'LTV-60', 'LTV-90'], {
+							percent: false,
+							showType: 'line'
+						});
 				}
 			})
 	},
