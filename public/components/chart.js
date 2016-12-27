@@ -21,7 +21,7 @@ export default {
 		let contentReg = /^(\d*\,)+\d+(\.?)+\d+$/;
 		let letterStart = /^[a-zA-Z]+/;
 		if (typeof type != 'number' && type > 1) return china.test(item) ? item : reg.test(item) ? ((item * 100).toFixed(1) + '%') : (regDate.test(item) ? item : parseFloat(item));
-		return type === 0 ? item :contentReg.test(item) ? parseFloat(item.split(',').join('')) :
+		return type === 0 ? item : contentReg.test(item) ? parseFloat(item.split(',').join('')) :
 			typeof item == 'string' ? ((china.test(item) || letterStart.test(item)) ? item : parseFloat(item)) : item + '';
 	},
 	filterKey (key, col, type) {
@@ -144,8 +144,8 @@ export default {
 		} else if (doubleYLine === 'single') {
 			frame = Frame.combinColumns(frame, indicators, 'population', 'kpi', dimensions, 'di');
 			chart.source(frame);
-			chart.line().position(dimensionsDodge + "*population").color(colors.slice(colors.length - 1)).size(2).shape('smooth');
-			chart.point().position(dimensionsDodge + "*population").color(colors.slice(colors.length - 1)); // 绘制点图
+			chart.line().position(dimensionsDodge + "*" + indicators.join('')).color(colors.slice(colors.length - 1)).size(2).shape('smooth');
+			chart.point().position(dimensionsDodge + "*" + indicators.join('')).color(colors.slice(colors.length - 1)); // 绘制点图
 		} else {
 			frame = Frame.combinColumns(frame, indicators, 'population', 'kpi', dimensions, 'di');
 			chart.source(frame);
