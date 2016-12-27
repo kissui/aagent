@@ -36,7 +36,8 @@ module.exports = React.createClass({
 	},
 	render: function () {
 		const {data, menu, gameConf} = this.state;
-		let defaultConf = null;
+		let defaultConf = null,
+			l_query = this.props.location.query;
 		if (menu) {
 			let locationStates = this.props.location.state;
 			defaultConf = {
@@ -47,9 +48,15 @@ module.exports = React.createClass({
 		let icon = [
 			{className: 'fa fa-bar-chart'},
 		];
+		if (l_query && gameConf && gameConf.gameId && l_query.gameId) {
+			gameConf.gameId = l_query.gameId
+		}
 		return (
 			<div>
-				<HeaderPage headerConf={null} active={defaultConf}/>
+				<HeaderPage headerConf={null}
+							active={defaultConf}
+							onGameConf={gameConf}
+							onPathName={this.props.location.pathname}/>
 
 				<div className="bd-body">
 
@@ -79,6 +86,7 @@ module.exports = React.createClass({
 						sidebarDefault={{
 							second: 'recentAnalysis'
 						}}
+						pathQuery={this.props.location.query}
 						onReceiveDefaultSidebarData={this.handleSidebarDetail}
 					/>
 					<ContentPage gameConf={gameConf}/>

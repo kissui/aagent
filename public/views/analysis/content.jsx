@@ -34,32 +34,10 @@ module.exports = React.createClass({
 			});
 		}
 	},
-	handleReceiveRoll: function (value) {
-		const {gameConf} = this.state;
-		let conf = {
-			gameId: value,
-			gameList: gameConf.gameList
-		};
-		this.setState({
-			gameConf: conf
-		});
-		Auth.sessionStorageFn(conf)
-	},
 	render: function () {
 		const {gameConf, device} = this.state;
 		return (
 			<div className="bd-container analysis-body">
-				<div className="box-view bd-game-fix">
-					{gameConf && <SelectRollPage
-						onReceiveRollValue={this.handleReceiveRoll}
-						onStyle={{
-							position: 'relative',
-							right: 0
-						}}
-						gameId={gameConf.gameId}
-						rollRange={gameConf.gameList}
-					/>}
-				</div>
 				<div className="box-view">
 					<div className="view-option">
 						<div className="selectCycle">

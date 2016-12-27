@@ -64,7 +64,7 @@ module.exports = React.createClass({
 				second: item
 			}
 		});
-		this.props.onReceiveDefaultSidebarData(item,true);
+		this.props.onReceiveDefaultSidebarData(item, true);
 	},
 	render: function () {
 		const {
@@ -72,8 +72,10 @@ module.exports = React.createClass({
 			sidebarItem,
 			sidebarItemBox,
 			sidebarSuperItem,
-			icon
+			icon,
+			pathQuery
 		} = this.props;
+		let query = pathQuery && pathQuery.gameId ? '?gameId=' + pathQuery.gameId : '';
 		const {defaultSidebar} = this.state;
 		if (!defaultSidebarData) return null;
 		return (
@@ -96,7 +98,7 @@ module.exports = React.createClass({
 											<li key={superI}
 												onClick={this.handleSelectSuperItem.bind(this, superItem.ev)}
 												style={sidebarSuperItem}>
-												<Link to={superItem.link}
+												<Link to={superItem.link + query}
 													  className={defaultSidebar.second === superItem.ev && 'active'}>
 													{superItem.title}
 												</Link>

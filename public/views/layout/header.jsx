@@ -31,17 +31,25 @@ let data = [
 	// }
 ];
 module.exports = React.createClass({
+	contextTypes: {
+		router: React.PropTypes.object.isRequired
+	},
 	getInitialState: function () {
 		return {
 			gameConf: this.props.onGameConf
 		}
 	},
 	handleReceiveRoll: function (value) {
-		console.log(value);
+		const {onPathName} = this.props;
+		this.context.router.push({
+			pathname: onPathName,
+			query: {
+				gameId: value
+			}
+		})
 	},
 	render: function () {
-		const {headerConf, active, onGameConf} = this.props;
-		console.log(active,onGameConf,'@active');
+		const {headerConf, active, onGameConf, onPathName} = this.props;
 		let firstTpl = null, secondTpl = null;
 		if (active) {
 			let index = _.findIndex(data, (attr=> {

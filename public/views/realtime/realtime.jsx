@@ -20,8 +20,8 @@ module.exports = React.createClass({
 				this.context.router.push('/app/login')
 			} else {
 				Auth.initGameCof(res=> {
-					if(res) {
-						if(res.data && res.data.length===0) {
+					if (res) {
+						if (res.data && res.data.length === 0) {
 							this.context.router.push('/app/401')
 						} else {
 							this.setState({
@@ -42,8 +42,8 @@ module.exports = React.createClass({
 	},
 	render: function () {
 		const {data, menu, gameConf} = this.state;
-		console.log(this.props.location,'@location')
-		let defaultConf = null;
+		let defaultConf = null,
+			l_query = this.props.location.query;
 		if (menu) {
 			let locationStates = this.props.location.state;
 			defaultConf = {
@@ -55,9 +55,17 @@ module.exports = React.createClass({
 		let icon = [
 			{className: 'fa fa-bar-chart'},
 		];
+		if (l_query && gameConf && gameConf.gameId && l_query.gameId) {
+			gameConf.gameId = l_query.gameId
+		}
 		return (
 			<div>
-				<HeaderPage headerConf={null} active={defaultConf} onGameConf={gameConf}/>
+				<HeaderPage
+					headerConf={null}
+					active={defaultConf}
+					onGameConf={gameConf}
+					onPathName={this.props.location.pathname}
+				/>
 				<div className="bd-body">
 					<SidebarPage
 						icon={icon}
@@ -85,6 +93,7 @@ module.exports = React.createClass({
 						sidebarDefault={{
 							second: 'realTime'
 						}}
+						pathQuery={this.props.location.query}
 						onReceiveDefaultSidebarData={this.handleSidebarDetail}
 					/>
 					<ContainerPage onMenu={this.state.menu} gameConf={gameConf}/>
