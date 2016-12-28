@@ -9,11 +9,11 @@ const defaultSidebarData = [
 		'title': '概况',
 		'id': 1,
 		'tables': [
-			{
-				'title': '实时数据',
-				'ev': 'realTime',
-				'link': '/app/game/analysis/survey/realTime'
-			},
+			// {
+			// 	'title': '实时数据',
+			// 	'ev': 'realTime',
+			// 	'link': '/app/game/analysis/survey/realTime'
+			// },
 			{
 				'title': '运营报表',
 				'ev': 'report',

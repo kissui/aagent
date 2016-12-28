@@ -33,7 +33,6 @@ module.exports = React.createClass({
 		// this.getInitialData(globalConf, dateRange);
 	},
 	componentWillReceiveProps: function (nextProps) {
-		console.log(nextProps, 'nextProps');
 		const {dateRange, globalConf} = this.state;
 		if (nextProps.onCycle === globalConf.cycle && nextProps.onDevice === globalConf.device && nextProps.onGameId === globalConf.gameId) return;
 		const receivePropsConf = {

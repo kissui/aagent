@@ -74,7 +74,6 @@ export default {
 			let lineDimensions = _.concat(dimensions.slice(0, 1), indicators);
 			frame = Frame.combinColumns(frame, lineIndicators, 'population', 'kpi', lineDimensions, 'di');
 			chart.source(frame);
-			console.log(frame, 'frame');
 			chart.interval().position(lineDimensions.join('*')).color(colors.slice(0, 1));// 使用图形语法绘制柱状图
 			chart.line().position('日期*population').color('kpi', colors.slice(1)).size(2).shape('smooth');
 			chart.point().position('日期*population').color('kpi', colors.slice(1)); // 绘制点图
