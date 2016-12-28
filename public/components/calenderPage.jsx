@@ -43,13 +43,17 @@ export default class CalendarPage extends React.Component {
 			show: !show
 		})
 	}
-
+	handleToggleFalse() {
+		this.setState({
+			show: false
+		})
+	}
 	render() {
 
 		const {datePickerShow, show, datePickerSelected} = this.state;
 		const format = 'YYYY-MM-DD';
 		return (
-			<div className="calendar-body">
+			<div className="calendar-body" onMouseLeave={this.handleToggleFalse.bind(this)}>
 				<div className="datePicker-view-input"
 					 style={{width: '165px', background: '#fff'}}
 					 onClick={this.handleToggle.bind(this)}

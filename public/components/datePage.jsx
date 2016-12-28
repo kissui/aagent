@@ -23,6 +23,11 @@ module.exports = React.createClass({
 			'isShowRange': !this.state.isShowRange
 		})
 	},
+	handleDisplayOptionFalse: function () {
+		this.setState({
+			'isShowRange': false
+		})
+	},
 	handleSaveDate: function () {
 		let payload = this.state.predefined;
 		let start = payload['startDate'];
@@ -43,7 +48,7 @@ module.exports = React.createClass({
 		const {onFormat, dateInputStyle, singleStyle} = this.props;
 		const format = onFormat ? onFormat : 'YYYY-MM-DD';
 		return (
-			<div className="datePicker-container">
+			<div className="datePicker-container" onMouseLeave={this.handleDisplayOptionFalse}>
 				<div className="datePicker-view-input" style={dateInputStyle} onClick={this.handleDisplayOption}>
 					<input
 						type='text'

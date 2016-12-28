@@ -92,7 +92,7 @@ module.exports = React.createClass({
 	render: function () {
 		const {dateRange, text, toggleOpen} = this.state;
 		return (
-			<div className="datePicker-week-wrap">
+			<div className="datePicker-week-wrap" onMouseLeave={this.handleCancel}>
 				<div className="datePicker-week-input" onClick={this.handleOpenCalender}>
 					<span>{text.startText}</span> - <span>{text.endText}</span>
 				</div>

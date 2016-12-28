@@ -703,7 +703,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
     border-radius: 5px;
     width: 570px;
     padding: 7px;
-    margin-top: 8px;
+    margin-top: 0px;
     position: absolute;
     right: 0;
     z-index: 999;
@@ -908,7 +908,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
     }
     .datePicker-week-body {
         width: 510px;
-        margin-top: 5px;
+        margin-top: 0px;
         border: 1px solid #ddd;
         border-radius: 10px;
         padding: 8px;
