@@ -18,13 +18,13 @@ const defaultRoll = [
 ];
 module.exports = React.createClass({
 	getInitialState: function () {
-		const {rollRange,gameId} = this.props;
+		const {rollRange, gameId} = this.props;
 
-		let index = gameId && _.findIndex(rollRange,(item)=>{
-			return item.value == gameId;
-		});
+		let index = gameId && _.findIndex(rollRange, (item)=> {
+				return item.value == gameId;
+			});
 		return {
-			defaultSelect: rollRange ? rollRange[index] : {
+			defaultSelect: rollRange ? rollRange[index ? index : 0] : {
 				title: '账号',
 				value: 'account'
 			},
@@ -71,9 +71,9 @@ module.exports = React.createClass({
 			<div className="select_roll" style={onStyle} onMouseLeave={this.handleToggleDisplayNone}>
 				<div className="roll_block" onClick={this.handleToggleDisplay}>
 					{defaultSelect.title}
-					<i className={isShow ? "fa fa-caret-up" :"fa fa-caret-down"}></i>
+					<i className={isShow ? "fa fa-caret-up" : "fa fa-caret-down"}></i>
 				</div>
-				<ul className={isShow ? "roll_box" : "hide"} >
+				<ul className={isShow ? "roll_box" : "hide"}>
 					{content}
 				</ul>
 			</div>

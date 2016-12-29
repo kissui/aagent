@@ -4,7 +4,15 @@ import SelectBar from '../../components/box/selectBar';
 import JSON from '../../components/json/conf_json';
 import SelectRollPage from '../../components/box/selectRoll' //选择角色的下拉菜单
 import Auth from '../../lib/auth';
-
+import SurveyPage from './widget/survey';
+import DetailPage from './widget/detail';
+const realTimeDetailNavLists = [
+	{title: '实时在线', id: '234'},
+	{title: '新增', id: '234'},
+	{title: '登录', id: '234'},
+	{title: '收入金额', id: '234'},
+	{title: '付费角色', id: '234'}
+];
 module.exports = React.createClass({
 	contextTypes: {
 		router: React.PropTypes.object.isRequired
@@ -52,9 +60,10 @@ module.exports = React.createClass({
 						数据概览
 						<i className="fa fa-info-circle" aria-hidden="true"></i>
 					</h2>
-					<div className="realTime-survey">
-
-					</div>
+					<SurveyPage onGameConf={gameConf} onDevice={device}/>
+				</div>
+				<div className="box-view analysis-show-box">
+					<DetailPage onNavDataLists={realTimeDetailNavLists}/>
 				</div>
 			</div>
 		)

@@ -1,0 +1,78 @@
+.realTime-survey {
+    .realTime-lists {
+        margin: 16px 0;
+    }
+    .real-item {
+        margin: 10px 0;
+        .name {
+            color: rgb(12, 179, 178);
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .value {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .item-cash {
+            font-size: 12px !important;
+            color: #6e7384 !important;
+            .title {
+                width: 60px;
+                display: inline-block;
+            }
+            .value {
+                min-width: 50px;
+                display: inline-block;
+                font-size: 12px;
+            }
+        }
+        .real-diff {
+            background: #e1eeee;
+            font-size: 12px;
+            height: 20px;
+            line-height: 20px;
+            width: 100px;
+            border-radius: 5px;
+            text-align: center;
+            margin: 5px 0 8px 0;
+            color: #979ba8;
+            .font-down {
+                color: #04c7a0;
+            }
+            .font-up {
+                color: #ff4b37;
+            }
+            .size {
+                font-size: 16px;
+            }
+        }
+    }
+}
+
+.realTime-detail-nav {
+    display: inline-block;
+    position: relative;
+    margin-left: 100px;
+    li {
+        color: #6e7384;
+        display: inline-block;
+        padding: 0 20px;
+        font-size: 14px;
+        cursor: pointer;
+        height: 14px;
+    }
+    .active {
+        color: #54bebd;
+        border-bottom: 2px solid #54bebd;
+    }
+}
+
+.realTime-detail-option-bar {
+    margin-top: 20px;
+    position: relative;
+    .op-bar-r {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+}

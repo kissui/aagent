@@ -12,7 +12,7 @@ export default class CalendarPage extends React.Component {
 		this.state = {
 			'datePickerShow': null,
 			'show': false,
-			'datePickerSelected': onDefaultDateRange.dateEnd
+			'datePickerSelected': onDefaultDateRange ? onDefaultDateRange.dateEnd : null
 		}
 	}
 
@@ -30,7 +30,7 @@ export default class CalendarPage extends React.Component {
 
 	handleSubmit() {
 		const {datePickerSelected, show, date} = this.state;
-		this.props.onReceiveData(datePickerSelected, datePickerSelected,'calendar');
+		this.props.onReceiveData(datePickerSelected, datePickerSelected, 'calendar');
 		this.setState({
 			datePickerShow: datePickerSelected,
 			show: !show
@@ -43,17 +43,22 @@ export default class CalendarPage extends React.Component {
 			show: !show
 		})
 	}
+
 	handleToggleFalse() {
 		this.setState({
 			show: false
 		})
 	}
+
 	render() {
 
 		const {datePickerShow, show, datePickerSelected} = this.state;
 		const format = 'YYYY-MM-DD';
 		return (
-			<div className="calendar-body" onMouseLeave={this.handleToggleFalse.bind(this)}>
+			<div className="calendar-body"
+				 onMouseLeave={this.handleToggleFalse.bind(this)}
+				 style={this.props.onStyle}
+			>
 				<div className="datePicker-view-input"
 					 style={{width: '165px', background: '#fff'}}
 					 onClick={this.handleToggle.bind(this)}
