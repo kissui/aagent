@@ -200,13 +200,13 @@ export default class DetailPage extends React.Component {
 							}}
 							rollRange={Conf.realTimeRoleConf}
 						/>}
-						{(showRight == 'chartType' || showRight == 'all') &&
-						<ChartTypeToogleModule
-							onSelectBarStyle={{display: 'inline-block', width: '122px', marginLeft: '10px'}}
-							onDefaultValue="step"
-							onReceiveValue={this.handleChangeChartShow.bind(this)}
-							onSelectBarData={Conf.realTimeChartTypeBar}
-						/>}
+						{/*{(showRight == 'chartType' || showRight == 'all') &&*/}
+						{/*<ChartTypeToogleModule*/}
+							{/*onSelectBarStyle={{display: 'inline-block', width: '122px', marginLeft: '10px'}}*/}
+							{/*onDefaultValue="step"*/}
+							{/*onReceiveValue={this.handleChangeChartShow.bind(this)}*/}
+							{/*onSelectBarData={Conf.realTimeChartTypeBar}*/}
+						{/*/>}*/}
 					</div>}
 				</div>
 				<div id="realTime" className="realTime-detail-box">

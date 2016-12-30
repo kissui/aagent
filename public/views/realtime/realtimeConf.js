@@ -28,7 +28,7 @@ export default {
 		// 	showRight: 'no'
 		// },
 		{
-			data:{
+			data: {
 				title: '新增',
 				meta_id: '3002',
 			},
@@ -69,12 +69,12 @@ export default {
 			},
 			{
 				'meta_id': '3006',
-				'name': '老玩家'+name,
+				'name': '老玩家' + name,
 				'self_weidu': 'pcu'
 			},
 			{
 				'meta_id': '3004',
-				'name': '付费角色',
+				'name': '付费' + name,
 			},
 			{
 				'meta_id': '3008',

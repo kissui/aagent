@@ -15,7 +15,8 @@ export default class SurveyPage extends React.Component {
 			device: onDevice,
 			user_dimension: 'account',
 			lists: null,
-			overTime: null
+			overTime: null,
+			tipIsShow: false
 		}
 	}
 
@@ -77,18 +78,44 @@ export default class SurveyPage extends React.Component {
 			})
 	}
 
+	handleToggleTip(value) {
+		this.setState({
+			tipIsShow: value
+		})
+	}
+
 	render() {
 		let colors = ['#45594e', '#8fbeac', '#5e9882', '#fbbe7b', '#fff6e5', '#e89ba5', '#f5de50', '#f6deda', '#fbbe7a'];
-		const {lists, dealTime} = this.state;
+		const {lists, dealTime, tipIsShow} = this.state;
 		return (
 			<div>
-				<h2 className="analysis-tit">
+				<h2 className="analysis-tit" onMouseLeave={this.handleToggleTip.bind(this, false)}>
 					<i className="fa fa-bar-chart" aria-hidden="true">
 					</i>
 					<span>数据概览</span>
-					<i className="fa fa-info-circle" aria-hidden="true">
+					<i className="fa fa-info-circle" aria-hidden="true"
+					   onMouseEnter={this.handleToggleTip.bind(this, true)}>
 					</i>
-					<span className="time">{dealTime}</span>
+					{tipIsShow && <div className="tooltip-box">
+						<p>由于实时页面的角色/帐号、付费等指标与近期概况、运营报表和定制指标 页面计算逻辑不完全一致，数值上会有一定的偏差，敬请留意。</p>
+						<h4>登录帐号/角色：</h4>
+						<p>实时统计当日有过登录行为的帐号/角色去重数量</p>
+						<h4>新增帐号/角色：</h4>
+						<p>实时统计当日首次出现登录行为的帐号/角色去重数量</p>
+						<h4>老玩家帐号/角色：</h4>
+						<p>实时统计当日非首次出现过登录行为帐号/角色去重数量</p>
+						<h4>付费帐号/角色：</h4>
+						<p>实时统计当日有充值行为的帐号/角色去重数量</p>
+						<h4>人均游戏次数：</h4>
+						<p>实时统计角色当日人均登录游戏的累计次数</p>
+						<h4>实时次日留存帐号/角色：</h4>
+						<p>实时统计前1日新增用户在当日有过登录行为的帐号/角色去重数量</p>
+						<h4>付费次数：</h4>
+						<p>实时统计角色当日充值的累计次数</p>
+						<h4>今日收入：</h4>
+						<p>实时统计角色当日充值的累计金额</p>
+					</div>}
+					< span className="time">{dealTime}</span>
 				</h2>
 				<div className="realTime-survey">
 					<SelectRolePage
@@ -132,7 +159,7 @@ export default class SurveyPage extends React.Component {
 									</div>
 								</div>
 							)
-						}): <LoadingPage/>}
+						}) : <LoadingPage/>}
 					</div>
 				</div>
 			</div>
