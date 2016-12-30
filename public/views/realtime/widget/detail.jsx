@@ -4,84 +4,160 @@ import CalenderModule from '../../../components/calenderPage';
 import ToolTipModule from '../../../components/tooltip';
 import SelectRolePage from '../../../components/box/selectRoll';
 import ChartTypeToogleModule from '../../../components/box/selectBar';
+import LoadingPage from '../../../components/is_loading';
 import Conf from '../realtimeConf';
 import moment from 'moment';
+import http from '../../../lib/http';
+import Chart from '../../../components/chart'
 export default class DetailPage extends React.Component {
 	constructor(props, context) {
 		super(props, context);
-		const {onGameConf, onDevice} = this.props;
-		let defaultRange = 3600 * 24 * 7 * 1000;
+		const {onGameConf, onDevice, onNavDataLists} = this.props;
 		let format = 'YYYY-MM-DD';
 		let today = moment(new Date()).format(format);
 		let yes = moment(new Date(+new Date() - 3600 * 24 * 1000)).format(format);
 		let lastToday = moment(new Date(+new Date() - 3600 * 24 * 7 * 1000)).format(format);
-		console.log(today, yes, lastToday)
-		this.handleDetailData.bind();
+		let initDate = {
+			'今天': today,
+			'昨天': yes,
+			['上周(' + lastToday.slice(5) + ")"]: lastToday
+		};
+		let names = ['今天', '昨天', '上周(' + lastToday.slice(5) + ")"];
+		let dates = [today, yes, lastToday];
+		this.handleDetailData.bind(this);
+		this.handleVerifyDateIsSave.bind(this);
 		this.state = {
 			d_detail: null,
 			dSelectNavIndex: 0,
-			chartType: 'all',
+			chartType: 'step',
 			role: 'account',
 			showRight: 'all',
+			isLoading: true,
 			device: onDevice,
+			meta: onNavDataLists[0].data,
 			gameId: onGameConf.gameId,
-			defaultDateS: {
-				'今天': today,
-				'昨天': yes,
-				['上周(' + lastToday.slice(5) + ")"]: lastToday
-			},
-			defaultDateMap:[today,yes,lastToday]
+			defaultDateS: initDate,
+			fixedDateS: initDate,
+			defaultDateNames: names,
+			fixedDateNames: names,
+			defaultDateMap: dates,
+			fixedDateMap: dates
 		}
 	}
 
 	handleChangeNavIndex(i, id, showRight) {
-		console.log(i, id, showRight);
+		const {onNavDataLists} = this.props;
+		const {fixedDateS, fixedDateMap, fixedDateNames} = this.state;
 		this.setState({
 			dSelectNavIndex: i,
 			showRight: showRight,
-		})
+			meta: onNavDataLists[i].data,
+			defaultDateMap: fixedDateMap,
+			defaultDateNames: fixedDateNames,
+			defaultDateS: fixedDateS
+		});
+		let params = _.extend(this.state, {meta: onNavDataLists[i].data}, {defaultDateS: fixedDateS},
+			{defaultDateNames: fixedDateNames}, {defaultDateMap: fixedDateMap});
+		this.handleDetailData(params)
 	}
 
 	componentDidMount() {
-
+		let params = this.state;
+		this.handleDetailData(params);
 	}
 
 	componentWillReceiveProps(nextProps) {
-
+		const {gameId, device} = this.state;
+		let params = _.extend(this.state);
+		if (nextProps.onGameConf.gameId != gameId) {
+			params = _.extend(params, {gameId: nextProps.onGameConf.gameId});
+			this.setState({
+				gameId: nextProps.onGameConf.gameId
+			})
+		} else if (nextProps.onDevice != device) {
+			params = _.extend(params, {device: nextProps.onDevice});
+			this.setState({
+				device: nextProps.onDevice
+			})
+		}
+		this.handleDetailData(params);
 	}
 
-	handleDetailData() {
+	handleDetailData(params) {
 		let data = {
 			"cycle": 'hour',
-			"device": paramsDevice ? paramsDevice : device,
-			"user_dimension": paramsRole ? paramsRole : user_dimension,
-			"data_dimension": 'hour_head',
-			"appid": paramsGameId ? paramsGameId : gameId,
+			"device": params.device,
+			"user_dimension": params.role,
+			"data_dimension": 'hour_detail',
+			'hour_dimension': params.chartType,
+			"appid": params.gameId,
 			"kpi_conf": {
-				'dates': {'今天': '', '昨天': '', '上周': ''},
-				"kpis": Conf.dealParamsConf(roleName)
+				'dates': params.defaultDateS,
+				"kpis": [params.meta],
 			}
 		};
+		http.get('/dudai/?c=analysis.report&ac=get', {params: data})
+			.then(data=>data.data)
+			.then((data)=> {
+				if (data.error_code === 0) {
+					this.setState({
+						isLoading: false
+					});
+					Chart.handleShowRealTimeDetail('realTime', data.data, params.defaultDateNames);
+				}
+			})
+	}
+
+	handleVerifyDateIsSave(date, maps) {
+		return maps.indexOf(date);
 	}
 
 	handleReceiveDate(start) {
 		let format = 'YYYY-MM-DD';
-		const {defaultDateMap,defaultDateS} = this.state;
+		const {defaultDateMap, defaultDateS, defaultDateNames} = this.state;
 		let selectDate = moment(start).format(format);
-		console.log(defaultDateMap,defaultDateS,selectDate);
+		if (defaultDateMap.indexOf(selectDate) > 0) return;
+		defaultDateS[selectDate.slice(5)] = selectDate;
+		this.setState({
+			defaultDateS: _.extend(defaultDateS, {[selectDate.slice(5)]: selectDate}),
+			defaultDateMap: _.concat(defaultDateMap, [selectDate]),
+			defaultDateNames: _.concat(defaultDateNames, [selectDate.slice(5)])
+		});
+		let params = _.extend(this.state, {defaultDateS: defaultDateS}, {defaultDateNames: _.concat(defaultDateNames, [selectDate.slice(5)])});
+		this.handleDetailData(params);
+	}
+
+	handleResetDate() {
+		const {fixedDateS, fixedDateMap, fixedDateNames} = this.state;
+		this.setState({
+			defaultDateMap: fixedDateMap,
+			defaultDateNames: fixedDateNames,
+			defaultDateS: fixedDateS
+		});
+		let params = _.extend(this.state, {defaultDateS: fixedDateS},
+			{defaultDateNames: fixedDateNames}, {defaultDateMap: fixedDateMap});
+		this.handleDetailData(params)
 	}
 
 	handleReceiveRole(value) {
-		console.log(value, '@role')
+		let params = _.extend(this.state, {role: value});
+		this.setState({
+			role: value
+		});
+		this.handleDetailData(params);
 	}
 
 	handleChangeChartShow(value) {
-		console.log(value, '@chart')
+		let params = _.extend(this.state, {chartType: value});
+		this.setState({
+			chartType: value
+		});
+		this.handleDetailData(params);
 	}
 
 	render() {
 		const {onNavDataLists} = this.props;
-		const {dSelectNavIndex, showRight} = this.state;
+		const {dSelectNavIndex, showRight, isLoading} = this.state;
 		return (
 			<div>
 				<h2 className="analysis-tit">
@@ -92,9 +168,9 @@ export default class DetailPage extends React.Component {
 							return (
 								<li key={i}
 									className={dSelectNavIndex == i && 'active'}
-									onClick={this.handleChangeNavIndex.bind(this, i, item.id, item.showRight)}
+									onClick={this.handleChangeNavIndex.bind(this, i, item.data.id, item.showRight)}
 								>
-									{item.title}
+									{item.data.title}
 								</li>
 							)
 						})}
@@ -111,6 +187,7 @@ export default class DetailPage extends React.Component {
 								marginLeft: '5px'
 							}}
 						/>
+						<button className="btn btn-primary" onClick={this.handleResetDate.bind(this)}>清空</button>
 					</div>
 					{showRight != 'no' && <div className="op-bar-r">
 						{(showRight == 'role' || showRight == 'all') &&
@@ -126,13 +203,14 @@ export default class DetailPage extends React.Component {
 						{(showRight == 'chartType' || showRight == 'all') &&
 						<ChartTypeToogleModule
 							onSelectBarStyle={{display: 'inline-block', width: '122px', marginLeft: '10px'}}
-							onDefaultValue="all"
+							onDefaultValue="step"
 							onReceiveValue={this.handleChangeChartShow.bind(this)}
 							onSelectBarData={Conf.realTimeChartTypeBar}
 						/>}
 					</div>}
 				</div>
-				<div className="realTime-detail-chart">
+				<div id="realTime" className="realTime-detail-box">
+					{isLoading && <LoadingPage/>}
 				</div>
 			</div>
 		)

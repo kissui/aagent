@@ -44,7 +44,6 @@ export default {
 			});
 			chartData.unshift(obj)
 		});
-		console.log(chartData);
 		return chartData;
 	},
 	handleShowChart (id, data, indicators, dimensions, chartConf) {
@@ -264,6 +263,46 @@ export default {
 			range.link(chart); // 关联 G2 图表对象，支持一个或者多个 chart 对象
 			range.render(); // 渲染，将 chart 和 range 插件一起渲染
 		}
+		chart.render();
+	},
+	handleShowRealTimeDetail (id, data, blank) {
+		let chartDOM = document.getElementById(id);
+		if (chartDOM && chartDOM.innerHTML)
+			chartDOM.innerHTML = null;
+		var chart = new G2.Chart({
+			id: id,
+			forceFit: true,
+			height: 400,
+			plotCfg: {
+				margin: [35, 80, 50, 80]
+			}
+		});
+
+		var Frame = G2.Frame;
+		var frame = new Frame(data);
+		chart.axis('population', {
+			formatter: function (dimValue) {
+				return dimValue;
+			},
+			title: null
+		});
+		chart.axis('日期', {
+			formatter: function (dimValue) {
+				return dimValue;
+			},
+			title: null
+		});
+		let colors = ['#45594e', '#8fbeac', '#5e9882', '#fbbe7b', '#fff6e5', '#e89ba5', '#f5de50', '#f6deda', '#fbbe7a'];
+		frame = Frame.combinColumns(frame, blank, 'population', 'kpi', '日期');
+		chart.legend({
+			position: 'top', // 图例的显示位置，有 'top','left','right','bottom'四种位置，默认是'right'
+		});
+		chart.source(frame, {
+			'日期': {
+				tickCount: 12
+			}
+		});
+		chart.line().position('日期*population').color('kpi', colors).size(2).shape('smooth');// 使用图形语法绘制柱状图
 		chart.render();
 	}
 }

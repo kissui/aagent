@@ -14,7 +14,7 @@ export default {
 	realTimeChartTypeBar: [
 		{
 			title: '累计分布',
-			value: 'all'
+			value: 'sum'
 		},
 		{
 			title: '分时分布',
@@ -28,23 +28,31 @@ export default {
 		// 	showRight: 'no'
 		// },
 		{
-			title: '新增',
-			id: '234',
+			data:{
+				title: '新增',
+				meta_id: '3002',
+			},
 			showRight: 'all'
 		},
 		{
-			title: '登录',
-			id: '234',
+			data: {
+				title: '登录',
+				meta_id: '3003',
+			},
 			showRight: 'role'
 		},
 		{
-			title: '收入金额',
-			id: '234',
+			data: {
+				title: '收入金额',
+				meta_id: '3009',
+			},
 			showRight: 'chartType'
 		},
 		{
-			title: '付费角色',
-			id: '234',
+			data: {
+				title: '付费角色',
+				meta_id: '3004',
+			},
 			showRight: 'no'
 		}
 	],

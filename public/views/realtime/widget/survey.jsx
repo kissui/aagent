@@ -3,12 +3,11 @@ import React from 'react';
 import SelectRolePage from '../../../components/box/selectRoll';
 import http from '../../../lib/http';
 import Conf from '../realtimeConf';
-
+import LoadingPage from '../../../components/is_loading'
 export default class SurveyPage extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 		const {onGameConf, onDevice} = this.props;
-		console.log(onGameConf, onDevice);
 		this.handleSurveyData.bind(this);
 		this.state = {
 			defaultDate: null,
@@ -80,7 +79,7 @@ export default class SurveyPage extends React.Component {
 
 	render() {
 		let colors = ['#45594e', '#8fbeac', '#5e9882', '#fbbe7b', '#fff6e5', '#e89ba5', '#f5de50', '#f6deda', '#fbbe7a'];
-		const {lists,dealTime} = this.state;
+		const {lists, dealTime} = this.state;
 		return (
 			<div>
 				<h2 className="analysis-tit">
@@ -102,19 +101,22 @@ export default class SurveyPage extends React.Component {
 						rollRange={Conf.realTimeRoleConf}
 					/>
 					<div className="realTime-lists row">
-						{lists && lists.map((item, i)=> {
+						{lists ? lists.map((item, i)=> {
 							return (
 								<div className="col-md-3 real-item" key={i}
 									 style={{borderLeft: '4px solid ' + colors[i]}}>
 									<p className="name">{item.name}</p>
 									<p className="value">{item.this_hour}</p>
 									<div className="real-diff">
-										<span>实时同比</span>
-										<i className={item.precent > 0 ? "fa fa-caret-up font-up size" : "fa fa-caret-down font-down size"}>
-										</i>
-										<span className={item.precent > 0 ? "font-up" : "font-down"}>
-										{item.percent}%
-									</span>
+										{item.percent != 0 && <div className="title">
+											<span>实时同比</span>
+											<i className={item.percent > 0 ? "fa fa-caret-up font-up size" : "fa fa-caret-down font-down size"}>
+											</i>
+											<span className={item.percent > 0 ? "font-up" : "font-down"}>
+												{item.percent < 0 ? -item.percent : item.percent}%
+											</span>
+										</div>
+										}
 									</div>
 									<div className="item-cash">
 										<div className="title">昨日值：</div>
@@ -130,7 +132,7 @@ export default class SurveyPage extends React.Component {
 									</div>
 								</div>
 							)
-						})}
+						}): <LoadingPage/>}
 					</div>
 				</div>
 			</div>
