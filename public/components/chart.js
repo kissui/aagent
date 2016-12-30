@@ -44,6 +44,7 @@ export default {
 			});
 			chartData.unshift(obj)
 		});
+		console.log(chartData);
 		return chartData;
 	},
 	handleShowChart (id, data, indicators, dimensions, chartConf) {
