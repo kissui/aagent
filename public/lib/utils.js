@@ -13,7 +13,7 @@ const yyPassSalt = 'YzhHb712';
 
 
 
-const YUNZH_STR = /云账户/g;
+const YUNZH_STR = /s/g;
 let proxyName;
 
 export function yyHashPwd(pwd) {
@@ -115,4 +115,3 @@ export default {
 
     }
 }
-

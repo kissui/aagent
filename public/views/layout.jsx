@@ -66,6 +66,7 @@ module.exports = React.createClass({
 					<link rel="stylesheet" href="/bower/bootstrap/dist/css/bootstrap.min.css"/>
 					<link rel="stylesheet" href="/bower/font-awesome/css/font-awesome.min.css"/>
 					<link rel='stylesheet' href='/styles.css'></link>
+					<link rel='stylesheet' href='/antd/antd.min.css'></link>
 					<link rel="stylesheet" type="text/css" href="https://os.alipayobjects.com/rmsportal/UBXCMkzNVlaZYNs.css"/>
 				</head>
 				<body>
