@@ -45,7 +45,21 @@
         display: none;
     }
 }
-
+.custom-head{
+    padding-bottom: 20px;
+    border-bottom: 1px solid #2cbfbe;
+}
+.custom-chart{
+    padding: 20px 0;
+}
+.brt{
+    border-top: 1px solid #2cbfbe;
+}
+.custom-empty{
+    text-align: center;
+    height: 100px;
+    line-height: 100px;
+}
 .custom-label {
     width: 100%;
     margin: 8px 0;

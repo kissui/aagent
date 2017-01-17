@@ -1,171 +1,106 @@
 'use strict';
 import React from 'react';
-import {Table} from 'antd';
+import {Table, DatePicker, Radio,Icon} from 'antd';
 import http from '../../../lib/http';
 import SelectBar from '../../../components/box/selectBar';
 import JSON from '../../../components/json/conf_json';
-const testData = {
-    "thead": [
-        "等级", "活跃角色数", "新增角色数", "活跃角色平均在线时长(分钟)", "新增角色平均在线时长(分钟)"
-    ],
-    "data": [
-        [
-            "0", "1", "0", "3", "0"
-        ],
-        [
-            "2", "3", "2", "12", "17"
-        ],
-        [
-            "5", "1", "0", "161", "0"
-        ],
-        [
-            "8", "2", "1", "40", "70"
-        ],
-        [
-            "10", "1", "0", "27", "0"
-        ],
-        [
-            "12", "2", "0", "34", "0"
-        ],
-        [
-            "13", "1", "0", "22", "0"
-        ],
-        [
-            "16", "1", "0", "2", "0"
-        ],
-        [
-            "20", "1", "0", "11", "0"
-        ],
-        [
-            "21", "1", "0", "2075", "0"
-        ],
-        [
-            "24", "1", "0", "652", "0"
-        ],
-        [
-            "26", "1", "0", "29", "0"
-        ],
-        [
-            "27", "1", "0", "7", "0"
-        ],
-        [
-            "30", "1", "0", "20", "0"
-        ],
-        [
-            "31", "1", "0", "19", "0"
-        ],
-        [
-            "32", "1", "0", "6", "0"
-        ],
-        [
-            "34", "1", "0", "152", "0"
-        ],
-        [
-            "38", "1", "0", "146", "0"
-        ],
-        [
-            "39", "2", "0", "217", "0"
-        ],
-        [
-            "41", "1", "0", "2", "0"
-        ],
-        [
-            "42", "1", "0", "106", "0"
-        ],
-        [
-            "43", "2", "0", "161", "0"
-        ],
-        [
-            "45", "2", "0", "80", "0"
-        ],
-        [
-            "46", "1", "0", "6", "0"
-        ],
-        [
-            "47", "1", "0", "8", "0"
-        ],
-        [
-            "48", "1", "0", "56", "0"
-        ],
-        [
-            "49", "1", "0", "102", "0"
-        ],
-        [
-            "51", "1", "0", "32", "0"
-        ],
-        [
-            "52", "1", "0", "302", "0"
-        ],
-        [
-            "55", "1", "0", "46", "0"
-        ],
-        [
-            "56", "1", "0", "53", "0"
-        ],
-        [
-            "57", "1", "0", "13", "0"
-        ],
-        [
-            "59", "2", "0", "121", "0"
-        ],
-        [
-            "60", "2", "0", "8", "0"
-        ],
-        [
-            "62", "2", "0", "40", "0"
-        ],
-        [
-            "65", "3", "0", "130", "0"
-        ],
-        [
-            "66", "1", "0", "324", "0"
-        ],
-        [
-            "69", "1", "0", "155", "0"
-        ],
-        [
-            "70", "1", "0", "2", "0"
-        ],
-        ["75", "3", "0", "47", "0"]
-    ],
-    "options": {
-        "otherFilter": "role_level!=-127",
-        "compareDim": "role_level",
-        "defaultType": "column"
-    }
-}
-
+import paramsConf from './paramsconf.js';
+import Chart from '../../../components/chart';
+import moment from 'moment';
+// 推荐在入口文件全局设置 locale
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 export default class LevelConPage extends React.Component {
     constructor(context, props) {
         super(context, props);
         const {onInitConf} = this.props;
+        let format = 'YYYY-MM-DD';
+        let currentDate = +new Date() - 3600 * 24 * 1000;
+        currentDate = moment(new Date(currentDate)).format(format).toString();
         this.state = {
             initConf: onInitConf,
             tableData: null,
-            device: 'All'
+            device: 'All',
+            showDate: currentDate,
+            serverList: null,
+            thead: null,
+            table: null
         }
     }
     componentDidMount() {
-        const {initConf,device}=this.state;
-        const data = {
+        const {initConf, device, showDate} = this.state;
+        this.handleGetServerList({
+            gameId: initConf.gameId,
             device: device,
-            appid: initConf.gameId,
-            date:'2017-01-16'
+            showDate: showDate
+        }, paramsConf.gameLevel);
+    }
+    handleGetMetaData(params, metaParams) {
+        const {serverSelected, showKpi} = this.state;
+        const metaListData = {
+            "cycle": 'days',
+            "device": params.device,
+            "appid": params.gameId,
+            "serverid": serverSelected,
+            "data_dimension": 'game_content',
+            "kpi_conf": {
+                'dimension_name': metaParams.title,
+                "start": params.showDate,
+                "kpis": metaParams.data
+            }
         }
+        let _this = this;
+        metaListData.serverid = params.serverSelected
+            ? params.serverSelected
+            : (serverSelected
+                ? serverSelected
+                : data.data[0]);
+        http.get('/dudai/?c=analysis.report&ac=get&token=mgame_afs23cgs23', {params: metaListData}).then(response => response.data).then((response) => {
+            if (response.data && response.data.table.length > 0) {
+                let theads = response.data.theads;
+                let table = response.data.table
+                console.log(theads.slice(1));
+                _this.setState({
+                    thead: theads,
+                    showKpi: theads[1],
+                    tableData: _this.handleDealTable(theads, table),
+                    showChartData: Chart.dealChartData(theads, table, true)
+                })
+                let showChartApi = showKpi
+                    ? showKpi
+                    : theads[1]
+                Chart.handleShowCustomChart('chart-box', Chart.dealChartData(theads, table, true), showChartApi, theads.slice(0, 1));
+            }
+        });
+    }
+    handleGetServerList(params, metaParams) {
+        const data = {
+            device: params.device,
+            appid: params.gameId,
+            date: params.showDate
+        }
+        let _this = this;
         http.get('/dudai/?c=analysis.report&ac=gameserverlist&token=mgame_afs23cgs23', {params: data}).then(data => data.data).then(data => {
-            console.log(data, '@server');
+            if (data.data && data.data.length > 0) {
+                _this.setState({'serverList': data.data, 'serverSelected': data.data[0]})
+                _this.handleGetMetaData(params, metaParams)
+            }
+
         })
-        this.handleDealTable();
-        this.setState({tableData: this.handleDealTable()})
     }
     componentWillReceiveProps(nextProps) {
-        console.log(`content ${nextProps}`);
         this.setState({initConf: nextProps.onInitConf})
+        const {initConf, device, showDate} = this.state;
+        this.handleGetServerList({
+            gameId: nextProps.onInitConf.gameId,
+            device: device,
+            showDate: showDate
+        }, paramsConf.gameLevel);
     }
-    handleDealTable() {
+    handleDealTable(thead, data) {
         const columns = [];
         const dataSource = [];
-        testData.thead.map((item, i) => {
+        thead.map((item, i) => {
             ((title, index) => {
                 columns.push({
                     title: title,
@@ -175,10 +110,12 @@ export default class LevelConPage extends React.Component {
                 });
             })(item, i)
         })
-        testData.data.map((item, i) => {
+        data.map((item, i) => {
             const obj = {};
             item.map((superItem, k) => {
-                obj[testData.thead[k]] = superItem
+                obj[thead[k]] = superItem
+                    ? superItem
+                    : '-'
             });
             dataSource.push(obj)
         })
@@ -186,36 +123,122 @@ export default class LevelConPage extends React.Component {
         return {columns: columns, dataSource: dataSource};
     }
     handleReceiveSelectDevice(value) {
-        console.log(value);
+        const {initConf, device, showDate} = this.state;
+        this.setState({device: value})
+        this.handleGetServerList({
+            gameId: initConf.gameId,
+            device: value,
+            showDate: showDate
+        }, paramsConf.gameLevel);
+    }
+    handleChangeDate(date, dateString) {
+        const {initConf, device, showDate} = this.state;
+        if (date && dateString) {
+            this.setState({showDate: dateString})
+            this.handleGetServerList({
+                gameId: initConf.gameId,
+                device: device,
+                showDate: dateString
+            }, paramsConf.gameLevel);
+        }
+
+    }
+    handleServerChange(e) {
+        this.setState({serverSelected: e.target.value})
+        const {initConf, device, showDate} = this.state;
+        this.handleGetMetaData({
+            gameId: initConf.gameId,
+            device: device,
+            showDate: showDate,
+            serverSelected: e.target.value
+        }, paramsConf.gameLevel);
+    }
+    handleSizeChangeKpi(e) {
+        const {thead, showChartData} = this.state;
+        this.setState({showKpi: e.target.value})
+        Chart.handleShowCustomChart('chart-box', showChartData, e.target.value, thead.slice(0, 1));
     }
     render() {
-        const {tableData, device} = this.state;
+        const {
+            tableData,
+            device,
+            showDate,
+            serverList,
+            serverSelected,
+            thead,
+            showKpi
+        } = this.state;
         return (
             <div>
-                <div className="custom-label">
-                    <div className="label-left">
-                        <h4 className="title">等级分布</h4>
+                <div className="custom-head">
+                    <div className="custom-label">
+                        <div className="label-left">
+                            <h4 className="title">等级分布</h4>
+                        </div>
+                        <div className="label-right">
+                            <SelectBar onSelectBarData={JSON.selectBarDevice} onReceiveValue={this.handleReceiveSelectDevice.bind(this)} onDefaultValue={device}/>
+                        </div>
                     </div>
-                    <div className="label-right">
-                        <SelectBar onSelectBarData={JSON.selectBarDevice} onReceiveValue={this.handleReceiveSelectDevice.bind(this)} onDefaultValue={device}/>
+                    <div className="custom-label">
+                        <div className="label-left">
+                            <h5>时间：</h5>
+                        </div>
+                        <div className="label-right">
+                            <DatePicker defaultValue={moment(showDate, 'YYYY-MM-DD')} onChange={this.handleChangeDate.bind(this)}/>
+                        </div>
                     </div>
-                </div>
-                <div className="custom-label">
-                    <div className="label-left">
-                        <h5>时间：</h5>
-                    </div>
-                    <div className="label-right">
-                    </div>
-                </div>
-                <div className="custom-label">
-                    <div className="label-left">
-                        <h5>服务器：</h5>
-                    </div>
-                    <div className="label-right">
+                    <div className="custom-label">
+                        <div className="label-left">
+                            <h5>服务器：</h5>
+                        </div>
+                        <div className="label-right">
+                            {serverList && serverList.length > 0
+                                ? <Radio.Group value={serverSelected} onChange={this.handleServerChange.bind(this)}>
+                                        {serverList.map((item, i) => {
 
+                                            return (
+                                                <Radio.Button value={item} key={i}>{item}</Radio.Button>
+                                            )
+                                        })}
+                                    </Radio.Group>
+                                : <p>空</p>}
+                        </div>
                     </div>
                 </div>
-                {tableData && <Table dataSource={tableData.dataSource} columns={tableData.columns}/>}
+                {tableData ? <div className="custom-chart">
+                    <div className="custom-label">
+                        <div className="label-left">
+                            <h4 className="title">趋势图</h4>
+                        </div>
+                    </div>
+                    <div className="custom-label">
+                        <div className="label-left">
+                            <h5>指标：</h5>
+                        </div>
+                        <div className="label-right">
+                            {thead && thead.length > 0 && showKpi
+                                ? <Radio.Group value={showKpi} onChange={this.handleSizeChangeKpi.bind(this)}>
+                                        {thead.map((item, i) => {
+                                            if (i > 0)
+                                                return (
+                                                    <Radio.Button value={item} key={i}>{item}</Radio.Button>
+                                                )
+                                        })}
+                                    </Radio.Group>
+                                : <p>空</p>}
+                        </div>
+                    </div>
+                    <div className="chart-box" id='chart-box'></div>
+                </div>:<div className="custom-empty"><Icon type="frown-o" />暂无数据</div>}
+                {tableData &&
+                    <div className="custom-chart brt">
+                        <div className="custom-label">
+                            <div className="label-left">
+                                <h4 className="title">详细数据</h4>
+                            </div>
+                        </div>
+                        <Table rowKey="uid" dataSource={tableData.dataSource} columns={tableData.columns}/>
+                    </div>}
             </div>
         )
     }

@@ -35,10 +35,12 @@ export default class LevelPage extends React.Component {
     }
     handleReceiveGameId(value) {
         const {initConf} = this.state;
+        const {location} = this.props;
         initConf.gameId = value;
         this.setState({
             initConf: initConf
         })
+        this.context.router.push({pathname:location.pathname,query:{gameId:value}})
     }
     render() {
         const {initConf} = this.state
@@ -50,4 +52,7 @@ export default class LevelPage extends React.Component {
             </div>
         )
     }
+}
+LevelPage.contextTypes = {
+    router: Object
 }

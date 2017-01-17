@@ -65,6 +65,7 @@ module.exports = React.createClass({
 					active={defaultConf}
 					onGameConf={gameConf}
 					onPathName={this.props.location.pathname}
+					onQuery={this.props.location.query}
 				/>
 				<div className="bd-body">
 					<SidebarPage

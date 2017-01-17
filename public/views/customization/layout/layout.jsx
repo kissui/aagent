@@ -46,11 +46,11 @@ export default class LayoutContent extends React.Component {
                     }}>
                         <Menu.Item key="1">
                             <Icon type="home"/>
-                            <Link to='/app/game/' className="nav-text">首页</Link>
+                            <Link to={{pathname:'/app/game/',query:{gameId:initConf.gameId}}} className="nav-text">首页</Link>
                         </Menu.Item>
                         <Menu.Item key="2">
                             <Icon type="to-top"/>
-                            <Link to="/app/game/customization/level" className="nav-text">游戏等级</Link>
+                            <Link to={{pathname:"/app/game/customization/level",query:{gameId:initConf.gameId}}} className="nav-text">游戏等级</Link>
                         </Menu.Item>
                         <Menu.Item key="3">
                             <Icon type="rocket"/>

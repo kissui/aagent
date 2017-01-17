@@ -56,7 +56,8 @@ module.exports = React.createClass({
 				<HeaderPage headerConf={null}
 							active={defaultConf}
 							onGameConf={gameConf}
-							onPathName={this.props.location.pathname}/>
+							onPathName={this.props.location.pathname}
+							onQuery={this.props.location.query}/>
 
 				<div className="bd-body">
 
