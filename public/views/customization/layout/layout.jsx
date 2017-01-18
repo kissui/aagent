@@ -26,7 +26,6 @@ export default class LayoutContent extends React.Component {
             collapsed: false,
             initConf: onInitConf
         };
-        this.handleChangeRoute.bind(this);
     }
     componentWillReceiveProps (nextProps) {
         this.setState({
@@ -38,12 +37,6 @@ export default class LayoutContent extends React.Component {
             collapsed: !this.state.collapsed
         });
     }
-    handleChangeRoute(page) {
-        return (item, key, selectedKeys) => {
-            // if()
-            this.props.onReceivePage(pageList[item.key-1]);
-        }
-    }
     handleChangeGame(value) {
         this.props.onReceiveGameId(value);
     }
@@ -54,7 +47,7 @@ export default class LayoutContent extends React.Component {
             <Layout className="customization">
                 <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
                     <div className="logo"/>
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={[selectedKeys]} onSelect={this.handleChangeRoute('text')} style={{
+                    <Menu theme="dark" mode="inline" defaultSelectedKeys={[selectedKeys]} style={{
                         background: '#24465a'
                     }}>
                         <Menu.Item key="1">

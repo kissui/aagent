@@ -62,9 +62,7 @@ module.exports = React.createClass({
             }
         }
     },
-    componentDidMount: function() {
-        console.log(this.props.location, '@location');
-    },
+    
     render: function() {
         const {headerConf, active, onGameConf, onPathName} = this.props;
         const {gameId} = this.state

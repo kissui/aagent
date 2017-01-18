@@ -55,14 +55,6 @@ export default class LevelPage extends React.Component {
             }
         });
     }
-    handleReceivePage(page){
-        const {initConf} = this.state;
-        initConf.page = page.page;
-        initConf.title= page.title;
-        this.setState({
-            initConf:initConf
-        })
-    }
     handleReceiveGameId(value) {
         const {initConf} = this.state;
         const {location} = this.props;
@@ -76,7 +68,7 @@ export default class LevelPage extends React.Component {
         const {initConf} = this.state;
         return (
             <div>
-                {initConf && <LayoutPage selectedKeys={initConf.pageIndex} onInitConf={initConf} onReceiveGameId={this.handleReceiveGameId.bind(this)} onReceivePage={this.handleReceivePage.bind(this)}>
+                {initConf && <LayoutPage selectedKeys={initConf.pageIndex} onInitConf={initConf} onReceiveGameId={this.handleReceiveGameId.bind(this)} >
                     <LevelConPage onInitConf={initConf}/>
                 </LayoutPage>}
             </div>
