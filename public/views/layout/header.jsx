@@ -16,7 +16,7 @@ let data = [
             }, {
                 id: 'indicator',
                 title: '定制指标',
-                link: '/app/game/customization/level'
+                link: '/app/game/customization/gameLevel'
             }
         ]
     },
@@ -36,6 +36,7 @@ module.exports = React.createClass({
         router: React.PropTypes.object.isRequired
     },
     getInitialState: function() {
+
         return {gameConf: this.props.onGameConf, gameId: this.props.onQuery.gameId}
     },
     handleReceiveRoll: function(value) {
@@ -49,8 +50,16 @@ module.exports = React.createClass({
         })
     },
     componentWillReceiveProps(nextProps) {
+        const {gameId,gameConf} = this.state;
         if (nextProps.onQuery && nextProps.onQuery.gameId) {
             this.setState({gameId: nextProps.onQuery.gameId})
+        }
+        if(nextProps.onGameConf) {
+            if(gameId != nextProps.onGameConf.gameId) {
+                this.setState({
+                    gameId: nextProps.onGameConf.gameId
+                })
+            }
         }
     },
     componentDidMount: function() {

@@ -47,7 +47,7 @@ module.exports = {
             'num_type': 'percent'
         }]
     },
-    newUserG: {
+    guide: {
         title: '新手引导',
         data: [{
             'meta_id': '3027',

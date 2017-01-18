@@ -33,7 +33,7 @@ export default class LevelConPage extends React.Component {
             gameId: initConf.gameId,
             device: device,
             showDate: showDate
-        }, paramsConf.gameLevel);
+        }, paramsConf[initConf.page]);
     }
     handleGetMetaData(params, metaParams) {
         const {serverSelected, showKpi} = this.state;
@@ -59,7 +59,6 @@ export default class LevelConPage extends React.Component {
             if (response.data && response.data.table.length > 0) {
                 let theads = response.data.theads;
                 let table = response.data.table
-                console.log(theads.slice(1));
                 _this.setState({
                     thead: theads,
                     showKpi: theads[1],
@@ -95,7 +94,7 @@ export default class LevelConPage extends React.Component {
             gameId: nextProps.onInitConf.gameId,
             device: device,
             showDate: showDate
-        }, paramsConf.gameLevel);
+        }, paramsConf[initConf.page]);
     }
     handleDealTable(thead, data) {
         const columns = [];
@@ -129,7 +128,7 @@ export default class LevelConPage extends React.Component {
             gameId: initConf.gameId,
             device: value,
             showDate: showDate
-        }, paramsConf.gameLevel);
+        }, paramsConf[initConf.page]);
     }
     handleChangeDate(date, dateString) {
         const {initConf, device, showDate} = this.state;
@@ -139,7 +138,7 @@ export default class LevelConPage extends React.Component {
                 gameId: initConf.gameId,
                 device: device,
                 showDate: dateString
-            }, paramsConf.gameLevel);
+            }, paramsConf[initConf.page]);
         }
 
     }
@@ -151,7 +150,7 @@ export default class LevelConPage extends React.Component {
             device: device,
             showDate: showDate,
             serverSelected: e.target.value
-        }, paramsConf.gameLevel);
+        }, paramsConf[initConf.page]);
     }
     handleSizeChangeKpi(e) {
         const {thead, showChartData} = this.state;
@@ -166,14 +165,15 @@ export default class LevelConPage extends React.Component {
             serverList,
             serverSelected,
             thead,
-            showKpi
+            showKpi,
+            initConf
         } = this.state;
         return (
             <div>
                 <div className="custom-head">
                     <div className="custom-label">
                         <div className="label-left">
-                            <h4 className="title">等级分布</h4>
+                            <h4 className="title">{initConf.title}</h4>
                         </div>
                         <div className="label-right">
                             <SelectBar onSelectBarData={JSON.selectBarDevice} onReceiveValue={this.handleReceiveSelectDevice.bind(this)} onDefaultValue={device}/>

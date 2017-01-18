@@ -2,7 +2,7 @@
 import React from 'react';
 import LayoutPage from '../layout/layout';
 import Auth from '../../../lib/auth';
-import LevelConPage from './content';
+import LevelConPage from '../level/content';
 import _ from 'lodash';
 const pageLists = [
     {
@@ -15,7 +15,7 @@ const pageLists = [
         page: 'pvp',
         title: 'PVP详细'
     }, {
-        page: 'newuser',
+        page: 'guide',
         title: '新手引导'
     }
 ]

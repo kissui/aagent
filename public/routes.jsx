@@ -17,6 +17,9 @@ import errorPage from './views/error/error.jsx';
 
 // TODO: customization pages start
 import LevelPage from './views/customization/level/index.jsx';
+import CardPage from './views/customization/card/index.jsx';
+import PvpPage from './views/customization/pvp/index.jsx';
+import GuidePage from './views/customization/guide/index.jsx';
 // @todo 现在有缺少 browserHistory 的报错，但在这儿加了没用，好像是后端 render 的
 export default (
     <Router history={hashHistory}>
@@ -26,7 +29,10 @@ export default (
             <Route path="/app/game/analysis/survey/report" component={indexPage}/>
             <Route path="/app/game/analysis/survey/analysis" component={analysisPage}/>
             <Route path="/app/game/analysis/survey/realTime" component={realTimePage}/>
-            <Route path="/app/game/customization/level" component={LevelPage}/>
+            <Route path="/app/game/customization/:page" component={LevelPage}/>
+            <Route path="/app/game/customization/card/:page" component={CardPage}/>
+            <Route path="/app/game/customization/pvp/:page" component={PvpPage}/>
+            <Route path="/app/game/customization/user/:page" component={GuidePage}/>
             <Route path="/app/mock" component={MockPage}/>
             <Route path="/app/login" component={LoginPage}/>
             <Route path="/app/logout" component={LogoutPage}/>

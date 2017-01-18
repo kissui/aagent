@@ -2,7 +2,7 @@
 import React from 'react';
 import LayoutPage from '../layout/layout';
 import Auth from '../../../lib/auth';
-import LevelConPage from './content';
+import LevelConPage from '../level/content';
 import _ from 'lodash';
 const pageLists = [
     {

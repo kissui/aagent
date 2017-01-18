@@ -51,13 +51,14 @@ module.exports = React.createClass({
 		if (l_query && gameConf && gameConf.gameId && l_query.gameId) {
 			gameConf.gameId = l_query.gameId
 		}
+		let query = this.props.location.query ? this.props.location.query : {gameId:gameConf.gameId};
 		return (
 			<div>
 				<HeaderPage headerConf={null}
 							active={defaultConf}
 							onGameConf={gameConf}
 							onPathName={this.props.location.pathname}
-							onQuery={this.props.location.query}/>
+							onQuery={query}/>
 
 				<div className="bd-body">
 

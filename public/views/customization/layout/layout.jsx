@@ -3,7 +3,21 @@ import {Layout, Menu, Icon, Select} from 'antd';
 import {Link} from 'react-router';
 const {Header, Sider, Content} = Layout;
 const Option = Select.Option;
-
+const pageList = [
+    {
+        page: 'gameLevel',
+        title: '游戏等级分布'
+    }, {
+        page: 'card',
+        title: '关卡挑战'
+    }, {
+        page: 'pvp',
+        title: 'PVP详细'
+    }, {
+        page: 'guide',
+        title: '新手引导'
+    }
+]
 export default class LayoutContent extends React.Component {
     constructor(context, props) {
         super(context, props);
@@ -15,7 +29,6 @@ export default class LayoutContent extends React.Component {
         this.handleChangeRoute.bind(this);
     }
     componentWillReceiveProps (nextProps) {
-        console.log(1);
         this.setState({
             initConf: nextProps.onInitConf
         })
@@ -26,12 +39,12 @@ export default class LayoutContent extends React.Component {
         });
     }
     handleChangeRoute(page) {
-        return (item, key, keyPath) => {
-            console.log(page, item, key, keyPath)
+        return (item, key, selectedKeys) => {
+            // if()
+            this.props.onReceivePage(pageList[item.key-1]);
         }
     }
     handleChangeGame(value) {
-        console.log(`selected ${value}`);
         this.props.onReceiveGameId(value);
     }
     render() {
@@ -41,7 +54,7 @@ export default class LayoutContent extends React.Component {
             <Layout className="customization">
                 <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
                     <div className="logo"/>
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={[selectedKeys]} style={{
+                    <Menu theme="dark" mode="inline" defaultSelectedKeys={[selectedKeys]} onSelect={this.handleChangeRoute('text')} style={{
                         background: '#24465a'
                     }}>
                         <Menu.Item key="1">
@@ -50,19 +63,19 @@ export default class LayoutContent extends React.Component {
                         </Menu.Item>
                         <Menu.Item key="2">
                             <Icon type="to-top"/>
-                            <Link to={{pathname:"/app/game/customization/level",query:{gameId:initConf.gameId}}} className="nav-text">游戏等级</Link>
+                            <Link to={{pathname:"/app/game/customization/gameLevel",query:{gameId:initConf.gameId}}} className="nav-text">游戏等级</Link>
                         </Menu.Item>
                         <Menu.Item key="3">
                             <Icon type="rocket"/>
-                            <a className="nav-text">关卡挑战</a>
+                            <Link className="nav-text" to={{pathname:"/app/game/customization/card/card",query:{gameId:initConf.gameId}}}>关卡挑战</Link>
                         </Menu.Item>
                         <Menu.Item key="4">
                             <Icon type="like"/>
-                            <a className="nav-text">PVP</a>
+                            <Link className="nav-text" to={{pathname:"/app/game/customization/pvp/pvp",query:{gameId:initConf.gameId}}}>PVP</Link>
                         </Menu.Item>
                         <Menu.Item key="5">
                             <Icon type="user"/>
-                            <a className="nav-text">新手引导</a>
+                            <Link className="nav-text" to={{pathname:"/app/game/customization/user/guide",query:{gameId:initConf.gameId}}}>新手引导</Link>
                         </Menu.Item>
                     </Menu>
                 </Sider>
