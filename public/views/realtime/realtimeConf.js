@@ -70,7 +70,6 @@ export default {
 			{
 				'meta_id': '3006',
 				'name': '老玩家' + name,
-				'self_weidu': 'pcu'
 			},
 			{
 				'meta_id': '3004',
