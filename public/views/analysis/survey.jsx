@@ -51,14 +51,16 @@ module.exports = React.createClass({
 	},
 	componentWillReceiveProps: function (nextProps) {
 		const {device, gameConf, user_dimension} = this.state;
-		if (nextProps.onMenu != device || gameConf.gameId != nextProps.onGameConf.gameId) {
-			this.setState({
-				device: nextProps.onMenu,
-				gameConf: nextProps.onGameConf,
+		// console.log('fuck_if',nextProps.onMenu != device , gameConf.gameId != nextProps.onGameConf.gameId,nextProps.onMenu ,device,gameConf.gameId,nextProps.onGameConf)
+		// if (nextProps.onMenu == device || gameConf.gameId == nextProps.onGameConf.gameId) {
+		// 	return false;
+		// }
+		this.setState({
+			device: nextProps.onMenu,
+			gameConf: nextProps.onGameConf,
 
-			});
-			this.handleDealSurreyData(nextProps.onMenu, nextProps.onGameConf, user_dimension);
-		}
+		});
+		this.handleDealSurreyData(nextProps.onMenu, nextProps.onGameConf, user_dimension);
 	},
 	handleDealDimensionText: function (dimension) {
 		let dimensionText = '账号';
@@ -202,12 +204,12 @@ module.exports = React.createClass({
 					<i className="fa fa-bar-chart"></i>
 					概览
 				</h2>
-				<SurveyHead
+				{dateRange && <SurveyHead
 					onDevice={device}
 					onGameConf={gameConf}
 					onDateRange={dateRange}
 					onReceiveSelectIndex={this.handleChangeChart}
-				/>
+				/>}
 				<div className="analysis-second-bar">
 					{bodys && bodys.length > 0 && <SelectBarGraphicOrTable
 						onSelectBarStyle={{float: 'right', width: '122px', marginLeft: '10px'}}

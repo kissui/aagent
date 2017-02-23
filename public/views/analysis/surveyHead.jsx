@@ -26,7 +26,8 @@ export default class SurveyHead extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		const {device, gameConf} = this.state;
-		if (nextProps.onDevice != device || nextProps.onGameConf.gameId != gameConf.gameId) {
+		// console.log('isReload',nextProps)
+		// if (nextProps.onDevice != device || nextProps.onGameConf.gameId != gameConf.gameId) {
 			let data = {
 				'device': nextProps.onDevice,
 				gameConf: nextProps.onGameConf,
@@ -37,7 +38,7 @@ export default class SurveyHead extends React.Component {
 				gameConf: nextProps.onGameConf,
 			});
 			this.handleDealSurreyData(data);
-		}
+		// }
 	}
 
 	componentDidMount() {
