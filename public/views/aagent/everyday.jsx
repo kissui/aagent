@@ -159,7 +159,7 @@ module.exports = React.createClass({
 			})
 		};
 		mean.mean_account = Math.ceil(mean.mean_account);
-		mean.mean_cash = (mean.mean_cash * 100).toFixed(2);
+		mean.mean_cash = (mean.mean_cash).toFixed(2);
 		this.setState({
 			sum: sum,
 			mean: mean
