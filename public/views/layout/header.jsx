@@ -62,7 +62,7 @@ module.exports = React.createClass({
             }
         }
     },
-    
+
     render: function() {
         const {headerConf, active, onGameConf, onPathName} = this.props;
         const {gameId} = this.state
@@ -75,10 +75,9 @@ module.exports = React.createClass({
                 let secondData = data[index].superItem;
                 firstTpl = data.map((item, i) => {
                     return (
-                        <li key={i}>
-                            <Link to={'/app/' + item.id} className={active.one == item.id && 'active'}>
+                        <li key={i} className="active">
                                 {item.title}
-                            </Link>
+
                         </li>
                     )
                 });
