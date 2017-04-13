@@ -4,6 +4,7 @@ import SelectRolePage from '../../../components/box/selectRoll';
 import http from '../../../lib/http';
 import Conf from '../realtimeConf';
 import LoadingPage from '../../../components/is_loading'
+import moment from 'moment';
 export default class SurveyPage extends React.Component {
 	constructor(props, context) {
 		super(props, context);
@@ -67,7 +68,7 @@ export default class SurveyPage extends React.Component {
 					if (data.data.lists && data.data.lists.length > 0) {
 						this.setState({
 							lists: data.data.lists,
-							dealTime: data.data.datetime
+							dealTime: moment(new Date(data.data.datetime*1000 + 3600*1000)).format('YYYY-MM-DD HH:mm:ss')
 						})
 					} else {
 						this.setState({
