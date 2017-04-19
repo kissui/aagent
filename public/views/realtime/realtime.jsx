@@ -93,7 +93,7 @@ module.exports = React.createClass({
 							borderTop: '1px solid #36627c'
 						}}
 						sidebarDefault={{
-							second: 'realTime'
+							second: 'hour'
 						}}
 						pathQuery={this.props.location.query}
 						onReceiveDefaultSidebarData={this.handleSidebarDetail}

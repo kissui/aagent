@@ -34,26 +34,18 @@ export default class SurveyPage extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		const {gameId, device} = this.state;
-		if (nextProps.onGameConf.gameId != gameId) {
-			this.setState({
-				gameId: nextProps.onGameConf.gameId
-			});
-			this.handleSurveyData(nextProps.onGameConf.gameId, device)
-		} else if (nextProps.onDevice != device) {
-			this.setState({
-				gameId: nextProps.onDevice
-			});
-			this.handleSurveyData(gameId, nextProps.onDevice)
-		}
+
+		this.handleSurveyData(nextProps.onGameConf.gameId, nextProps.onDevice)
+
 	}
 
 	handleSurveyData(paramsGameId, paramsDevice, paramsRole) {
+
 		const {gameId, device, user_dimension} = this.state;
 		let roleName = paramsRole == "role" ? "角色" : '账号';
 		let data = {
 			"cycle": 'hour',
-			"device": paramsDevice ? paramsDevice : device,
+			"device": paramsDevice ? paramsDevice : 'All',
 			"user_dimension": paramsRole ? paramsRole : user_dimension,
 			"data_dimension": 'hour_head',
 			"appid": paramsGameId ? paramsGameId : gameId,
@@ -116,7 +108,7 @@ export default class SurveyPage extends React.Component {
 						<h4>今日收入：</h4>
 						<p>实时统计角色当日充值的累计金额</p>
 					</div>}
-					< span className="time">{dealTime}</span>
+					<span className="time">{dealTime}</span>
 				</h2>
 				<div className="realTime-survey">
 					<SelectRolePage
