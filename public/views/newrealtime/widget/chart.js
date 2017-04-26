@@ -14,14 +14,14 @@ export default {
         frame = Frame.combinColumns(frame, ['today','yesterday'], 'population', 'kpi', '日期');
         let range = 1;
 
-        if (data && data.length > 20) {
-            range = 5
+        if (data && data.length >= 20) {
+            range = 8
         }
         let colors = ['#45594e', '#8fbeac', '#5e9882', '#fbbe7b', '#fff6e5', '#e89ba5', '#f5de50', '#f6deda', '#fbbe7a'];
         chart.source(frame, {
             "日期": {
                 alias: '时间',
-                range: [0, range]
+                tickCount: range,
             },
             "population": {
                 alias: '在线人数'
