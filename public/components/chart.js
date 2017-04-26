@@ -22,7 +22,7 @@ export default {
         let letterStart = /^[a-zA-Z]+/;
         if (typeof type != 'number' && type > 1) return china.test(item) ? item : reg.test(item) ? ((item * 100).toFixed(1) + '%') : (regDate.test(item) ? item : parseFloat(item));
         return type === 0 ? item : contentReg.test(item) ? parseFloat(item.split(',').join('')) :
-            typeof item == 'string' ? ((china.test(item) || letterStart.test(item)) ? item : parseFloat(item)) : item + '';
+            typeof item == 'string' ? ((china.test(item) || letterStart.test(item)) ? item : parseFloat(item)) : reg.test(item) ? item : item + '';
     },
     filterKey(key, col, type) {
         _.forEach(collection, (item) => {
@@ -82,6 +82,7 @@ export default {
                     var items = ev.items; // 获取tooltip要显示的内容
                     items.map((sitem, i) => {
                         if (i > 0 && sitem.value != 0) {
+
                             sitem.value = sitem.value + '%';
                         }
                     })
@@ -100,7 +101,6 @@ export default {
                         chart.on('tooltipchange', function(ev) {
                             var items = ev.items; // 获取tooltip要显示的内容
                             items.map((sitem, i) => {
-
                                 if (sitem.name == item) {
                                     sitem.value = sitem.value + '%';
                                 }
@@ -156,6 +156,7 @@ export default {
             let lineKpis = dimensions.slice(1);
             let stockDimension = _.concat(lineDimensions, indicators);
             frame = Frame.combinColumns(frame, lineKpis, 'population', 'kpi', stockDimension, 'di');
+
             chart.source(frame, {
                 'population': {
                     min: 0

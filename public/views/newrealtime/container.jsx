@@ -17,8 +17,8 @@ const realTimeRoleConf=[
         value: 'account'
     },
     {
-        title: '角色',
-        value: 'role'
+        title: '设备',
+        value: 'device'
     }
 ];
 module.exports = React.createClass({
@@ -26,7 +26,6 @@ module.exports = React.createClass({
 		router: React.PropTypes.object.isRequired
 	},
 	getInitialState: function () {
-        console.log(this.props.gameConf);
 		return {
 			chart_conf: null,
 			device: 'All',
@@ -78,7 +77,7 @@ module.exports = React.createClass({
             ShowChart.renderIntervalChart(data.data.servers);
             this.setState({
                 realTimeDatas: data.data,
-                dataShowTime: moment(new Date(data.data.datetime*1000 + 3600*1000)).format('YYYY-MM-DD HH:mm:ss'),
+                dataShowTime: moment(new Date(data.data.datetime*1000)).format('YYYY-MM-DD HH:mm:ss'),
                 ServerList: data.data.server_list,
                 table: this.handleDoTableData(data.data.table.table, data.data.table.theads)
             })
@@ -164,7 +163,7 @@ module.exports = React.createClass({
                     <span className="time">{dataShowTime}</span>
                 </h2>
                 <div className="realTime-survey">
-					{/*<SelectRolePage
+					<SelectRolePage
 						onReceiveRollValue={this.handleReceiveRole}
 						onStyle={{
 							position: 'relative',
@@ -172,12 +171,12 @@ module.exports = React.createClass({
 							marginTop: '8px'
 						}}
 						rollRange={realTimeRoleConf}
-					/>*/}
+					/>
 					<div className="realTime-new-lists row">
 						{(realTimeDatas && realTimeDatas.lists) ? realTimeDatas.lists.map((item, i)=> {
 							return (
-								<div className="col-md-2 real-item" key={i}
-									 style={{borderLeft: '4px solid ' + colors[i],width: '20%'}}>
+								<div className="col-md-3 real-item" key={i}
+									 style={{borderLeft: '4px solid ' + colors[i]}}>
 									<p className="name">{item.name}</p>
 									<p className="value">{item.this_day}</p>
 									<div className="real-diff">
