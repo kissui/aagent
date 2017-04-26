@@ -82,7 +82,6 @@ export default {
                     var items = ev.items; // 获取tooltip要显示的内容
                     items.map((sitem, i) => {
                         if (i > 0 && sitem.value != 0) {
-
                             sitem.value = sitem.value + '%';
                         }
                     })
@@ -101,6 +100,7 @@ export default {
                         chart.on('tooltipchange', function(ev) {
                             var items = ev.items; // 获取tooltip要显示的内容
                             items.map((sitem, i) => {
+
                                 if (sitem.name == item) {
                                     sitem.value = sitem.value + '%';
                                 }

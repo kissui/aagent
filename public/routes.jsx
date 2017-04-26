@@ -12,6 +12,7 @@ import MockPage from './views/mock/mock.jsx';
 import LoginPage from './views/login.jsx';
 import LogoutPage from './views/logout.jsx';
 import realTimePage from './views/realtime/realtime.jsx';
+import NewRealTimePage from './views/newrealtime/index.jsx';
 import UnauthorizedPage from './views/401.jsx';
 import errorPage from './views/error/error.jsx';
 
@@ -28,7 +29,8 @@ export default (
             <Route path="/app/game" component={indexPage}/>
             <Route path="/app/game/analysis/survey/report" component={indexPage}/>
             <Route path="/app/game/analysis/survey/analysis" component={analysisPage}/>
-            <Route path="/app/game/analysis/survey/realTime" component={realTimePage}/>
+            <Route path="/app/game/analysis/survey/hour" component={realTimePage}/>
+            <Route path="/app/game/analysis/survey/realTime" component={NewRealTimePage}/>
             <Route path="/app/game/customization/:page" component={LevelPage}/>
             <Route path="/app/game/customization/card/:page" component={CardPage}/>
             <Route path="/app/game/customization/pvp/:page" component={PvpPage}/>

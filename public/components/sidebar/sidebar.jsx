@@ -15,6 +15,11 @@ const defaultSidebarData = [
 				'link': '/app/game/analysis/survey/realTime'
 			},
 			{
+				'title': '小时级数据',
+				'ev': 'hour',
+				'link': '/app/game/analysis/survey/hour'
+			},
+			{
 				'title': '运营报表',
 				'ev': 'report',
 				'link': '/app/game/analysis/survey/report'
