@@ -164,7 +164,7 @@ module.exports = React.createClass({
                     <span className="time">{dataShowTime}</span>
                 </h2>
                 <div className="realTime-survey">
-					<SelectRolePage
+					{/*<SelectRolePage
 						onReceiveRollValue={this.handleReceiveRole}
 						onStyle={{
 							position: 'relative',
@@ -172,7 +172,7 @@ module.exports = React.createClass({
 							marginTop: '8px'
 						}}
 						rollRange={realTimeRoleConf}
-					/>
+					/>*/}
 					<div className="realTime-new-lists row">
 						{(realTimeDatas && realTimeDatas.lists) ? realTimeDatas.lists.map((item, i)=> {
 							return (

@@ -17,11 +17,11 @@ export default {
                 alias: '时间',
                 range: [0, range]
             },
-            "人数": {
+            "today": {
                 alias: '在线人数'
             }
         });
-        chart.line().position('日期*人数').size(2).shape('smooth');
+        chart.line().position('日期*today*yesterday').size(2).shape('smooth');
         chart.render();
     },
     renderIntervalChart(data) {
