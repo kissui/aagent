@@ -11,7 +11,7 @@ export default {
 
         var Frame = G2.Frame;
         var frame = new Frame(data);
-        frame = Frame.combinColumns(frame, ['today','yesterday'], 'population', 'kpi', '日期');
+        frame = Frame.combinColumns(frame, ['today', 'yesterday'], 'population', 'kpi', '日期');
         let range = 1;
 
         if (data && data.length >= 20) {
@@ -45,10 +45,14 @@ export default {
         }
         chart.source(data, {
             "value": {
-                alias: '服务器在线人数'
+                alias: '服务器在线人数',
+                type: 'linear',
+                min: 0,
+                // tickInterval: 1000
             }
         });
-        chart.interval().position('服务器名称*value').shape('smooth');
+        chart.legend(false);
+        chart.interval().position('服务器名称*value').shape('textInterval').color('服务器名称').size(30);
         chart.render();
     }
 }
