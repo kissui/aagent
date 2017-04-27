@@ -87,8 +87,10 @@ module.exports = React.createClass({
         const {device,user_dimension,gameId,serverId} = this.state;
         this.handleGetData(device,serverId,user_dimension,gameId);
         this.timer = setInterval((()=>{
+            const {device,user_dimension,gameId,serverId} = this.state;
+            console.log(device,user_dimension,gameId,serverId);
             this.handleGetData(device,serverId,user_dimension,gameId);
-        }).bind(this),60000)
+        }).bind(this),10000)
     },
     componentWillUnmount: function(){
         this.timer && clearTimeout(this.timer);
