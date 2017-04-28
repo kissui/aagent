@@ -3,7 +3,8 @@ import React from 'react';
 import SelectRolePage from '../../../components/box/selectRoll';
 import http from '../../../lib/http';
 import Conf from '../realtimeConf';
-import LoadingPage from '../../../components/is_loading'
+import LoadingPage from '../../../components/is_loading';
+import { Table, Icon } from 'antd';
 import moment from 'moment';
 export default class SurveyPage extends React.Component {
 	constructor(props, context) {
@@ -26,16 +27,70 @@ export default class SurveyPage extends React.Component {
 		this.setState({
 			user_dimension: value
 		});
-		this.handleSurveyData(gameId, device, value)
+		this.handleSurveyData(gameId, device, value);
+		this.handleChannelData(value, device, gameId);
 	}
 
 	componentDidMount() {
-		this.handleSurveyData()
+		const {user_dimension,device,gameId} = this.state;
+		this.handleSurveyData();
+		this.handleChannelData(user_dimension,device,gameId);
 	}
 
 	componentWillReceiveProps(nextProps) {
+		const{user_dimension} = this.state;
+		this.handleSurveyData(nextProps.onGameConf.gameId, nextProps.onDevice);
+		this.handleChannelData(user_dimension, nextProps.onDevice, nextProps.onGameConf.gameId);
+	}
 
-		this.handleSurveyData(nextProps.onGameConf.gameId, nextProps.onDevice)
+	handleDoTableData(table, theads) {
+        const columns = [];
+        const data = [];
+        if (theads && theads.length>0) {
+
+            for (var i = 0; i < theads.length; i++) {
+                columns.push({
+                        title: theads[i],
+                        dataIndex: theads[i],
+                        key: theads[i]
+                });
+                let dataItem = {};
+                if(table[i] && table[i].length>0) {
+                    for (var j = 0; j < table[i].length; j++) {
+                        ((index) =>{
+                            dataItem = _.assignIn({[theads[index]]: table[i][index]},dataItem)
+                        })(j)
+                    }
+                    data.push(_.assignIn({key:i},dataItem));
+                }
+            }
+        }
+
+        return {
+            columns: columns,
+            data: data
+        }
+
+    }
+
+	handleChannelData(user_dimension,device,gameId) {
+		let data = {
+			user_dimension: user_dimension,
+			device: device,
+			appid: gameId
+		};
+		http.get('/dudai/?c=analysis.report&ac=get&cycle=hour&data_dimension=hour_channel',{params:data})
+		.then(data=>data.data).then(data=>{
+			console.log(data.data,'@data');
+			let tableData = this.handleDoTableData(data.data.table, data.data.theads);
+			this.setState({
+				table: {
+					columns: tableData.columns,
+					data: tableData.data
+				}
+
+			})
+		})
 
 	}
 
@@ -79,7 +134,7 @@ export default class SurveyPage extends React.Component {
 
 	render() {
 		let colors = ['#45594e', '#8fbeac', '#5e9882', '#fbbe7b', '#fff6e5', '#e89ba5', '#f5de50', '#f6deda', '#fbbe7a'];
-		const {lists, dealTime, tipIsShow} = this.state;
+		const {lists, dealTime, tipIsShow,table} = this.state;
 		return (
 			<div>
 				<h2 className="analysis-tit" onMouseLeave={this.handleToggleTip.bind(this, false)}>
@@ -154,6 +209,7 @@ export default class SurveyPage extends React.Component {
 							)
 						}) : <LoadingPage/>}
 					</div>
+					{table && <Table columns={table.columns} dataSource={table.data} />}
 				</div>
 			</div>
 		)
