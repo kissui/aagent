@@ -1033,3 +1033,7 @@ input:-ms-input-placeholder, textarea:-moz-placeholder {
         padding: 0;
     }
 }
+.ant-pagination .ant-pagination-item-active {
+    background-color: #2cbfbe;
+    border-color: #2cbfbe;
+}

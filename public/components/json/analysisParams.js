@@ -126,22 +126,22 @@ module.exports = {
 	playUser: {
 		title: '玩家分析',
 		subList: [
-			{
-				title: '各服务器玩家分布',
-				key: 'play_map',
-				dimensionName: '服务器',
-				stockItem: ['登录角色数', '新增角色数'],
-				data: [
-					{
-						'meta_id': '2925',
-						'name': '新增角色数'
-					},
-					{
-						'meta_id': '2926',
-						'name': '登录角色数'
-					}
-				]
-			},
+			// {
+			// 	title: '各服务器玩家分布',
+			// 	key: 'play_map',
+			// 	dimensionName: '服务器',
+			// 	stockItem: ['登录角色数', '新增角色数'],
+			// 	data: [
+			// 		{
+			// 			'meta_id': '2925',
+			// 			'name': '新增角色数'
+			// 		},
+			// 		{
+			// 			'meta_id': '2926',
+			// 			'name': '登录角色数'
+			// 		}
+			// 	]
+			// },
 			{
 				title: '平均启动次数',
 				key: 'start_num',

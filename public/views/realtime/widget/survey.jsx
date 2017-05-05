@@ -81,7 +81,6 @@ export default class SurveyPage extends React.Component {
 		};
 		http.get('/dudai/?c=analysis.report&ac=get&cycle=hour&data_dimension=hour_channel',{params:data})
 		.then(data=>data.data).then(data=>{
-			console.log(data.data,'@data');
 			let tableData = this.handleDoTableData(data.data.table, data.data.theads);
 			this.setState({
 				table: {

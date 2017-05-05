@@ -7,7 +7,7 @@ import RecentDataPage from './recentData'; //近期数据模块
 import SelectRollPage from '../../components/box/selectRoll' //选择角色的下拉菜单
 import analysis_conf from '../../components/json/analysisParams'; //数据参数配置文件
 import Auth from '../../lib/auth';
-
+import ServerRenderPage from './serveRenderPage';
 module.exports = React.createClass({
 	contextTypes: {
 		router: React.PropTypes.object.isRequired
@@ -34,6 +34,7 @@ module.exports = React.createClass({
 			});
 		}
 	},
+
 	render: function () {
 		const {gameConf, device} = this.state;
 		return (
@@ -60,7 +61,9 @@ module.exports = React.createClass({
 					{/*{gameConf && <RecentDataPage onMenu={device} onGameConf={gameConf} chartId="analysis1" tabData={analysis_conf.tabList}/>}*/}
 				{/*</div>*/}
 				{/*<div className="box-view">*/}
+
 					{gameConf && <RecentDataPage onMenu={device} onGameConf={gameConf} chartId="analysis2" tabData={analysis_conf.playUser}/>}
+					{gameConf && <ServerRenderPage onMenu={device} onGameConf={gameConf} />}
 				{/*</div>*/}
 				{/*<div className="box-view">*/}
 					{gameConf && <RecentDataPage onMenu={device} onGameConf={gameConf} chartId="analysis3" tabData={analysis_conf.channelAnalysis}/>}
