@@ -63,23 +63,27 @@ export default class ServerRender extends Component {
         const columns = [];
         const data = [];
         if (theads && theads.length>0) {
-
             for (var i = 0; i < theads.length; i++) {
                 columns.push({
                         title: theads[i],
                         dataIndex: theads[i],
                         key: theads[i]
                 });
-                let dataItem = {};
-                if(table[i] && table[i].length>0) {
-                    for (var j = 0; j < table[i].length; j++) {
-                        ((index) =>{
-                            dataItem = _.assignIn({[theads[index]]: table[i][index]},dataItem)
-                        })(j)
-                    }
-                    data.push(_.assignIn({key:i},dataItem));
-                }
             }
+        }
+
+        if(table && table.length>0) {
+
+            for (var j = 0; j < table.length; j++) {
+                let dataItem = {};
+                for (var t = 0; t < table[j].length; t++) {
+                    ((index) =>{
+                        dataItem = _.assignIn({[theads[index]]: table[j][index]},dataItem)
+                    })(t)
+                }
+                data.push(_.assignIn({key:j},dataItem));
+            }
+
         }
 
         return {
@@ -111,13 +115,15 @@ export default class ServerRender extends Component {
         })
 
     }
-
+    handleChange(){
+        console.log('000');
+    }
     render() {
         const { dateRange, table } = this.state;
         return (
 			<div>
 				<div className="analysis-header">
-					<div className="tabbed-box"><h4>个服分析</h4></div>
+					<div className="tabbed-box"><h4>各服分析</h4></div>
                     <div className="analysis-date">
                         <CalendarPage
                             onReceiveData={this.handleReceiveDateRange.bind(this)}
