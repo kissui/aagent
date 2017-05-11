@@ -36,7 +36,7 @@ module.exports = React.createClass({
 			},
 			gameConf: onGameConf,
 			device: onMenu,
-			dimension: 'role',
+			dimension: 'account',
 			isLoading: true,
 			showBoxType: 'graphic',
 			showDatePickerType: 'range'
@@ -56,17 +56,9 @@ module.exports = React.createClass({
 		let dimensionName = _.get(tabData.subList[index], 'dimensionName');
 		let stocks = _.get(tabData.subList[index], 'stockItem');
 		let lineItems = _.get(tabData.subList[index], 'lineItem');
-		let role = _.get(tabData.subList[index], 'role');
+		let role = _.get(tabData, 'role');
 		let doubleYLine = _.get(tabData.subList[index], 'chartShow');
-		if (role) {
-			this.setState({
-				isShowRoleBox: true,
-			})
-		} else {
-			this.setState({
-				isShowRoleBox: false,
-			})
-		}
+
 		let data = {
 			"cycle": 'days',
 			"device": receiveParams.device,
@@ -88,7 +80,17 @@ module.exports = React.createClass({
 			this.setState({
 				showDatePickerType: 'range'
 			});
+
+		}
+		if (role) {
+			this.setState({
+				isShowRoleBox: true,
+			})
 			data = _.extend(data, {user_dimension: receiveParams.user_dimension});
+		} else {
+			this.setState({
+				isShowRoleBox: false,
+			})
 		}
 		http.get('/dudai/?c=analysis.report&ac=get&token=mgame_afs23cgs23', {params: data})
 			.then(data=>data.data)
@@ -161,7 +163,6 @@ module.exports = React.createClass({
 			dateStart: start.format(format).toString(),
 			dateEnd: end.format(format).toString()
 		};
-		console.log(start, end, type, dateRangeChange);
 		const {gameConf, device, key, dimension} = this.state;
 		let params = _.extend({}, dateRangeChange, gameConf, {device: device}, {key: key}, {user_dimension: dimension});
 		this.handleInitAnalysisData(params);

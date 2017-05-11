@@ -175,6 +175,7 @@ module.exports = {
 	},
 	channelAnalysis: {
 		title: '渠道分析',
+		role: true,
 		subList: [
 			{
 				title: '登录',
