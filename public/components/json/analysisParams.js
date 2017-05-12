@@ -361,7 +361,7 @@ module.exports = {
 				title: '留存',
 				key: 'play_save',
 				dimensionName: '渠道',
-				stockItem: ['新增角色数'],
+				stockItem: ['新增'],
 				lineItem: ['次日留存', '第3日留存', '第7日留存'],
 				chartShow:'line',
 				percent: true,
