@@ -181,8 +181,8 @@ module.exports = {
 				title: '登录',
 				key: 'play_login',
 				dimensionName: '渠道',
-				showRange: ['登录角色', '新增角色数'],
-				stockItem: ['登录角色', '新增角色数'],
+				showRange: ['登录', '新增'],
+				stockItem: ['登录', '新增'],
 				data: [
 					{
 						'meta_id': '2929',
